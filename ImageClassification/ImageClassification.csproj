@@ -81,7 +81,12 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ILogger.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Core\Trainer.cs" />
+    <Compile Include="Models\Training1Parameters.cs" />
+    <Compile Include="Models\Training2Parameters.cs" />
+    <Compile Include="Models\TrainingData.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

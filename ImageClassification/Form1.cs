@@ -162,7 +162,7 @@ namespace ImageClassification
 
             // Setup the deep belief network and initialize with random weights.
             _network = new DeepBeliefNetwork(inputs.First().Length, Layers);
-            new GaussianWeights(_network, 0.1).Randomize();
+            new GaussianWeights(_network).Randomize();
             _network.UpdateVisibleWeights();
 
             // Setup the learning algorithm.
