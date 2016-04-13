@@ -51,96 +51,6 @@ namespace ImageClassification
             label3.Refresh();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void txtUnsupervised_Changed(object sender, EventArgs e)
-        {
-            _unsupervisedEpochs = int.Parse(txtUnsupervised.Text);
-            UpdateLayerDescription();
-        }
-
-        private void txtSupervised_Changed(object sender, EventArgs e)
-        {
-            _supervisedEpochs = int.Parse(txtSupervised.Text);
-            UpdateLayerDescription();
-        }
-
-        private void txtCategories_Changed(object sender, EventArgs e)
-        {
-            _numCategories = int.Parse(txtCategories.Text);
-            // TODO: need to update LAYERS
-            UpdateLayerDescription();
-        }
-
-        private void Classify(object sender, EventArgs e)
-        {
-            if (_imageToClassify == null)
-            {
-                label1.Text = "You didn't choose an image!\n";
-                label1.Refresh();
-                return;
-            }
-
-            double[] input;
-            Itoa.Convert(_imageToClassify, out input);
-            double[] output = _network.Compute(input);
-            label1.Text = $"Prediction: {_categories[GetResult(output)]}";
-            label1.Refresh();
-        }
-
-        private void Recall(bool reconstruct)
-        {
-            var sp = textBox1.Text.Split(',');
-            if (sp.Length != 2) {
-                label1.Text = @"You need to enter <neuron>,<layer>!";
-                label1.Refresh();
-                return;
-            }
-            try
-            {
-                int neuron = int.Parse(sp[0]);
-                int layer = int.Parse(sp[1]);
-                string c = (layer == Layers.Length - 1) ? listBox1.Items[neuron].ToString() : "(not a category)";
-                
-                var a = reconstruct ? new double[Layers[layer]] : new double[_numCategories];
-                a[neuron] = 1;
-
-                var r = reconstruct ? _network.Reconstruct(a, layer) : _network.GenerateInput(a);
-                Bitmap bm;
-                Atoi.Convert(r, out bm);
-
-                label1.Text = $"Reconstructing {c}, length of reconstruction: {r.Length}";
-                label1.Refresh();
-
-                pictureBox1.Image = bm;
-                pictureBox1.Refresh();
-            } 
-            catch (Exception ex)
-            {
-                label1.Text = $"{ex.Message}\n{ex.StackTrace}\n";
-                label1.Text += @"Reconstruction input params invalid. neuron should be < size of layer.";
-                label1.Refresh();
-            }
-        }
-
-        private void reconstructButton_Click(object sender, EventArgs e)
-        {
-            Recall(true);
-        }
-
-        private void generateInputButton_Clicked(object sender, EventArgs e)
-        {
-            Recall(false);
-        }
-
         private void getDataButton_Clicked(object sender, EventArgs e)
         {
             double[][] inputs;
@@ -149,6 +59,99 @@ namespace ImageClassification
             double[][] testOutputs;
             GetData(out inputs, out outputs, out testInputs, out testOutputs);
         }
+
+        private void chooseImage_Click(object sender, EventArgs e)
+        {
+            // Show the Open File dialog. If the user clicks OK, load the picture that the user chose. 
+            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            var image = (Bitmap)Image.FromFile(openFileDialog1.FileName, true);
+            _imageToClassify = ShrinkImage(image);
+            pictureBox1.Load(openFileDialog1.FileName);
+        }
+
+        private static Bitmap ShrinkImage(Bitmap bmp)
+        {
+            Bitmap bmp2 = new Bitmap(WIDTH, HEIGHT);
+            Graphics g = Graphics.FromImage(bmp2);
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.DrawImage(bmp, 0, 0, bmp2.Width, bmp2.Height);
+            g.Dispose();
+            return bmp2;
+        }
+
+        private void GetData(out double[][] rInputs, out double[][] rOutputs, out double[][] testInputs, out double[][] testOutputs)
+        {
+            var inputs = new List<double[]>();
+            var outputs = new List<double[]>();
+            var tInputs = new List<double[]>();
+            var tOutputs = new List<double[]>();
+            var shortCats = new List<string>();
+
+            var categories = Directory.GetDirectories(Prefix);
+            var min = 10000;
+            label1.Text = "";
+            for (int i = 0; i < _numCategories; i++)
+            {
+                var c = categories[i];
+
+                var split = c.Split('\\');
+                shortCats.Add(split.Last());
+                var files = Directory.GetFiles(c, "*.jpg");
+                label1.Text += $"{c} => {files.Length} files.\n";
+                label1.Refresh();
+                if (files.Length < min) min = files.Length;
+
+                int added = 0;
+                foreach (string f in files)
+                {
+                    var image = (Bitmap)Image.FromFile(f, true);
+                    if (image.Width < 300 || image.Height < 180) continue;
+
+                    // crop the image
+                    image = image.Clone(new Rectangle(0, 0, 300, Math.Min(180,200)), image.PixelFormat);
+
+                    // downsample the image to save memory
+                    var smallImage = ShrinkImage(image);
+                    image.Dispose();
+
+                    double[] input;
+                    Itoa.Convert(smallImage, out input);
+                    smallImage.Dispose();
+
+                    var output = new double[_numCategories];
+                    output[i] = 1;
+
+                    added++;
+
+                    if (added <= NumTrain)
+                    {
+                        inputs.Add(input);
+                        outputs.Add(output);
+                    }
+                    else
+                    {
+                        tInputs.Add(input);
+                        tOutputs.Add(output);
+                    }
+                    if (added >= NumExamples) break;
+                }
+            }
+            label1.Text += $"Number of categories: {categories.Length} min files: {min} number of short cats: {shortCats.Count}";
+
+            listBox1.Items.Clear();
+            for (int i = 0; i < shortCats.Count; i++)
+                listBox1.Items.Add(shortCats[i] + ", " + i);
+
+            _categories = shortCats.ToArray();
+            rInputs = inputs.ToArray();
+            rOutputs = outputs.ToArray();
+            testInputs = tInputs.ToArray();
+            testOutputs = tOutputs.ToArray();
+        }
+
+        #region Done
 
         private void train_Click(object sender, EventArgs e)
         {
@@ -234,7 +237,7 @@ namespace ImageClassification
             }
             sw.Stop();
 
-            label1.Text = $"Correct {correct}/{testInputs.Length}, {Math.Round(value: correct/(double) testInputs.Length*100, digits: 2)}%";
+            label1.Text = $"Correct {correct}/{testInputs.Length}, {Math.Round(value: correct / (double)testInputs.Length * 100, digits: 2)}%";
             label1.Text += $"\nElapsed train+test time: {sw.Elapsed}";
             label1.Refresh();
         }
@@ -244,25 +247,77 @@ namespace ImageClassification
             return output.ToList().IndexOf(output.Max());
         }
 
-        private void chooseImage_Click(object sender, EventArgs e)
+        private void Classify(object sender, EventArgs e)
         {
-            // Show the Open File dialog. If the user clicks OK, load the 
-            // picture that the user chose. 
-            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+            if (_imageToClassify == null)
+            {
+                label1.Text = "You didn't choose an image!\n";
+                label1.Refresh();
                 return;
+            }
 
-            //double[] array;
-            var image = (Bitmap)Image.FromFile(openFileDialog1.FileName, true);
-            _imageToClassify = ShrinkImage(image);
-            // itoa.Convert(image, out array);
+            double[] input;
+            Itoa.Convert(_imageToClassify, out input);
+            double[] output = _network.Compute(input);
+            label1.Text = $"Prediction: {_categories[GetResult(output)]}";
+            label1.Refresh();
+        }
 
-            //Bitmap im2;
-            //atoi.Convert(array, out im2);
+        #endregion
 
-            //ImageBox.Show(array, image.Width, image.Height, PictureBoxSizeMode.Zoom);
-            pictureBox1.Load(openFileDialog1.FileName);
-            //pictureBox1.Image = im2;
-            //pictureBox1.Refresh();
+        #region Not important
+
+        private void txtCategories_Changed(object sender, EventArgs e)
+        {
+            _numCategories = int.Parse(txtCategories.Text);
+            // TODO: need to update LAYERS
+            UpdateLayerDescription();
+        }
+
+        private void generateInputButton_Clicked(object sender, EventArgs e)
+        {
+            Recall(false);
+        }
+
+        private void Recall(bool reconstruct)
+        {
+            var sp = textBox1.Text.Split(',');
+            if (sp.Length != 2)
+            {
+                label1.Text = @"You need to enter <neuron>,<layer>!";
+                label1.Refresh();
+                return;
+            }
+            try
+            {
+                int neuron = int.Parse(sp[0]);
+                int layer = int.Parse(sp[1]);
+                string c = (layer == Layers.Length - 1) ? listBox1.Items[neuron].ToString() : "(not a category)";
+
+                var a = reconstruct ? new double[Layers[layer]] : new double[_numCategories];
+                a[neuron] = 1;
+
+                var r = reconstruct ? _network.Reconstruct(a, layer) : _network.GenerateInput(a);
+                Bitmap bm;
+                Atoi.Convert(r, out bm);
+
+                label1.Text = $"Reconstructing {c}, length of reconstruction: {r.Length}";
+                label1.Refresh();
+
+                pictureBox1.Image = bm;
+                pictureBox1.Refresh();
+            }
+            catch (Exception ex)
+            {
+                label1.Text = $"{ex.Message}\n{ex.StackTrace}\n";
+                label1.Text += @"Reconstruction input params invalid. neuron should be < size of layer.";
+                label1.Refresh();
+            }
+        }
+
+        private void reconstructButton_Click(object sender, EventArgs e)
+        {
+            Recall(true);
         }
 
         private void saveButton_Clicked(object sender, EventArgs e)
@@ -284,90 +339,18 @@ namespace ImageClassification
             }
         }
 
-        private static Bitmap ShrinkImage(Bitmap bmp)
+        private void txtUnsupervised_Changed(object sender, EventArgs e)
         {
-            Bitmap bmp2 = new Bitmap(WIDTH, HEIGHT);
-            Graphics g = Graphics.FromImage(bmp2);
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            g.DrawImage(bmp, 0, 0, bmp2.Width, bmp2.Height);
-            g.Dispose();
-            return bmp2;
+            _unsupervisedEpochs = int.Parse(txtUnsupervised.Text);
+            UpdateLayerDescription();
         }
 
-        private void GetData(out double[][] rInputs, out double[][] rOutputs, out double[][] testInputs, out double[][] testOutputs)
+        private void txtSupervised_Changed(object sender, EventArgs e)
         {
-            //ImageToArray conv = new ImageToArray(min: 0, max: 1);
-
-            var inputs = new List<double[]>();
-            var outputs = new List<double[]>();
-            var tInputs = new List<double[]>();
-            var tOutputs = new List<double[]>();
-            var catIdx = new List<string>();
-            var shortCats = new List<string>();
-
-            var categories = Directory.GetDirectories(Prefix);
-            var min = 10000;
-            label1.Text = "";
-            for (int i = 0; i < _numCategories; i++)
-            {
-                var c = categories[i];
-                catIdx.Add(c);
-
-                var split = c.Split('\\');
-                shortCats.Add(split.Last());
-                var files = Directory.GetFiles(c, "*.jpg");
-                label1.Text += $"{c} => {files.Length} files.\n";
-                label1.Refresh();
-                if (files.Length < min) min = files.Length;
-
-                int added = 0;
-                foreach (string f in files)
-                {
-                    var image = (Bitmap)Image.FromFile(f, true);
-                    if (image.Width < 300 || image.Height < 180) continue;
-
-                    // crop the image
-                    image = image.Clone(new Rectangle(0, 0, 300, Math.Min(180,200)), image.PixelFormat);
-
-                    // downsample the image to save memory
-                    var smallImage = ShrinkImage(image);
-                    image.Dispose();
-
-                    double[] input;
-                    Itoa.Convert(smallImage, out input);
-                    smallImage.Dispose();
-
-                    //Console.WriteLine("Length of input: " + input.Length);
-
-                    var output = new double[_numCategories];
-                    output[i] = 1;
-
-                    added++;
-
-                    if (added <= NumTrain)
-                    {
-                        inputs.Add(input);
-                        outputs.Add(output);
-                    }
-                    else
-                    {
-                        tInputs.Add(input);
-                        tOutputs.Add(output);
-                    }
-                    if (added >= NumExamples) break;
-                }
-            }
-            label1.Text += $"Number of categories: {categories.Length} min files: {min} number of short cats: {shortCats.Count}";
-
-            listBox1.Items.Clear();
-            for (int i = 0; i < shortCats.Count; i++)
-                listBox1.Items.Add(shortCats[i] + ", " + i);
-
-            _categories = shortCats.ToArray();
-            rInputs = inputs.ToArray();
-            rOutputs = outputs.ToArray();
-            testInputs = tInputs.ToArray();
-            testOutputs = tOutputs.ToArray();
+            _supervisedEpochs = int.Parse(txtSupervised.Text);
+            UpdateLayerDescription();
         }
+
+        #endregion
     }
 }

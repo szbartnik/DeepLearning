@@ -75,6 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Core\DataProvider.cs" />
+    <Compile Include="Models\DataProviderConfiguration.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\TrainerConfiguration.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,7 +87,7 @@
     </Compile>
     <Compile Include="Infrastructure\ILogger.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Core\Trainer.cs" />
+    <Compile Include="Core\DeepLearningTrainer.cs" />
     <Compile Include="Models\Training1Parameters.cs" />
     <Compile Include="Models\Training2Parameters.cs" />
     <Compile Include="Models\TrainingData.cs" />
@@ -96,6 +100,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
