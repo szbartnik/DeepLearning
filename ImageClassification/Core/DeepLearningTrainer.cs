@@ -101,8 +101,8 @@ namespace ImageClassification.Core
             {
                 var outputValues = _networkToTrain.Compute(testData.Inputs[i]);
 
-                var predicted = GetResult(outputValues);
-                var actual = GetResult(testData.Outputs[i]);
+                var predicted = GetIndexOfResult(outputValues);
+                var actual = GetIndexOfResult(testData.Outputs[i]);
 
                 if (predicted == actual)
                     correctnessFactor++;
@@ -113,20 +113,24 @@ namespace ImageClassification.Core
             _logger.WriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
         }
 
-        public Category ClassifyToCategory(double[] dataToClassify)
+        public CategoryClassification ClassifyToCategory(double[] dataToClassify)
         {
             var categories = _configuration.Categories;
 
             var output = _networkToTrain.Compute(dataToClassify);
-            var categoryIndex = GetResult(output);
+            var categoryIndex = GetIndexOfResult(output);
             var predictedCategory = categories.Single(x => x.Index == categoryIndex);
 
             _logger.WriteLine($"Prediction: {predictedCategory}");
 
-            return predictedCategory;
+            var result = new CategoryClassification(
+                predictedCategory,
+                output.Max());
+
+            return result;
         }
 
-        private static int GetResult(double[] output)
+        private static int GetIndexOfResult(double[] output)
         {
             return output.ToList().IndexOf(output.Max());
         }

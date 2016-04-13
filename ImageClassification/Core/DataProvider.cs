@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
@@ -22,19 +23,39 @@ namespace ImageClassification.Core
                 min: 0.0, max: 1.0);
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<Category> GetAvailableCategories()
         {
             var filesLocationPath = _configuration.FilesLocationPath;
             var categoriesFolders = Directory.GetDirectories(filesLocationPath);
 
-            var itemCategoryEntries = categoriesFolders.Select((x, i) => new Category
+            var itemCategoryEntries = categoriesFolders.Select((categoryFolderPath, i) =>
             {
-                Index = i,
-                Name = new DirectoryInfo(x).Name,
-                FullPath = x,
+                var categoryDirectoryInfo = new DirectoryInfo(categoryFolderPath);
+                var filesOfCategory = GetFilesOfCategoryFolder(categoryDirectoryInfo);
+
+                var category = new Category(
+                    index:      i,
+                    name:       categoryDirectoryInfo.Name,
+                    fullPath:   categoryFolderPath,
+                    files:      filesOfCategory);
+
+                return category;
             });
 
             return itemCategoryEntries;
-        } 
+        }
+
+        private FileInfo[] GetFilesOfCategoryFolder(DirectoryInfo dir)
+        {
+            var filesExtensions = _configuration.FileExtensions;
+
+            var files = Enumerable.Empty<FileInfo>();
+            foreach (var extension in filesExtensions)
+            {
+                files = files.Concat(dir.GetFiles(extension));
+            }
+
+            return files.ToArray();
+        }
     }
 }

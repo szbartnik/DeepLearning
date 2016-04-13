@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Models\CategoryClassification.cs" />
     <Compile Include="Core\DataProvider.cs" />
     <Compile Include="Models\DataProviderConfiguration.cs" />
     <Compile Include="Models\Category.cs" />
