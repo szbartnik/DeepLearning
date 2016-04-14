@@ -63,7 +63,7 @@ namespace ImageClassification.Core
             {
                 teacher.LayerIndex = layerIndex;
                 var layerData = teacher.GetLayerInput(batches);
-                for (int i = 0; i < parameters.SupervisedEpochs; i++)
+                for (int i = 0; i < parameters.UnsupervisedEpochs; i++)
                 {
                     var error = teacher.RunEpoch(layerData) / inputs.Length;
                     if (i %10 != 0)
