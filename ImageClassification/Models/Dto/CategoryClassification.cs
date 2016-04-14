@@ -1,4 +1,4 @@
-namespace ImageClassification.Models
+namespace ImageClassification.Models.Dto
 {
     public class CategoryClassification
     {

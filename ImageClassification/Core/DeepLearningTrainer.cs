@@ -6,7 +6,8 @@ using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
 using ImageClassification.Infrastructure;
-using ImageClassification.Models;
+using ImageClassification.Models.Configurations;
+using ImageClassification.Models.Dto;
 
 namespace ImageClassification.Core
 {
@@ -26,7 +27,7 @@ namespace ImageClassification.Core
 
         private static DeepBeliefNetwork CreateNetworkToTeach(TrainerConfiguration configuration)
         {
-            var inputs = configuration.TrainingData.Inputs;
+            var inputs = configuration.InputsOutputsData.Inputs;
 
             // Setup the deep belief network and initialize with random weights.
             var network = new DeepBeliefNetwork(inputs.First().Length, configuration.Layers);
@@ -48,7 +49,7 @@ namespace ImageClassification.Core
                 }
             };
 
-            var inputs = _configuration.TrainingData.Inputs;
+            var inputs = _configuration.InputsOutputsData.Inputs;
 
             // Setup batches of input for learning.
             var batchCount = Math.Max(1, inputs.Length / 100);
@@ -75,7 +76,7 @@ namespace ImageClassification.Core
 
         public void RunTraining2(Training2Parameters parameters)
         {
-            var trainingData = _configuration.TrainingData;
+            var trainingData = _configuration.InputsOutputsData;
 
             var teacher = new BackPropagationLearning(_networkToTrain)
             {
@@ -93,7 +94,7 @@ namespace ImageClassification.Core
             }
         }
 
-        public void CheckAccuracy(TrainingData testData)
+        public void CheckAccuracy(InputOutputsDataNative testData)
         {
             var correctnessFactor = 0;
 

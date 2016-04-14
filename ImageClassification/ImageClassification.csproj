@@ -75,11 +75,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Models\CategoryClassification.cs" />
+    <Compile Include="Models\Dto\CategoryClassification.cs" />
     <Compile Include="Core\DataProvider.cs" />
-    <Compile Include="Models\DataProviderConfiguration.cs" />
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\TrainerConfiguration.cs" />
+    <Compile Include="Models\Configurations\DataProviderConfiguration.cs" />
+    <Compile Include="Models\Dto\Category.cs" />
+    <Compile Include="Models\Configurations\TrainerConfiguration.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,11 +87,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ILogger.cs" />
+    <Compile Include="Models\Dto\LearningSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\DeepLearningTrainer.cs" />
-    <Compile Include="Models\Training1Parameters.cs" />
-    <Compile Include="Models\Training2Parameters.cs" />
-    <Compile Include="Models\TrainingData.cs" />
+    <Compile Include="Models\Configurations\Training1Parameters.cs" />
+    <Compile Include="Models\Configurations\Training2Parameters.cs" />
+    <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

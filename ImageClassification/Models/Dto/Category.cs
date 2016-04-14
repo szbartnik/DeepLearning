@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace ImageClassification.Models
+namespace ImageClassification.Models.Dto
 {
     public class Category
     {
