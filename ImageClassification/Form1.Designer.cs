@@ -1,4 +1,4 @@
-﻿namespace ImageClassification
+﻿namespace Polsl.Inf.Os2.WKiRO.ImageClassification
 {
     partial class Form1
     {

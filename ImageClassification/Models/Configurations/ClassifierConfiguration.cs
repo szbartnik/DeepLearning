@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ImageClassification.Models.Dto;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
 
-namespace ImageClassification.Models.Configurations
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations
 {
     public class ClassifierConfiguration
     {

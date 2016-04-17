@@ -1,6 +1,6 @@
-﻿using ImageClassification.Infrastructure.Wpf;
+﻿using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Wpf;
 
-namespace ImageClassification.ViewModels
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

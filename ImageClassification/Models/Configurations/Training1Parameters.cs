@@ -1,4 +1,4 @@
-﻿namespace ImageClassification.Models.Configurations
+﻿namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations
 {
     public class Training1Parameters
     {

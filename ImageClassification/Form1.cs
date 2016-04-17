@@ -1,18 +1,18 @@
-﻿using Accord.Imaging.Converters;
-using Accord.Math;
-using Accord.Neuro;
-using Accord.Neuro.Learning;
-using Accord.Neuro.Networks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Accord.Imaging.Converters;
+using Accord.Math;
+using Accord.Neuro;
+using Accord.Neuro.Learning;
+using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
 
-namespace ImageClassification
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification
 {
     public partial class Form1 : Form
     {

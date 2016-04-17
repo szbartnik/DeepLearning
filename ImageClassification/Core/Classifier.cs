@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Accord.Math;
 using Accord.Neuro.Networks;
-using ImageClassification.Infrastructure.Logging;
-using ImageClassification.Models.Configurations;
-using ImageClassification.Models.Dto;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
 
-namespace ImageClassification.Core
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core
 {
     public class Classifier
     {

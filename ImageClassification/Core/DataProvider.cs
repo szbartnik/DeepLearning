@@ -4,10 +4,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
-using ImageClassification.Models.Configurations;
-using ImageClassification.Models.Dto;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
 
-namespace ImageClassification.Core
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core
 {
     public class DataProvider
     {

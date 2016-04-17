@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using ImageClassification.Core;
-using ImageClassification.Infrastructure.Logging;
-using ImageClassification.Models.Configurations;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Core;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
 
-namespace ImageClassification.Views
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Views
 {
     public partial class MainWindowView
     {
@@ -30,7 +30,7 @@ namespace ImageClassification.Views
 
             var learningSet = dataProvider.GetLearningSetForCategories(selectedCategories);
 
-            var trainer = new DeepLearningTrainer(new TrainerConfiguration
+            var trainer = new Trainer(new TrainerConfiguration
             {
                 Layers = new[] { 600, 400, 5, 5 },
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageClassification.Infrastructure.Logging
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging
 {
     public class Logger : ILogger
     {

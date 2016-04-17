@@ -1,4 +1,4 @@
-﻿namespace ImageClassification.Models.Dto
+﻿namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto
 {
     public class LearningSet
     {

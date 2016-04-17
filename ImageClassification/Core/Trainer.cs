@@ -5,13 +5,13 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
-using ImageClassification.Infrastructure.Logging;
-using ImageClassification.Models.Configurations;
-using ImageClassification.Models.Dto;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
 
-namespace ImageClassification.Core
+namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core
 {
-    public class DeepLearningTrainer
+    public class Trainer
     {
         private readonly TrainerConfiguration _configuration;
 
@@ -20,7 +20,7 @@ namespace ImageClassification.Core
 
         private readonly ILogger _logger;
 
-        public DeepLearningTrainer(TrainerConfiguration configuration, ILogger logger)
+        public Trainer(TrainerConfiguration configuration, ILogger logger)
         {
             _neuralNetwork = CreateNetworkToTeach(configuration);
             _configuration  = configuration;
