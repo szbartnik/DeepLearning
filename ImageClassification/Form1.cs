@@ -16,6 +16,8 @@ namespace ImageClassification
 {
     public partial class Form1 : Form
     {
+        #region Variables and ctor
+
         private const string Prefix = @"C:\Users\Szymon\Desktop\101_ObjectCategories";
         private static int _numCategories = 5; // can be up to 101
         private static int _unsupervisedEpochs = 200; // originally 200
@@ -42,22 +44,16 @@ namespace ImageClassification
             txtCategories.Text = _numCategories.ToString();
         }
 
-        private void UpdateLayerDescription(){
+        #endregion
+
+        private void UpdateLayerDescription()
+        {
             label3.Text += "\n";
             for (int i = 0; i < Layers.Length; i++)
             {
                 label3.Text += $"Layer {i} has {Layers[i]} neurons.\n";
             }
             label3.Refresh();
-        }
-
-        private void getDataButton_Clicked(object sender, EventArgs e)
-        {
-            double[][] inputs;
-            double[][] outputs;
-            double[][] testInputs;
-            double[][] testOutputs;
-            GetData(out inputs, out outputs, out testInputs, out testOutputs);
         }
 
         private void chooseImage_Click(object sender, EventArgs e)
@@ -70,6 +66,27 @@ namespace ImageClassification
             _imageToClassify = ShrinkImage(image);
             pictureBox1.Load(openFileDialog1.FileName);
         }
+
+        private void saveButton_Clicked(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+
+            var st = saveFileDialog1.OpenFile();
+
+            _network.Save(st);
+            st.Close();
+        }
+
+        private void LoadButton_Clicked(object sender, EventArgs e)
+        {
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            {
+                _network = DeepBeliefNetwork.Load(openFileDialog2.FileName);
+            }
+        }
+
+        #region Done
 
         private static Bitmap ShrinkImage(Bitmap bmp)
         {
@@ -110,7 +127,7 @@ namespace ImageClassification
                     if (image.Width < 300 || image.Height < 180) continue;
 
                     // crop the image
-                    image = image.Clone(new Rectangle(0, 0, 300, Math.Min(180,200)), image.PixelFormat);
+                    image = image.Clone(new Rectangle(0, 0, 300, Math.Min(180, 200)), image.PixelFormat);
 
                     // downsample the image to save memory
                     var smallImage = ShrinkImage(image);
@@ -150,8 +167,6 @@ namespace ImageClassification
             testInputs = tInputs.ToArray();
             testOutputs = tOutputs.ToArray();
         }
-
-        #region Done
 
         private void train_Click(object sender, EventArgs e)
         {
@@ -267,6 +282,15 @@ namespace ImageClassification
 
         #region Not important
 
+        private void getDataButton_Clicked(object sender, EventArgs e)
+        {
+            double[][] inputs;
+            double[][] outputs;
+            double[][] testInputs;
+            double[][] testOutputs;
+            GetData(out inputs, out outputs, out testInputs, out testOutputs);
+        }
+
         private void txtCategories_Changed(object sender, EventArgs e)
         {
             _numCategories = int.Parse(txtCategories.Text);
@@ -318,25 +342,6 @@ namespace ImageClassification
         private void reconstructButton_Click(object sender, EventArgs e)
         {
             Recall(true);
-        }
-
-        private void saveButton_Clicked(object sender, EventArgs e)
-        {
-            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
-                return;
-
-            var st = saveFileDialog1.OpenFile();
-
-            _network.Save(st);
-            st.Close();
-        }
-
-        private void LoadButton_Clicked(object sender, EventArgs e)
-        {
-            if (openFileDialog2.ShowDialog() == DialogResult.OK)
-            {
-                _network = DeepBeliefNetwork.Load(openFileDialog2.FileName);
-            }
         }
 
         private void txtUnsupervised_Changed(object sender, EventArgs e)

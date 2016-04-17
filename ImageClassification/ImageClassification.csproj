@@ -88,12 +88,12 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ILogger.cs" />
+    <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <Compile Include="Models\Dto\LearningSet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\DeepLearningTrainer.cs" />
     <Compile Include="Models\Configurations\Training1Parameters.cs" />
     <Compile Include="Models\Configurations\Training2Parameters.cs" />
-    <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
