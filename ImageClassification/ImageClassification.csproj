@@ -113,6 +113,7 @@
     <Compile Include="Models\Configurations\Training1Parameters.cs" />
     <Compile Include="Models\Configurations\Training2Parameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.Design.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Bindings.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Main.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">

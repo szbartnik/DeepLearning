@@ -2,14 +2,21 @@
 using Polsl.Inf.Os2.WKiRO.ImageClassification.Core;
 using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
 using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
+using Polsl.Inf.Os2.WKiRO.ImageClassification.ViewModels;
 
 namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Views
 {
     public partial class MainWindowView
     {
-        public MainWindowView()
+        public MainWindowView(MainWindowViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
+        }
+
+        public MainWindowView()
+        {
+            
         }
 
         public void Run()
