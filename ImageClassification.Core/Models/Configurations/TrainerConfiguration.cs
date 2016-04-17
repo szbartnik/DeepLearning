@@ -1,6 +1,6 @@
-﻿using Wkiro.ImageClassification.Models.Dto;
+﻿using Wkiro.ImageClassification.Core.Models.Dto;
 
-namespace Wkiro.ImageClassification.Models.Configurations
+namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
     public class TrainerConfiguration
     {

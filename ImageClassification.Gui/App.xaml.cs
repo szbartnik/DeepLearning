@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using Wkiro.ImageClassification.ViewModels;
-using Wkiro.ImageClassification.Views;
+using Wkiro.ImageClassification.Gui.ViewModels;
+using Wkiro.ImageClassification.Gui.Views;
 
-namespace Wkiro.ImageClassification
+namespace Wkiro.ImageClassification.Gui
 {
     public partial class App : Application
     {

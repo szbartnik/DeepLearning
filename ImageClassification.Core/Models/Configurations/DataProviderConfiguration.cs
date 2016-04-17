@@ -1,4 +1,4 @@
-﻿namespace Wkiro.ImageClassification.Models.Configurations
+﻿namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
     public class DataProviderConfiguration
     {

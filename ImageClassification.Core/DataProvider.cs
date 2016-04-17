@@ -4,12 +4,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
-using Wkiro.ImageClassification.Models.Configurations;
-using Wkiro.ImageClassification.Models.Dto;
+using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core
 {
-    public class DataProvider
+    internal class DataProvider
     {
         private readonly DataProviderConfiguration _configuration;
         private readonly ImageToArray _imageToArray;

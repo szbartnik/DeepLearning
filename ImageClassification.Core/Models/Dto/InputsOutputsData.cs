@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wkiro.ImageClassification.Models.Dto
+namespace Wkiro.ImageClassification.Core.Models.Dto
 {
-    public class InputsOutputsData
+    internal class InputsOutputsData
     {
         public void AddData(InputsOutputsData trainingData)
         {

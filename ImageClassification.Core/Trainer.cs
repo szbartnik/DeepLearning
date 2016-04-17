@@ -5,13 +5,13 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
-using Wkiro.ImageClassification.Infrastructure.Logging;
-using Wkiro.ImageClassification.Models.Configurations;
-using Wkiro.ImageClassification.Models.Dto;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
+using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core
 {
-    public class Trainer
+    internal class Trainer
     {
         private readonly TrainerConfiguration _configuration;
 

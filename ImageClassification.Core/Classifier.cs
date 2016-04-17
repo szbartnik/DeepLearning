@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using Accord.Math;
 using Accord.Neuro.Networks;
-using Wkiro.ImageClassification.Infrastructure.Logging;
-using Wkiro.ImageClassification.Models.Configurations;
-using Wkiro.ImageClassification.Models.Dto;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
+using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core
 {
-    public class Classifier
+    internal class Classifier
     {
         private readonly ClassifierConfiguration _configuration;
         private readonly ILogger _logger;

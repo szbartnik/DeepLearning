@@ -1,4 +1,4 @@
-﻿using Wkiro.ImageClassification.Models.Dto;
+﻿using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core.Facades
 {
@@ -7,7 +7,7 @@ namespace Wkiro.ImageClassification.Core.Facades
         private readonly DataProvider _dataProvider;
         private readonly Classifier _classifier;
 
-        public ClassifierFacade(DataProvider dataProvider, Classifier classifier)
+        internal ClassifierFacade(DataProvider dataProvider, Classifier classifier)
         {
             _classifier = classifier;
             _dataProvider = dataProvider;

@@ -1,6 +1,6 @@
-﻿namespace Wkiro.ImageClassification.Models.Dto
+﻿namespace Wkiro.ImageClassification.Core.Models.Dto
 {
-    public class LearningSet
+    internal class LearningSet
     {
         public InputsOutputsData TrainingData { get; }
         public InputsOutputsData TestData { get; }

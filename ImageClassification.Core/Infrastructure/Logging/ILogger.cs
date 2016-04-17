@@ -1,4 +1,4 @@
-﻿namespace Wkiro.ImageClassification.Infrastructure.Logging
+﻿namespace Wkiro.ImageClassification.Core.Infrastructure.Logging
 {
     public interface ILogger
     {

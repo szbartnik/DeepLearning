@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wkiro.ImageClassification.Infrastructure.Logging
+namespace Wkiro.ImageClassification.Core.Infrastructure.Logging
 {
     public class Logger : ILogger
     {

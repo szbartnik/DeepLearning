@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Wkiro.ImageClassification.Infrastructure.Logging;
-using Wkiro.ImageClassification.Models.Configurations;
-using Wkiro.ImageClassification.Models.Dto;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
+using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core.Facades
 {
