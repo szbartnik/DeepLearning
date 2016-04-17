@@ -85,11 +85,13 @@
     </ApplicationDefinition>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Core\Classifier.cs" />
-    <Compile Include="Core\DeepLearningFacade.cs" />
+    <Compile Include="Core\Facades\ClassifierFacade.cs" />
+    <Compile Include="Core\Facades\LearningFacade.cs" />
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Infrastructure\Wpf\RelayCommand.cs" />
     <Compile Include="Infrastructure\Wpf\ViewModelBase.cs" />
     <Compile Include="Models\Configurations\ClassifierConfiguration.cs" />
+    <Compile Include="Models\Configurations\TrainingParameters.cs" />
     <Compile Include="Models\Dto\CategoryClassification.cs" />
     <Compile Include="Core\DataProvider.cs" />
     <Compile Include="Models\Configurations\DataProviderConfiguration.cs" />

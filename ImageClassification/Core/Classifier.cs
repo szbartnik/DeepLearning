@@ -52,6 +52,11 @@ namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core
             return result;
         }
 
+        public void SaveClassifier(string saveLocationFilePath)
+        {
+            _network.Save(saveLocationFilePath);
+        }
+
         private static int GetIndexOfResult(double[] output)
         {
             return output.ToList().IndexOf(output.Max());
