@@ -5,7 +5,6 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
-using ImageClassification.Infrastructure;
 using ImageClassification.Infrastructure.Logging;
 using ImageClassification.Models.Configurations;
 using ImageClassification.Models.Dto;
@@ -15,13 +14,15 @@ namespace ImageClassification.Core
     public class DeepLearningTrainer
     {
         private readonly TrainerConfiguration _configuration;
-        private readonly DeepBeliefNetwork _networkToTrain;
+
+        public DeepBeliefNetwork NeuralNetwork => _neuralNetwork;
+        private readonly DeepBeliefNetwork _neuralNetwork;
 
         private readonly ILogger _logger;
 
         public DeepLearningTrainer(TrainerConfiguration configuration, ILogger logger)
         {
-            _networkToTrain = CreateNetworkToTeach(configuration);
+            _neuralNetwork = CreateNetworkToTeach(configuration);
             _configuration  = configuration;
             _logger         = logger;
         }
@@ -40,7 +41,7 @@ namespace ImageClassification.Core
 
         public void RunTraining1(Training1Parameters parameters)
         {
-            var teacher = new DeepBeliefNetworkLearning(_networkToTrain)
+            var teacher = new DeepBeliefNetworkLearning(_neuralNetwork)
             {
                 Algorithm = (hiddenLayer, visibleLayer, i) => new ContrastiveDivergenceLearning(hiddenLayer, visibleLayer)
                 {
@@ -60,7 +61,7 @@ namespace ImageClassification.Core
             var batches = inputs.Subgroups(groups);
 
             // Unsupervised learning on each hidden layer, except for the output layer.
-            for (int layerIndex = 0; layerIndex < _networkToTrain.Machines.Count - 1; layerIndex++)
+            for (int layerIndex = 0; layerIndex < _neuralNetwork.Machines.Count - 1; layerIndex++)
             {
                 teacher.LayerIndex = layerIndex;
                 var layerData = teacher.GetLayerInput(batches);
@@ -79,7 +80,7 @@ namespace ImageClassification.Core
         {
             var trainingData = _configuration.InputsOutputsData;
 
-            var teacher = new BackPropagationLearning(_networkToTrain)
+            var teacher = new BackPropagationLearning(_neuralNetwork)
             {
                 LearningRate = parameters.LearningRate,
                 Momentum     = parameters.Momentum,
@@ -101,7 +102,7 @@ namespace ImageClassification.Core
 
             for (int i = 0; i < testData.Inputs.Length; i++)
             {
-                var outputValues = _networkToTrain.Compute(testData.Inputs[i]);
+                var outputValues = _neuralNetwork.Compute(testData.Inputs[i]);
 
                 var predicted = GetIndexOfResult(outputValues);
                 var actual = GetIndexOfResult(testData.Outputs[i]);
@@ -113,23 +114,6 @@ namespace ImageClassification.Core
             }
 
             _logger.WriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
-        }
-
-        public CategoryClassification ClassifyToCategory(double[] dataToClassify)
-        {
-            var categories = _configuration.Categories;
-
-            var output = _networkToTrain.Compute(dataToClassify);
-            var categoryIndex = GetIndexOfResult(output);
-            var predictedCategory = categories.Single(x => x.Index == categoryIndex);
-
-            _logger.WriteLine($"Prediction: {predictedCategory}");
-
-            var result = new CategoryClassification(
-                predictedCategory,
-                output.Max());
-
-            return result;
         }
 
         private static int GetIndexOfResult(double[] output)

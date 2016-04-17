@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using ImageClassification.Core;
-using ImageClassification.Infrastructure;
 using ImageClassification.Infrastructure.Logging;
 using ImageClassification.Models.Configurations;
 
 namespace ImageClassification.Views
 {
-    public partial class MainView
+    public partial class MainWindowView
     {
-        public MainView()
+        public MainWindowView()
         {
             InitializeComponent();
         }
@@ -34,7 +33,6 @@ namespace ImageClassification.Views
             var trainer = new DeepLearningTrainer(new TrainerConfiguration
             {
                 Layers = new[] { 600, 400, 5, 5 },
-                Categories = selectedCategories,
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
             }, new Logger());
 
@@ -54,6 +52,11 @@ namespace ImageClassification.Views
             });
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
+
+            var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
+            {
+                Categories = selectedCategories,
+            }, new Logger());
         }
     }
 }
