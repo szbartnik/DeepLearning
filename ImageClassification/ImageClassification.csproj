@@ -83,7 +83,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Core\Classifier.cs" />
     <Compile Include="Core\Facades\ClassifierFacade.cs" />
     <Compile Include="Core\Facades\LearningFacade.cs" />
@@ -113,6 +112,7 @@
     <Compile Include="Core\Trainer.cs" />
     <Compile Include="Models\Configurations\Training1Parameters.cs" />
     <Compile Include="Models\Configurations\Training2Parameters.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Bindings.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Main.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
@@ -126,10 +126,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\MainWindowView.xaml">
       <SubType>Designer</SubType>
