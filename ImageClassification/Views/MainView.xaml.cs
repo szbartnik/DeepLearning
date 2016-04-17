@@ -1,17 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Linq;
 using ImageClassification.Core;
 using ImageClassification.Infrastructure;
 using ImageClassification.Models.Configurations;
-using ImageClassification.Models.Dto;
 
-namespace ImageClassification
+namespace ImageClassification.Views
 {
-    internal static class Program
+    public partial class MainView
     {
-        [STAThread]
-        private static void Main()
+        public MainView()
+        {
+            InitializeComponent();
+        }
+
+        public void Run()
         {
             var dataProvider = new DataProvider(new DataProviderConfiguration
             {
@@ -20,7 +21,7 @@ namespace ImageClassification
                 ProcessingWidth = 30,
                 ProcessingHeight = 20,
                 FilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
-                FileExtensions = new [] { "jpg" },
+                FileExtensions = new[] { "jpg" },
                 TrainDataRatio = 0.8,
             });
 
@@ -31,7 +32,7 @@ namespace ImageClassification
 
             var trainer = new DeepLearningTrainer(new TrainerConfiguration
             {
-                Layers = new []{ 600, 400, 5, 5},
+                Layers = new[] { 600, 400, 5, 5 },
                 Categories = selectedCategories,
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
             }, new Logger());
@@ -52,10 +53,6 @@ namespace ImageClassification
             });
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
         }
     }
 }

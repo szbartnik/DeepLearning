@@ -46,16 +46,6 @@ namespace ImageClassification
 
         #endregion
 
-        private void UpdateLayerDescription()
-        {
-            label3.Text += "\n";
-            for (int i = 0; i < Layers.Length; i++)
-            {
-                label3.Text += $"Layer {i} has {Layers[i]} neurons.\n";
-            }
-            label3.Refresh();
-        }
-
         private void chooseImage_Click(object sender, EventArgs e)
         {
             // Show the Open File dialog. If the user clicks OK, load the picture that the user chose. 
@@ -354,6 +344,16 @@ namespace ImageClassification
         {
             _supervisedEpochs = int.Parse(txtSupervised.Text);
             UpdateLayerDescription();
+        }
+
+        private void UpdateLayerDescription()
+        {
+            label3.Text += "\n";
+            for (int i = 0; i < Layers.Length; i++)
+            {
+                label3.Text += $"Layer {i} has {Layers[i]} neurons.\n";
+            }
+            label3.Refresh();
         }
 
         #endregion
