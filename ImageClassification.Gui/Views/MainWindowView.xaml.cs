@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using Wkiro.ImageClassification.Core;
+using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Infrastructure.Logging;
 using Wkiro.ImageClassification.Models.Configurations;
 using Wkiro.ImageClassification.ViewModels;
@@ -61,13 +62,13 @@ namespace Wkiro.ImageClassification.Views
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
 
-            var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
-            {
-                Categories = selectedCategories,
-            }, new Logger());
+            //var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
+            //{
+            //    Categories = selectedCategories,
+            //}, new Logger());
 
-            var imagePrepared = dataProvider.PrepareImageByPath("path");
-            classifier.ClassifyToCategory(imagePrepared);
+            //var imagePrepared = dataProvider.PrepareImageByPath("path");
+            //classifier.ClassifyToCategory(imagePrepared);
         }
     }
 }
