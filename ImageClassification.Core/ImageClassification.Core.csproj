@@ -72,8 +72,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classifier.cs" />
-    <Compile Include="DataProvider.cs" />
+    <Compile Include="Engines\Classifier.cs" />
+    <Compile Include="Engines\DataProvider.cs" />
     <Compile Include="Facades\ClassifierFacade.cs" />
     <Compile Include="Facades\LearningFacade.cs" />
     <Compile Include="Infrastructure\Logging\ILogger.cs" />
@@ -89,7 +89,7 @@
     <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <Compile Include="Models\Dto\LearningSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Trainer.cs" />
+    <Compile Include="Engines\Trainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

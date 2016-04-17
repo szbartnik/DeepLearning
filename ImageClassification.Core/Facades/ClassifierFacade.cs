@@ -1,4 +1,5 @@
-﻿using Wkiro.ImageClassification.Core.Models.Dto;
+﻿using Wkiro.ImageClassification.Core.Engines;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core.Facades
 {

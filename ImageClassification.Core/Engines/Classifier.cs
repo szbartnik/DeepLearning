@@ -5,7 +5,7 @@ using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 
-namespace Wkiro.ImageClassification.Core
+namespace Wkiro.ImageClassification.Core.Engines
 {
     internal class Classifier
     {
