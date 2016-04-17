@@ -116,6 +116,11 @@ namespace ImageClassification.Core
             _logger.WriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
         }
 
+        public void SaveNetwork(string networkSaveFilePath)
+        {
+            _neuralNetwork.Save(networkSaveFilePath);
+        }
+
         private static int GetIndexOfResult(double[] output)
         {
             return output.ToList().IndexOf(output.Max());

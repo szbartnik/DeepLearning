@@ -57,6 +57,9 @@ namespace ImageClassification.Views
             {
                 Categories = selectedCategories,
             }, new Logger());
+
+            var imagePrepared = dataProvider.PrepareImageByPath("path");
+            classifier.ClassifyToCategory(imagePrepared);
         }
     }
 }

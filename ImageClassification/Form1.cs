@@ -57,6 +57,8 @@ namespace ImageClassification
             pictureBox1.Load(openFileDialog1.FileName);
         }
 
+        #region Done
+
         private void saveButton_Clicked(object sender, EventArgs e)
         {
             if (saveFileDialog1.ShowDialog() != DialogResult.OK)
@@ -75,8 +77,6 @@ namespace ImageClassification
                 _network = DeepBeliefNetwork.Load(openFileDialog2.FileName);
             }
         }
-
-        #region Done
 
         private static Bitmap ShrinkImage(Bitmap bmp)
         {

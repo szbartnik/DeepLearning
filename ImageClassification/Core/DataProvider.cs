@@ -152,5 +152,16 @@ namespace ImageClassification.Core
 
             return files.ToArray();
         }
+
+        public double[] PrepareImageByPath(string imageFilePath)
+        {
+            var image = (Bitmap)Image.FromFile(imageFilePath, true);
+            var shrinked = ShrinkImage(image);
+
+            double[] converted;
+            _imageToArray.Convert(shrinked, out converted);
+
+            return converted;
+        }
     }
 }
