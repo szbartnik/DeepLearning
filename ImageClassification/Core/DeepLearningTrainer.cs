@@ -6,6 +6,7 @@ using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
 using ImageClassification.Infrastructure;
+using ImageClassification.Infrastructure.Logging;
 using ImageClassification.Models.Configurations;
 using ImageClassification.Models.Dto;
 

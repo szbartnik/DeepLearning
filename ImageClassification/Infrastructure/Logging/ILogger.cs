@@ -1,4 +1,4 @@
-﻿namespace ImageClassification.Infrastructure
+﻿namespace ImageClassification.Infrastructure.Logging
 {
     public interface ILogger
     {

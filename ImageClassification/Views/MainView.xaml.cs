@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ImageClassification.Core;
 using ImageClassification.Infrastructure;
+using ImageClassification.Infrastructure.Logging;
 using ImageClassification.Models.Configurations;
 
 namespace ImageClassification.Views

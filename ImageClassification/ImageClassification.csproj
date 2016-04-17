@@ -83,7 +83,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Infrastructure\Logger.cs" />
+    <Compile Include="Infrastructure\Logging\Logger.cs" />
+    <Compile Include="Infrastructure\Wpf\RelayCommand.cs" />
+    <Compile Include="Infrastructure\Wpf\ViewModelBase.cs" />
     <Compile Include="Models\Dto\CategoryClassification.cs" />
     <Compile Include="Core\DataProvider.cs" />
     <Compile Include="Models\Configurations\DataProviderConfiguration.cs" />
@@ -99,7 +101,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ILogger.cs" />
+    <Compile Include="Infrastructure\Logging\ILogger.cs" />
     <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <Compile Include="Models\Dto\LearningSet.cs" />
     <Compile Include="Core\DeepLearningTrainer.cs" />
