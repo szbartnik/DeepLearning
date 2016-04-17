@@ -1,9 +1,56 @@
-﻿namespace Wkiro.ImageClassification.Core.Models.Configurations
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Wkiro.ImageClassification.Core.Annotations;
+
+namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
-    public class Training2Parameters
+    public class Training2Parameters : INotifyPropertyChanged
     {
-        public double LearningRate { get; set; }
-        public double Momentum { get; set; }
-        public int SupervisedEpochs { get; set; }
+        private double _learningRate;
+        private double _momentum;
+        private int _supervisedEpochs;
+
+        public double LearningRate
+        {
+            get { return _learningRate; }
+            set
+            {
+                if (value.Equals(_learningRate)) return;
+                _learningRate = value;
+                OnPropertyChanged();
+            }
+        }
+        public double Momentum
+        {
+            get { return _momentum; }
+            set
+            {
+                if (value.Equals(_momentum)) return;
+                _momentum = value;
+                OnPropertyChanged();
+            }
+        }
+        public int SupervisedEpochs
+        {
+            get { return _supervisedEpochs; }
+            set
+            {
+                if (value == _supervisedEpochs) return;
+                _supervisedEpochs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #region Property changed stuff
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

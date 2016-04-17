@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Wkiro.ImageClassification.Core.Engines;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
@@ -24,7 +25,7 @@ namespace Wkiro.ImageClassification.Core.Facades
 
         public ClassifierFacade RunTrainingForSelectedCategories(TrainingParameters trainingParameters)
         {
-            var learningSet = _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories);
+            var learningSet = _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories.ToList());
 
             var trainer = new Trainer(new TrainerConfiguration
             {
