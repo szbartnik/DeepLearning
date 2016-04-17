@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Wpf
+namespace Wkiro.ImageClassification.Infrastructure.Wpf
 {
     public abstract class ViewModelBase : INotifyPropertyChanged, IDataErrorInfo, IDisposable
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
+using Wkiro.ImageClassification.Infrastructure.Logging;
+using Wkiro.ImageClassification.Models.Configurations;
+using Wkiro.ImageClassification.Models.Dto;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core.Facades
+namespace Wkiro.ImageClassification.Core.Facades
 {
     public class LearningFacade
     {

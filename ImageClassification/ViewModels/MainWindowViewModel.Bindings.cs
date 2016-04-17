@@ -1,7 +1,7 @@
-﻿using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Wpf;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
+﻿using Wkiro.ImageClassification.Infrastructure.Wpf;
+using Wkiro.ImageClassification.Models.Configurations;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.ViewModels
+namespace Wkiro.ImageClassification.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase
     {

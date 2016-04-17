@@ -1,12 +1,13 @@
 ﻿using System.Linq;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Core;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Logging;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Configurations;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.ViewModels;
+using System.Windows;
+using Wkiro.ImageClassification.Core;
+using Wkiro.ImageClassification.Infrastructure.Logging;
+using Wkiro.ImageClassification.Models.Configurations;
+using Wkiro.ImageClassification.ViewModels;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Views
+namespace Wkiro.ImageClassification.Views
 {
-    public partial class MainWindowView
+    public partial class MainWindowView : Window
     {
         public MainWindowView(MainWindowViewModel viewModel)
         {

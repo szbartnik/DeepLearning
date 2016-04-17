@@ -1,6 +1,6 @@
-﻿using Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto;
+﻿using Wkiro.ImageClassification.Models.Dto;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Core.Facades
+namespace Wkiro.ImageClassification.Core.Facades
 {
     public class ClassifierFacade
     {

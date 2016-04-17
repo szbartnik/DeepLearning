@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Models.Dto
+namespace Wkiro.ImageClassification.Models.Dto
 {
     public class Category
     {

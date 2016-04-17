@@ -1,4 +1,4 @@
-﻿<Application x:Class="Polsl.Inf.Os2.WKiRO.ImageClassification.App" d1P1:Ignorable="d" 
+﻿<Application x:Class="Wkiro.ImageClassification.App" d1P1:Ignorable="d" 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 

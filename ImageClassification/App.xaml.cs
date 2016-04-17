@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.ViewModels;
-using Polsl.Inf.Os2.WKiRO.ImageClassification.Views;
+using Wkiro.ImageClassification.ViewModels;
+using Wkiro.ImageClassification.Views;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification
+namespace Wkiro.ImageClassification
 {
     public partial class App : Application
     {

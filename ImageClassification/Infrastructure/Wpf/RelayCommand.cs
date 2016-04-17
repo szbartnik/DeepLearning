@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Polsl.Inf.Os2.WKiRO.ImageClassification.Infrastructure.Wpf
+namespace Wkiro.ImageClassification.Infrastructure.Wpf
 {
     public sealed class RelayCommand : ICommand
     {
