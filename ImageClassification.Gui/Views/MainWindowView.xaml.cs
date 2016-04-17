@@ -20,17 +20,6 @@ namespace Wkiro.ImageClassification.Gui.Views
 
         public void Run()
         {
-            //var dataProvider = new DataProvider(new DataProviderConfiguration
-            //{
-            //    CropWidth = 300,
-            //    CropHeight = 200,
-            //    ProcessingWidth = 30,
-            //    ProcessingHeight = 20,
-            //    FilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
-            //    FileExtensions = new[] { "jpg" },
-            //    TrainDataRatio = 0.8,
-            //});
-
             //var availableCategories = dataProvider.GetAvailableCategories();
             //var selectedCategories = availableCategories.Take(5).ToList();
 

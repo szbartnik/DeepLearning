@@ -1,5 +1,4 @@
 ﻿using Wkiro.ImageClassification.Core.Models.Configurations;
-using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {

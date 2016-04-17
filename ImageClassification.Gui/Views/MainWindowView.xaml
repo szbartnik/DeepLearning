@@ -8,7 +8,6 @@
         Title="Images Classification"
         Width="800"
         Height="500"
-        Padding="10"
         d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                          IsDesignTimeCreatable=True}"
         d:DesignHeight="300"
@@ -22,11 +21,13 @@
         </Style>
         <converters:ListOfStringsToStringConverter x:Key="ListOfStringsToStringConverter" />
     </Window.Resources>
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--  General options  -->
@@ -62,7 +63,7 @@
                              IsReadOnly="True"
                              Text="{Binding DataProviderConfiguration.TrainFilesLocationPath}" />
                     <Button Grid.Column="1"
-                            Command="{Binding BrowseForTrainFilesPath}"
+                            Command="{Binding BrowseForTrainFilesPathCommand}"
                             Content="Browse"
                             Padding="10 3" />
                 </Grid>
@@ -181,10 +182,31 @@
             </Grid>
         </GroupBox>
 
+        <!--  Training/load selection panel  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Height="30"
+                    Margin="10"
+                    Content="Start new training" />
+            <Button Grid.Column="1"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding LoadTrainingDataCommand}"
+                    Content="Load training data" />
+        </Grid>
 
+        <!--  Training settings  -->
+        <Grid Grid.Row="2" />
+
+        <!--  Classify settings  -->
+        <Grid Grid.Row="3" />
 
         <!--  Log box  -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="4">
             <GroupBox Header="Output" Padding="3">
                 <TextBox x:Name="LogTextBox"
                          IsReadOnly="True"

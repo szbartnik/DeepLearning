@@ -22,6 +22,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             };
         }
 
+        private void LoadTrainingData()
+        {
+            
+        }
+
         public void LogWriteLine(string logMessage)
         {
             OutputTextBoxContent += $"{logMessage}\n";
