@@ -3,7 +3,7 @@ using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel
     {
         public DataProviderConfiguration DataProviderConfiguration
         {
@@ -15,5 +15,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
         }
         private DataProviderConfiguration _dataProviderConfiguration;
+
+        public string OutputTextBoxContent
+        {
+            get { return _outputTextBoxContent; }
+            set
+            {
+                _outputTextBoxContent = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _outputTextBoxContent;
     }
 }

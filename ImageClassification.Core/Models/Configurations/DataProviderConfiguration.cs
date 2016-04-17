@@ -2,7 +2,7 @@
 {
     public class DataProviderConfiguration
     {
-        public string FilesLocationPath { get; set; }
+        public string TrainFilesLocationPath { get; set; }
         public string[] FileExtensions { get; set; }
         public double TrainDataRatio { get; set; }
 

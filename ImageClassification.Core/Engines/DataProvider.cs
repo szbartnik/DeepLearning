@@ -27,7 +27,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         public IEnumerable<Category> GetAvailableCategories()
         {
-            var filesLocationPath = _configuration.FilesLocationPath;
+            var filesLocationPath = _configuration.TrainFilesLocationPath;
             var categoriesFolders = Directory.GetDirectories(filesLocationPath);
 
             var itemCategoryEntries = categoriesFolders.Select((categoryFolderPath, i) =>

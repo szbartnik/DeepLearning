@@ -26,7 +26,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="200" />
         </Grid.RowDefinitions>
+
+        <!--  General options  -->
         <GroupBox Header="General options" Padding="5">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -42,11 +45,11 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <!--  Files location path  -->
+                <!--  Train files location path  -->
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
                            Style="{StaticResource Caption1}"
-                           Text="Files location path" />
+                           Text="Train files location path" />
 
                 <Grid Grid.Row="0" Grid.Column="2">
                     <Grid.ColumnDefinitions>
@@ -57,8 +60,9 @@
                              VerticalAlignment="Stretch"
                              VerticalContentAlignment="Center"
                              IsReadOnly="True"
-                             Text="{Binding DataProviderConfiguration.FilesLocationPath}" />
+                             Text="{Binding DataProviderConfiguration.TrainFilesLocationPath}" />
                     <Button Grid.Column="1"
+                            Command="{Binding BrowseForTrainFilesPath}"
                             Content="Browse"
                             Padding="10 3" />
                 </Grid>
@@ -176,5 +180,18 @@
 
             </Grid>
         </GroupBox>
+
+
+
+        <!--  Log box  -->
+        <Grid Grid.Row="2">
+            <GroupBox Header="Output" Padding="3">
+                <TextBox x:Name="LogTextBox"
+                         IsReadOnly="True"
+                         Text="{Binding OutputTextBoxContent}"
+                         TextChanged="OnLogTextBoxTextChanged"
+                         VerticalScrollBarVisibility="Auto" />
+            </GroupBox>
+        </Grid>
     </Grid>
 </Window>

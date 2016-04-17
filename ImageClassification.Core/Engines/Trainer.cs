@@ -71,7 +71,7 @@ namespace Wkiro.ImageClassification.Core.Engines
                     if (i %10 != 0)
                         continue;
 
-                    _logger.WriteLine($"Layer: {layerIndex} Epoch: {i}, Error: {error}");
+                    _logger.LogWriteLine($"Layer: {layerIndex} Epoch: {i}, Error: {error}");
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (i % 10 != 0)
                     continue;
 
-                _logger.WriteLine($"Supervised: {i}, Error = {error}");
+                _logger.LogWriteLine($"Supervised: {i}, Error = {error}");
             }
         }
 
@@ -110,10 +110,10 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (predicted == actual)
                     correctnessFactor++;
 
-                _logger.WriteLine($"predicted: {predicted} actual: {actual}");
+                _logger.LogWriteLine($"predicted: {predicted} actual: {actual}");
             }
 
-            _logger.WriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
+            _logger.LogWriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
         }
 
         private static int GetIndexOfResult(double[] output)

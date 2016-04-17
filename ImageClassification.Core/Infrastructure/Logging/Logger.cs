@@ -4,7 +4,7 @@ namespace Wkiro.ImageClassification.Core.Infrastructure.Logging
 {
     public class Logger : ILogger
     {
-        public void WriteLine(string logMessage)
+        public void LogWriteLine(string logMessage)
         {
             Console.WriteLine(logMessage);
         }

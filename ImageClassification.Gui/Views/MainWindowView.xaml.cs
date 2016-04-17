@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Wkiro.ImageClassification.Gui.ViewModels;
 
 namespace Wkiro.ImageClassification.Gui.Views
@@ -11,9 +12,10 @@ namespace Wkiro.ImageClassification.Gui.Views
             DataContext = viewModel;
         }
 
-        public MainWindowView()
+        private void OnLogTextBoxTextChanged(object sender, TextChangedEventArgs e)
         {
-            
+            LogTextBox.CaretIndex = LogTextBox.Text.Length;
+            LogTextBox.ScrollToEnd();
         }
 
         public void Run()

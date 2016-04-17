@@ -43,7 +43,7 @@ namespace Wkiro.ImageClassification.Core.Engines
             var categoryIndex = GetIndexOfResult(output);
             var predictedCategory = categories.Single(x => x.Index == categoryIndex);
 
-            _logger.WriteLine($"Prediction: {predictedCategory}");
+            _logger.LogWriteLine($"Prediction: {predictedCategory}");
 
             var result = new CategoryClassification(
                 predictedCategory,
