@@ -3,31 +3,45 @@ using System.Collections.Generic;
 
 namespace Wkiro.ImageClassification.Core.Models.Dto
 {
-    internal class InputsOutputsData
+    public class InputsOutputsData
     {
-        public void AddData(InputsOutputsData trainingData)
+        public List<double[]> Inputs { get; }
+        public List<double[]> Outputs { get; }
+        public int Count => Inputs.Count;
+
+        public InputsOutputsData()
         {
-            throw new System.NotImplementedException();
+            Inputs = new List<double[]>();
+            Outputs = new List<double[]>();
+        }
+
+        public void AddData(double[] inputs, double[] outputs)
+        {
+            Inputs.Add(inputs);
+            Outputs.Add(outputs);
+        }
+
+        public void AddData(InputsOutputsData inputsOutputsData)
+        {
+            Inputs.AddRange(inputsOutputsData.Inputs);
+            Outputs.AddRange(inputsOutputsData.Outputs);
         }
 
         public InputOutputsDataNative ToInputOutputsDataNative()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public double Count { get; set; }
-        public List<double[]> Inputs { get; set; }
-        public List<double[]> Outputs { get; set; }
-
-        internal void AddData(double[] v1, double[] v2)
-        {
-            throw new NotImplementedException();
+            return new InputOutputsDataNative(Inputs.ToArray(), Outputs.ToArray());
         }
     }
 
     public class InputOutputsDataNative
     {
-        public double[][] Inputs { get; set; }
-        public double[][] Outputs { get; set; }
+        public double[][] Inputs { get; }
+        public double[][] Outputs { get; }
+
+        public InputOutputsDataNative(double[][] inputs, double[][] outputs)
+        {
+            Inputs = inputs;
+            Outputs = outputs;
+        }
     }
 }
