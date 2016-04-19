@@ -1,18 +1,19 @@
-﻿<Window x:Class="Wkiro.ImageClassification.Gui.Views.MainWindowView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:converters="clr-namespace:Wkiro.ImageClassification.Gui.Helpers.Converters"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
-        Title="Images Classification"
-        Width="800"
-        Height="500"
-        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
-                                         IsDesignTimeCreatable=True}"
-        d:DesignHeight="300"
-        d:DesignWidth="300"
-        mc:Ignorable="d">
+﻿<controls:MetroWindow x:Class="Wkiro.ImageClassification.Gui.Views.MainWindowView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:converters="clr-namespace:Wkiro.ImageClassification.Gui.Helpers.Converters"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
+                      Title="Images Classification"
+                      Width="800"
+                      Height="500"
+                      d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
+                                                       IsDesignTimeCreatable=True}"
+                      d:DesignHeight="300"
+                      d:DesignWidth="300"
+                      mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="Caption1" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -216,4 +217,5 @@
             </GroupBox>
         </Grid>
     </Grid>
-</Window>
+</controls:MetroWindow>
+
