@@ -32,7 +32,10 @@ namespace Wkiro.ImageClassification.Gui.Helpers.Converters
                 return null;
 
             // Do some conversion back to some List
-            var list = valuestring.Split(_delimiters).Select(x => x.Trim());
+            var list = valuestring
+                .Split(_delimiters)
+                .Select(x => x.Trim())
+                .Where(x => !string.IsNullOrWhiteSpace(x));
             return list;
         }
     }
