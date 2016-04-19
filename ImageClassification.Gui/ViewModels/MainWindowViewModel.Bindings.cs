@@ -82,5 +82,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
         }
         private ObservableCollection<Category> _selectedCategories;
+
+        public bool IsProcessing
+        {
+            get { return _isProcessing; }
+            set
+            {
+                _isProcessing = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isProcessing;
     }
 }

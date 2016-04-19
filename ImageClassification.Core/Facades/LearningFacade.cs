@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Wkiro.ImageClassification.Core.Engines;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
@@ -24,9 +25,9 @@ namespace Wkiro.ImageClassification.Core.Facades
             return _dataProvider.GetAvailableCategories();
         }
 
-        public async Task<ClassifierFacade> RunTrainingForSelectedCategoriesAsync(TrainingParameters trainingParameters)
+        public Task<ClassifierFacade> RunTrainingForSelectedCategories(TrainingParameters trainingParameters)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var learningSet = _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories.ToList());
 

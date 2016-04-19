@@ -24,7 +24,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new TrainerConfiguration
             {
-                Layers = new[] {600, 400, 5, 5},
+                Layers = new[] {600, 400, 2, 2},
             };
         }
 

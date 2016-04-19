@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
@@ -60,7 +62,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 Layers = TrainerConfiguration.Layers,
             };
 
-            _classifierFacade = await _learningFacade.RunTrainingForSelectedCategoriesAsync(trainingParameters);
+            var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);
+            _classifierFacade = await task;
         }
 
         public void LogWriteLine(string logMessage)

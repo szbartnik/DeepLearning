@@ -267,7 +267,12 @@
         <!--  Classify settings  -->
         <Grid Grid.Row="3">
             <StackPanel>
-                <Button Command="{Binding StartTrainingCommand}" Content="Start training" />
+                <Button Width="200"
+                        Height="40"
+                        Margin="10"
+                        Command="{Binding StartTrainingCommand}"
+                        Content="Start training"
+                        FontSize="18" />
             </StackPanel>
         </Grid>
 
