@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
@@ -22,6 +25,14 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 TrainFilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
                 FileExtensions = new[] {"jpg"},
                 TrainDataRatio = 0.8,
+            };
+
+            AvailableCategories = new ObservableCollection<Category>
+            {
+                new Category(0, "Test cat 1", @"C:\FakePath1\", new FileInfo[] {}),
+                new Category(0, "Test cat 2", @"C:\FakePath2\", new FileInfo[] {}),
+                new Category(0, "Test cat 3", @"C:\FakePath3\", new FileInfo[] {}),
+                new Category(0, "Test cat 4", @"C:\FakePath4\", new FileInfo[] {}),
             };
         }
 
