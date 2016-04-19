@@ -213,11 +213,29 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Training 1 parameters" />
-            <GroupBox Grid.Column="1" Header="Training 2 parameters" />
-            <GroupBox Grid.Column="2"
-                      Height="200"
-                      Header="Categories">
+            <GroupBox Header="Training 1 parameters (unsupervised)">
+                <StackPanel>
+                    <TextBlock Text="Learning rate" />
+                    <TextBox Text="{Binding Training1Parameters.LearningRate}" />
+                    <TextBlock Text="Momentum" />
+                    <TextBox Text="{Binding Training1Parameters.Momentum}" />
+                    <TextBlock Text="Unsupervised Epochs" />
+                    <TextBox Text="{Binding Training1Parameters.UnsupervisedEpochs}" />
+                    <TextBlock Text="Decay" />
+                    <TextBox Text="{Binding Training1Parameters.Decay}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Training 2 parameters (supervised)">
+                <StackPanel>
+                    <TextBlock Text="Learning rate" />
+                    <TextBox Text="{Binding Training2Parameters.LearningRate}" />
+                    <TextBlock Text="Momentum" />
+                    <TextBox Text="{Binding Training2Parameters.Momentum}" />
+                    <TextBlock Text="Supervised Epochs" />
+                    <TextBox Text="{Binding Training2Parameters.SupervisedEpochs}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="2" Header="Categories">
                 <helpers:BindableListBox ItemsSource="{Binding AvailableCategories}"
                                          SelectedItemsList="{Binding SelectedCategories}"
                                          SelectionMode="Multiple">

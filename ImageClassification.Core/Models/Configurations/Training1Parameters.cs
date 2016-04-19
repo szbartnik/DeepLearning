@@ -16,7 +16,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _learningRate; }
             set
             {
-                if (value.Equals(_learningRate)) return;
                 _learningRate = value;
                 OnPropertyChanged();
             }
@@ -26,7 +25,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _momentum; }
             set
             {
-                if (value.Equals(_momentum)) return;
                 _momentum = value;
                 OnPropertyChanged();
             }
@@ -36,7 +34,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _unsupervisedEpochs; }
             set
             {
-                if (value == _unsupervisedEpochs) return;
                 _unsupervisedEpochs = value;
                 OnPropertyChanged();
             }
@@ -46,7 +43,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _decay; }
             set
             {
-                if (value.Equals(_decay)) return;
                 _decay = value;
                 OnPropertyChanged();
             }

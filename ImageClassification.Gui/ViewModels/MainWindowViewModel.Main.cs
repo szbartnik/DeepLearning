@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
-using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Gui.Configuration;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
@@ -14,31 +14,22 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
     public partial class MainWindowViewModel : ViewModelBase, ILogger
     {
         private LearningFacade _learningFacade;
+        private readonly IConfigurationManager _configurationManager;
 
         public MainWindowViewModel(bool isNotDesignMode)
         {
+            _configurationManager = new ConfigurationManager();
+
             InitializeCommands();
-        }
-
-        private void InitializeLearningFacade()
-        {
-            DataProviderConfiguration = new DataProviderConfiguration
-            {
-                CropWidth = 300,
-                CropHeight = 200,
-                ProcessingWidth = 30,
-                ProcessingHeight = 20,
-                TrainFilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
-                FileExtensions = new[] { "jpg" },
-                TrainDataRatio = 0.8,
-            };
-
-            _learningFacade = new LearningFacade(DataProviderConfiguration, this);
+            DataProviderConfiguration = _configurationManager.GetInitialDataProviderConfiguration();
         }
 
         private void ConfigureNewTraining()
         {
-            InitializeLearningFacade();
+            _learningFacade = new LearningFacade(DataProviderConfiguration, this);
+            Training1Parameters = _configurationManager.GetInitialTraining1Parameters();
+            Training2Parameters = _configurationManager.GetInitialTraining2Parameters();
+
             AvailableCategories = new ObservableCollection<Category>(_learningFacade.GetAvailableCategories());
         }
 

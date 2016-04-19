@@ -2,7 +2,6 @@
 using System.IO;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
-using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -14,11 +13,26 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             {
                 TrainFilesLocationPath = @"C:\Users\User\file.dat",
                 CropHeight = 123,
-                CropWidth = 456,
+                CropWidth = 453,
                 ProcessingHeight = 789,
                 ProcessingWidth = 987,
                 FileExtensions = new[] { "JPG", "BMP" },
                 TrainDataRatio = 0.8,
+            };
+
+            Training1Parameters = new Training1Parameters
+            {
+                Momentum = 0.5,
+                Decay = 0.001,
+                LearningRate = 0.1,
+                UnsupervisedEpochs = 200,
+            };
+
+            Training2Parameters = new Training2Parameters
+            {
+                Momentum = 0.5,
+                LearningRate = 0.1,
+                SupervisedEpochs = 300,
             };
 
             AvailableCategories = new ObservableCollection<Category>
