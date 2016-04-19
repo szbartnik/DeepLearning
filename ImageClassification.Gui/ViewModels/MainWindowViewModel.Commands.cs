@@ -19,6 +19,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand<object> SelectedCategoriesChangedCommand { get; set; }
         public RelayCommand StartTrainingCommand { get; set; }
 
+        public RelayCommand ClassifyImageCommand { get; set; }
+
         private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
@@ -26,6 +28,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             LoadTrainingDataCommand = new RelayCommand(LoadTrainingData);
             SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
             StartTrainingCommand = new RelayCommand(StartTraining);
+            ClassifyImageCommand = new RelayCommand(ClassifyImage);
         }
 
         private void BrowseForTrainFilesPath()

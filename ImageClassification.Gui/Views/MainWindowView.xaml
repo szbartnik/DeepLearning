@@ -273,6 +273,12 @@
                         Command="{Binding StartTrainingCommand}"
                         Content="Start training"
                         FontSize="18" />
+                <Button Width="200"
+                        Height="40"
+                        Margin="10"
+                        Command="{Binding ClassifyImageCommand}"
+                        Content="Classify image"
+                        FontSize="18" />
             </StackPanel>
         </Grid>
 

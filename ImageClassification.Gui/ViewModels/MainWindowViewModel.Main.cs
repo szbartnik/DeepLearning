@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Windows.Forms;
+using Microsoft.Win32;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
@@ -12,6 +13,8 @@ using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Configuration;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 using Wkiro.ImageClassification.Gui.Views;
+using Application = System.Windows.Application;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -64,6 +67,25 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);
             _classifierFacade = await task;
+        }
+
+        private void ClassifyImage()
+        {
+            var fileDialog = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                Title = "Select file to classify",
+                Multiselect = false,
+                RestoreDirectory = true,
+            };
+            var result = fileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var fileName = fileDialog.FileName;
+                var classification = _classifierFacade.ClassifyToCategory(fileName);
+                LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
+            }
+
         }
 
         public void LogWriteLine(string logMessage)
