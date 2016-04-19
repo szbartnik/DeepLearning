@@ -1,4 +1,7 @@
-﻿using Wkiro.ImageClassification.Core.Infrastructure.Logging;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 
@@ -29,7 +32,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         public void LogWriteLine(string logMessage)
         {
-            OutputTextBoxContent += $"{logMessage}\n";
+            const string separatorPattern = "-";
+            const int separatorPatternMultiplier = 10;
+
+            var date = DateTime.Now.ToString("HH:mm:ss.fff");
+            var separator = Enumerable.Repeat(separatorPattern, separatorPatternMultiplier).Aggregate((x, y) => x + y);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                OutputTextBoxContent += $"{date}\n{logMessage}\n{separator}\n";
+            });
         }
     }
 }
