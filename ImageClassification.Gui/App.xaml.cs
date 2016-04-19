@@ -9,7 +9,7 @@ namespace Wkiro.ImageClassification.Gui
         public App()
         {
             Startup += OnAppStartup;
-        }
+        }    
 
         private void OnAppStartup(object sender, StartupEventArgs e)
         {

@@ -1,4 +1,6 @@
-﻿using Wkiro.ImageClassification.Core.Models.Configurations;
+﻿using System.Collections.ObjectModel;
+using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -25,5 +27,27 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
         }
         private string _outputTextBoxContent;
+
+        public ObservableCollection<Category> AvailableCategories
+        {
+            get { return _availableCategories; }
+            set
+            {
+                _availableCategories = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<Category> _availableCategories;
+
+        public ObservableCollection<Category> SelectedCategories
+        {
+            get { return _selectedCategories; }
+            set
+            {
+                _selectedCategories = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<Category> _selectedCategories;
     }
 }

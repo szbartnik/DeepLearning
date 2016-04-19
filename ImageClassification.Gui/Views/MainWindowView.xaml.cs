@@ -21,6 +21,8 @@ namespace Wkiro.ImageClassification.Gui.Views
         {
             LogTextBox.CaretIndex = LogTextBox.Text.Length;
             LogTextBox.ScrollToEnd();
+
+            var x = Math.PI / 3;
         }
 
         public void Run()

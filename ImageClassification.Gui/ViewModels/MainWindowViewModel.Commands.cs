@@ -10,13 +10,17 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
     public partial class MainWindowViewModel
     {
         public RelayCommand BrowseForTrainFilesPathCommand { get; set; }
+        public RelayCommand ConfigureNewTrainingCommand { get; set; }
         public RelayCommand LoadTrainingDataCommand { get; set; }
 		public RelayCommand UseMNISTDatasetDataCommand { get; set; }
+        public RelayCommand SelectedCategoriesChangedCommand { get; set; }
 
 		private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
+            ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadTrainingDataCommand = new RelayCommand(LoadTrainingData);
+            SelectedCategoriesChangedCommand = new RelayCommand(SelectedCategoriesChanged);
 			UseMNISTDatasetDataCommand = new RelayCommand(UseMNISTDataset);
 
 		}
@@ -68,5 +72,10 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 			DataProviderConfiguration.CropHeight = 28;
 
 		}
-	}
+
+        private void SelectedCategoriesChanged()
+        {
+
+        }
+    }
 }
