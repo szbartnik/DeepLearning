@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
@@ -12,10 +13,15 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase, ILogger
     {
+        private LearningFacade _learningFacade;
+
         public MainWindowViewModel(bool isNotDesignMode)
         {
             InitializeCommands();
+        }
 
+        private void InitializeLearningFacade()
+        {
             DataProviderConfiguration = new DataProviderConfiguration
             {
                 CropWidth = 300,
@@ -23,17 +29,17 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 ProcessingWidth = 30,
                 ProcessingHeight = 20,
                 TrainFilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
-                FileExtensions = new[] {"jpg"},
+                FileExtensions = new[] { "jpg" },
                 TrainDataRatio = 0.8,
             };
 
-            AvailableCategories = new ObservableCollection<Category>
-            {
-                new Category(0, "Test cat 1", @"C:\FakePath1\", new FileInfo[] {}),
-                new Category(0, "Test cat 2", @"C:\FakePath2\", new FileInfo[] {}),
-                new Category(0, "Test cat 3", @"C:\FakePath3\", new FileInfo[] {}),
-                new Category(0, "Test cat 4", @"C:\FakePath4\", new FileInfo[] {}),
-            };
+            _learningFacade = new LearningFacade(DataProviderConfiguration, this);
+        }
+
+        private void ConfigureNewTraining()
+        {
+            InitializeLearningFacade();
+            AvailableCategories = new ObservableCollection<Category>(_learningFacade.GetAvailableCategories());
         }
 
         private void LoadTrainingData()

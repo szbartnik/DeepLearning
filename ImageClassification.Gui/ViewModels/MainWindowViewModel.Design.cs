@@ -2,6 +2,7 @@
 using System.IO;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -27,6 +28,9 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 new Category(0, "Test cat 3", @"C:\FakePath3\", new FileInfo[] {}),
                 new Category(0, "Test cat 4", @"C:\FakePath4\", new FileInfo[] {}),
             };
+
+            SelectedCategories = new ObservableCollection<Category>(new []{ AvailableCategories[1], AvailableCategories[2]});
         }
+
     }
 }

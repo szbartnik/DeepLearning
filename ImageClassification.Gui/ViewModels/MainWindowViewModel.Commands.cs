@@ -9,12 +9,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
     public partial class MainWindowViewModel
     {
         public RelayCommand BrowseForTrainFilesPathCommand { get; set; }
+        public RelayCommand ConfigureNewTrainingCommand { get; set; }
         public RelayCommand LoadTrainingDataCommand { get; set; }
+        public RelayCommand SelectedCategoriesChangedCommand { get; set; }
 
         private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
+            ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadTrainingDataCommand = new RelayCommand(LoadTrainingData);
+            SelectedCategoriesChangedCommand = new RelayCommand(SelectedCategoriesChanged);
         }
 
         private void BrowseForTrainFilesPath()
@@ -32,6 +36,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             if (dialog.ShowDialog() == DialogResult.OK)
                 _dataProviderConfiguration.TrainFilesLocationPath = dialog.SelectedPath;
+        }
+
+        private void SelectedCategoriesChanged()
+        {
+
         }
     }
 }
