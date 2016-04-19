@@ -17,7 +17,7 @@ namespace Wkiro.ImageClassification.Gui.Helpers
         {
             var toReturn = new Dictionary<string, string>();
 
-            foreach (var enumerateFile in DirNames.SelectMany(x => Directory.GetFiles(x, "*.dll", SearchOption.AllDirectories)))
+            foreach (var enumerateFile in DirNames.Where(Directory.Exists).SelectMany(x => Directory.GetFiles(x, "*.dll", SearchOption.AllDirectories)))
             {
                 try
                 {

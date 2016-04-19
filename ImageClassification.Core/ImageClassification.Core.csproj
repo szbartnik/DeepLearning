@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wkiro.ImageClassification.Core</RootNamespace>
     <AssemblyName>ImageClassification.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -107,7 +107,7 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>cd $(TargetDir)
-if $(ConfigurationName) ==remo Release (
+if $(ConfigurationName) == Release (
 del *.pdb
 del *.xml
 )</PostBuildEvent>
