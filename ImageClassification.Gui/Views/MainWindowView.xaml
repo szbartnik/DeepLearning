@@ -9,12 +9,12 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
                       Title="Images Classification"
-                      Width="800"
-                      Height="600"
+                      Width="815"
+                      Height="700"
+                      MinWidth="815"
+                      MinHeight="700"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
-                      d:DesignHeight="300"
-                      d:DesignWidth="300"
                       mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="Caption1" TargetType="TextBlock">
@@ -23,12 +23,13 @@
             <Setter Property="Margin" Value="0 3" />
         </Style>
         <converters:ListOfStringsToStringConverter x:Key="ListOfStringsToStringConverter" />
+        <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="220" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -212,8 +213,15 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Training 1 parameters (unsupervised)">
+            <GroupBox Header="Neural network settings">
+                <StackPanel>
+                    <TextBlock Text="Layers configuration" />
+                    <TextBox Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Tr. #1 params (unsupervised)">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
                     <TextBox Text="{Binding Training1Parameters.LearningRate}" />
@@ -225,7 +233,7 @@
                     <TextBox Text="{Binding Training1Parameters.Decay}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Training 2 parameters (supervised)">
+            <GroupBox Grid.Column="2" Header="Tr. #2 params (supervised)">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
                     <TextBox Text="{Binding Training2Parameters.LearningRate}" />
@@ -235,13 +243,16 @@
                     <TextBox Text="{Binding Training2Parameters.SupervisedEpochs}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="2" Header="Categories">
-                <helpers:BindableListBox ItemsSource="{Binding AvailableCategories}"
-                                         SelectedItemsList="{Binding SelectedCategories}"
+            <GroupBox Grid.Column="3" Header="Categories">
+                <helpers:BindableListBox x:Name="CategoriesListBox"
+                                         ItemsSource="{Binding AvailableCategories}"
+                                         SelectedItemsList="{Binding SelectedCategories,
+                                                                     UpdateSourceTrigger=PropertyChanged,
+                                                                     Mode=TwoWay}"
                                          SelectionMode="Multiple">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedCategoriesChangedCommand}" />
+                            <i:InvokeCommandAction Command="{Binding SelectedCategoriesChangedCommand}" CommandParameter="{Binding ElementName=CategoriesListBox, Path=SelectedItems}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <helpers:BindableListBox.ItemTemplate>
@@ -254,7 +265,11 @@
         </Grid>
 
         <!--  Classify settings  -->
-        <Grid Grid.Row="3" />
+        <Grid Grid.Row="3">
+            <StackPanel>
+                <Button Command="{Binding StartTrainingCommand}" Content="Start training" />
+            </StackPanel>
+        </Grid>
 
         <!--  Log box  -->
         <Grid Grid.Row="4">

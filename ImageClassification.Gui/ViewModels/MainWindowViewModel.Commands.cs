@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
@@ -11,14 +16,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand BrowseForTrainFilesPathCommand { get; set; }
         public RelayCommand ConfigureNewTrainingCommand { get; set; }
         public RelayCommand LoadTrainingDataCommand { get; set; }
-        public RelayCommand SelectedCategoriesChangedCommand { get; set; }
+        public RelayCommand<object> SelectedCategoriesChangedCommand { get; set; }
+        public RelayCommand StartTrainingCommand { get; set; }
 
         private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
             ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadTrainingDataCommand = new RelayCommand(LoadTrainingData);
-            SelectedCategoriesChangedCommand = new RelayCommand(SelectedCategoriesChanged);
+            SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
+            StartTrainingCommand = new RelayCommand(StartTraining);
         }
 
         private void BrowseForTrainFilesPath()
@@ -38,9 +45,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 _dataProviderConfiguration.TrainFilesLocationPath = dialog.SelectedPath;
         }
 
-        private void SelectedCategoriesChanged()
+        private void SelectedCategoriesChanged(object categories)
         {
-
+            var casted = (IList) categories;
+            var casted2 = casted.Cast<Category>();
+            SelectedCategories = new ObservableCollection<Category>(casted2);
         }
     }
 }

@@ -2,7 +2,7 @@ using Wkiro.ImageClassification.Core.Models.Configurations;
 
 namespace Wkiro.ImageClassification.Gui.Configuration
 {
-    internal class ConfigurationManager : IConfigurationManager
+    internal class HardcodedConfigurationManager : IConfigurationManager
     {
         public DataProviderConfiguration GetInitialDataProviderConfiguration()
         {
@@ -18,6 +18,14 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             };
 
             return initialDataProviderConfiguration;
+        }
+
+        public TrainerConfiguration GetInitialTrainerConfiguration()
+        {
+            return new TrainerConfiguration
+            {
+                Layers = new[] {600, 400, 5, 5},
+            };
         }
 
         public Training1Parameters GetInitialTraining1Parameters()

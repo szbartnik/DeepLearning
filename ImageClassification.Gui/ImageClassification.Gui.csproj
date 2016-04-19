@@ -70,6 +70,7 @@
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Helpers\AssembliesHelper.cs" />
     <Compile Include="Helpers\BindableListBox.cs" />
+    <Compile Include="Helpers\Converters\ListOfIntsToStringConverter.cs" />
     <Compile Include="Helpers\Converters\ListOfStringsToStringConverter.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
     <Compile Include="Infrastructure\ViewModelBase.cs" />
@@ -79,9 +80,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\HardcodedConfigurationManager.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Commands.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.DefaultParams.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Design.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Bindings.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Main.cs" />

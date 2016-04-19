@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Wkiro.ImageClassification.Core.Engines;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
@@ -23,28 +24,31 @@ namespace Wkiro.ImageClassification.Core.Facades
             return _dataProvider.GetAvailableCategories();
         }
 
-        public ClassifierFacade RunTrainingForSelectedCategories(TrainingParameters trainingParameters)
+        public async Task<ClassifierFacade> RunTrainingForSelectedCategoriesAsync(TrainingParameters trainingParameters)
         {
-            var learningSet = _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories.ToList());
-
-            var trainer = new Trainer(new TrainerConfiguration
+            return await Task.Run(() =>
             {
-                Layers = trainingParameters.Layers,
-                InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
-            }, _logger);
+                var learningSet = _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories.ToList());
 
-            trainer.RunTraining1(trainingParameters.Training1Parameters);
-            trainer.RunTraining2(trainingParameters.Training2Parameters);
+                var trainer = new Trainer(new TrainerConfiguration
+                {
+                    Layers = trainingParameters.Layers,
+                    InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
+                }, _logger);
 
-            trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
+                trainer.RunTraining1(trainingParameters.Training1Parameters);
+                trainer.RunTraining2(trainingParameters.Training2Parameters);
 
-            var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
-            {
-                Categories = trainingParameters.SelectedCategories,
-            }, _logger);
+                trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
 
-            var classifierFacade = new ClassifierFacade(_dataProvider, classifier);
-            return classifierFacade;
+                var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
+                {
+                    Categories = trainingParameters.SelectedCategories,
+                }, _logger);
+
+                var classifierFacade = new ClassifierFacade(_dataProvider, classifier);
+                return classifierFacade;
+            });
         }       
     }
 }

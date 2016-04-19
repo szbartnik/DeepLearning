@@ -7,5 +7,6 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         DataProviderConfiguration GetInitialDataProviderConfiguration();
         Training1Parameters GetInitialTraining1Parameters();
         Training2Parameters GetInitialTraining2Parameters();
+        TrainerConfiguration GetInitialTrainerConfiguration();
     }
 }

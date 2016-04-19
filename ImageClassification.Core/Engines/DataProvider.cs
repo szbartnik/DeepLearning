@@ -36,7 +36,6 @@ namespace Wkiro.ImageClassification.Core.Engines
                 var filesOfCategory = GetFilesOfCategoryFolder(categoryDirectoryInfo);
 
                 var category = new Category(
-                    index:      i,
                     name:       categoryDirectoryInfo.Name,
                     fullPath:   categoryFolderPath,
                     files:      filesOfCategory);

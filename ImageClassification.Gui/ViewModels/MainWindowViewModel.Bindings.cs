@@ -17,6 +17,17 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         }
         private DataProviderConfiguration _dataProviderConfiguration;
 
+        public TrainerConfiguration TrainerConfiguration
+        {
+            get { return _trainerConfiguration; }
+            set
+            {
+                _trainerConfiguration = value;
+                OnPropertyChanged();
+            }
+        }
+        private TrainerConfiguration _trainerConfiguration;
+
         public Training1Parameters Training1Parameters
         {
             get { return _training1Parameters; }
