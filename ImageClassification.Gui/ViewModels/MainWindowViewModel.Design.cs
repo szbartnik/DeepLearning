@@ -1,4 +1,5 @@
-﻿using Wkiro.ImageClassification.Core.Models.Configurations;
+﻿using System;
+using Wkiro.ImageClassification.Core.Models.Configurations;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -8,7 +9,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         {
             DataProviderConfiguration = new DataProviderConfiguration
             {
-                TrainFilesLocationPath = @"C:\Users\User\file.dat",
+                TrainFilesLocationPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 CropHeight = 123,
                 CropWidth = 456,
                 ProcessingHeight = 789,

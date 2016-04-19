@@ -110,7 +110,7 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (predicted == actual)
                     correctnessFactor++;
 
-                _logger.LogWriteLine($"predicted: {predicted} actual: {actual}");
+                _logger.LogWriteLine($"Predicted: {predicted} Actual: {actual}");
             }
 
             _logger.LogWriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");

@@ -187,6 +187,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
+				<ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
                     Height="30"
@@ -197,6 +198,11 @@
                     Margin="10"
                     Command="{Binding LoadTrainingDataCommand}"
                     Content="Load training data" />
+			<Button Grid.Column="2"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding UseMNISTDatasetDataCommand}"
+                    Content="Use MNIST dataset" />
         </Grid>
 
         <!--  Training settings  -->
