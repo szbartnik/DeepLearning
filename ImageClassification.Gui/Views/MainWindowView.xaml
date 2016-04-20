@@ -1,0 +1,297 @@
+﻿<controls:MetroWindow x:Class="Wkiro.ImageClassification.Gui.Views.MainWindowView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:converters="clr-namespace:Wkiro.ImageClassification.Gui.Helpers.Converters"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:helpers="clr-namespace:Wkiro.ImageClassification.Gui.Helpers"
+                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
+                      Title="Images Classification"
+                      Width="815"
+                      Height="700"
+                      MinWidth="815"
+                      MinHeight="700"
+                      d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
+                                                       IsDesignTimeCreatable=True}"
+                      mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="Caption1" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Margin" Value="0 3" />
+        </Style>
+        <converters:ListOfStringsToStringConverter x:Key="ListOfStringsToStringConverter" />
+        <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="220" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  General options  -->
+        <GroupBox Header="General options" Padding="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="18" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <!--  Train files location path  -->
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Style="{StaticResource Caption1}"
+                           Text="Train files location path" />
+
+                <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Margin="0 0 5 0"
+                             VerticalAlignment="Stretch"
+                             VerticalContentAlignment="Center"
+                             IsReadOnly="True"
+                             Text="{Binding DataProviderConfiguration.TrainFilesLocationPath}" />
+                    <Button Grid.Column="1"
+                            Command="{Binding BrowseForTrainFilesPathCommand}"
+                            Content="Browse"
+                            Padding="10 3" />
+                </Grid>
+
+                <!--  File extensions  -->
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Style="{StaticResource Caption1}"
+                           Text="File extensions" />
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="2"
+                         Margin="0 2 0 0"
+                         VerticalAlignment="Center"
+                         VerticalContentAlignment="Center"
+                         Text="{Binding DataProviderConfiguration.FileExtensions,
+                                        Converter={StaticResource ListOfStringsToStringConverter}}" />
+
+                <!--  Train data ratio  -->
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Style="{StaticResource Caption1}"
+                           Text="Train data ratio" />
+
+                <Grid Grid.Row="2" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0 0 8 0"
+                               VerticalAlignment="Center"
+                               Text="Test" />
+                    <Slider x:Name="TrainDataRatioSlider"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            IsSnapToTickEnabled="True"
+                            Maximum="1"
+                            Minimum="0"
+                            TickFrequency="0.1"
+                            Value="{Binding DataProviderConfiguration.TrainDataRatio}" />
+                    <TextBlock Grid.Column="2"
+                               Margin="8 0 15 0"
+                               VerticalAlignment="Center"
+                               Text="Train" />
+                    <TextBlock Grid.Column="3"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="{Binding ElementName=TrainDataRatioSlider,
+                                              Path=Value,
+                                              StringFormat={}{0:F1}}" />
+                </Grid>
+
+                <!--  Crop dimensions  -->
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Style="{StaticResource Caption1}"
+                           Text="Crop dimensions" />
+
+                <Grid Grid.Row="3" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Margin="0 0 5 0"
+                               VerticalAlignment="Center"
+                               Text="Width:" />
+                    <TextBox Grid.Column="1"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding DataProviderConfiguration.CropWidth}" />
+                    <TextBlock Grid.Column="2"
+                               Margin="5 0 5 0"
+                               VerticalAlignment="Center"
+                               Text="Height:" />
+                    <TextBox Grid.Column="3"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding DataProviderConfiguration.CropHeight}" />
+                </Grid>
+
+                <!--  Processing dimensions  -->
+                <TextBlock Grid.Row="4"
+                           Grid.Column="0"
+                           Style="{StaticResource Caption1}"
+                           Text="Processing dimensions" />
+
+                <Grid Grid.Row="4" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"
+                               Margin="0 0 5 0"
+                               VerticalAlignment="Center"
+                               Text="Width:" />
+                    <TextBox Grid.Column="1"
+                             Margin="0 2 0 0"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding DataProviderConfiguration.ProcessingWidth}" />
+                    <TextBlock Grid.Column="2"
+                               Margin="5 0 5 0"
+                               VerticalAlignment="Center"
+                               Text="Height:" />
+                    <TextBox Grid.Column="3"
+                             Margin="0 2 0 0"
+                             VerticalAlignment="Center"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding DataProviderConfiguration.ProcessingHeight}" />
+                </Grid>
+
+            </Grid>
+        </GroupBox>
+
+        <!--  Training/load selection panel  -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding ConfigureNewTrainingCommand}"
+                    Content="Configure new training" />
+            <Button Grid.Column="1"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding LoadTrainingDataCommand}"
+                    Content="Load training data" />
+        </Grid>
+
+        <!--  Training settings  -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="Neural network settings">
+                <StackPanel>
+                    <TextBlock Text="Layers configuration" />
+                    <TextBox Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="1" Header="Tr. #1 params (unsupervised)">
+                <StackPanel>
+                    <TextBlock Text="Learning rate" />
+                    <TextBox Text="{Binding Training1Parameters.LearningRate}" />
+                    <TextBlock Text="Momentum" />
+                    <TextBox Text="{Binding Training1Parameters.Momentum}" />
+                    <TextBlock Text="Unsupervised Epochs" />
+                    <TextBox Text="{Binding Training1Parameters.UnsupervisedEpochs}" />
+                    <TextBlock Text="Decay" />
+                    <TextBox Text="{Binding Training1Parameters.Decay}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="2" Header="Tr. #2 params (supervised)">
+                <StackPanel>
+                    <TextBlock Text="Learning rate" />
+                    <TextBox Text="{Binding Training2Parameters.LearningRate}" />
+                    <TextBlock Text="Momentum" />
+                    <TextBox Text="{Binding Training2Parameters.Momentum}" />
+                    <TextBlock Text="Supervised Epochs" />
+                    <TextBox Text="{Binding Training2Parameters.SupervisedEpochs}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Column="3" Header="Categories">
+                <helpers:BindableListBox x:Name="CategoriesListBox"
+                                         ItemsSource="{Binding AvailableCategories}"
+                                         SelectedItemsList="{Binding SelectedCategories,
+                                                                     UpdateSourceTrigger=PropertyChanged,
+                                                                     Mode=TwoWay}"
+                                         SelectionMode="Multiple">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedCategoriesChangedCommand}" CommandParameter="{Binding ElementName=CategoriesListBox, Path=SelectedItems}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <helpers:BindableListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </helpers:BindableListBox.ItemTemplate>
+                </helpers:BindableListBox>
+            </GroupBox>
+        </Grid>
+
+        <!--  Classify settings  -->
+        <Grid Grid.Row="3">
+            <StackPanel>
+                <Button Width="200"
+                        Height="40"
+                        Margin="10"
+                        Command="{Binding StartTrainingCommand}"
+                        Content="Start training"
+                        FontSize="18" />
+                <Button Width="200"
+                        Height="40"
+                        Margin="10"
+                        Command="{Binding ClassifyImageCommand}"
+                        Content="Classify image"
+                        FontSize="18" />
+            </StackPanel>
+        </Grid>
+
+        <!--  Log box  -->
+        <Grid Grid.Row="4">
+            <GroupBox Header="Output" Padding="3">
+                <TextBox x:Name="LogTextBox"
+                         IsReadOnly="True"
+                         Text="{Binding OutputTextBoxContent}"
+                         TextChanged="OnLogTextBoxTextChanged"
+                         VerticalScrollBarVisibility="Auto" />
+            </GroupBox>
+        </Grid>
+    </Grid>
+</controls:MetroWindow>
+
