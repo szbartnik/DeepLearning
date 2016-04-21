@@ -222,7 +222,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             var date = DateTime.Now.ToString("HH:mm:ss.fff");
             var separator = Enumerable.Repeat(separatorPattern, separatorPatternMultiplier).Aggregate((x, y) => x + y);
 
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current?.Dispatcher.Invoke(() =>
             {
                 OutputTextBoxContent += $"{date}\n{logMessage}\n{separator}\n";
             });

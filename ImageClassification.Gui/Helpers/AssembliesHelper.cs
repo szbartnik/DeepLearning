@@ -22,7 +22,11 @@ namespace Wkiro.ImageClassification.Gui.Helpers
 			{
 				try
 				{
-					toReturn.Add(AssemblyName.GetAssemblyName(enumerateFile).FullName, Path.GetFullPath(enumerateFile));
+				    var assemblyName = AssemblyName.GetAssemblyName(enumerateFile);
+                    var path = Path.GetFullPath(enumerateFile);
+
+                    toReturn.Add(assemblyName.FullName, path);
+				    AppDomain.CurrentDomain.Load(assemblyName);
 				}
 				catch { /* ignore native files */ }
 			}
