@@ -17,7 +17,7 @@
                                                        IsDesignTimeCreatable=True}"
                       mc:Ignorable="d">
     <Window.Resources>
-        <Style x:Key="Caption1" TargetType="TextBlock">
+        <Style x:Key="CaptionStyle" TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="15" />
             <Setter Property="Margin" Value="0 3" />
@@ -53,7 +53,7 @@
                 <!--  Train files location path  -->
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Style="{StaticResource Caption1}"
+                           Style="{StaticResource CaptionStyle}"
                            Text="Train files location path" />
 
                 <Grid Grid.Row="0" Grid.Column="2">
@@ -75,7 +75,7 @@
                 <!--  File extensions  -->
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Style="{StaticResource Caption1}"
+                           Style="{StaticResource CaptionStyle}"
                            Text="File extensions" />
 
                 <TextBox Grid.Row="1"
@@ -83,13 +83,14 @@
                          Margin="0 2 0 0"
                          VerticalAlignment="Center"
                          VerticalContentAlignment="Center"
+                         controls:TextBoxHelper.Watermark="i.e. jpg; png; gif"
                          Text="{Binding DataProviderConfiguration.FileExtensions,
                                         Converter={StaticResource ListOfStringsToStringConverter}}" />
 
                 <!--  Train data ratio  -->
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
-                           Style="{StaticResource Caption1}"
+                           Style="{StaticResource CaptionStyle}"
                            Text="Train data ratio" />
 
                 <Grid Grid.Row="2" Grid.Column="2">
@@ -108,7 +109,7 @@
                             IsSnapToTickEnabled="True"
                             Maximum="1"
                             Minimum="0"
-                            TickFrequency="0.1"
+                            TickFrequency="0.01"
                             Value="{Binding DataProviderConfiguration.TrainDataRatio}" />
                     <TextBlock Grid.Column="2"
                                Margin="8 0 15 0"
@@ -119,13 +120,13 @@
                                VerticalAlignment="Center"
                                Text="{Binding ElementName=TrainDataRatioSlider,
                                               Path=Value,
-                                              StringFormat={}{0:F1}}" />
+                                              StringFormat={}{0:F2}}" />
                 </Grid>
 
                 <!--  Crop dimensions  -->
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
-                           Style="{StaticResource Caption1}"
+                           Style="{StaticResource CaptionStyle}"
                            Text="Crop dimensions" />
 
                 <Grid Grid.Row="3" Grid.Column="2">
@@ -156,7 +157,7 @@
                 <!--  Processing dimensions  -->
                 <TextBlock Grid.Row="4"
                            Grid.Column="0"
-                           Style="{StaticResource Caption1}"
+                           Style="{StaticResource CaptionStyle}"
                            Text="Processing dimensions" />
 
                 <Grid Grid.Row="4" Grid.Column="2">
@@ -218,7 +219,7 @@
             <GroupBox Header="Neural network settings">
                 <StackPanel>
                     <TextBlock Text="Layers configuration" />
-                    <TextBox Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+                    <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Tr. #1 params (unsupervised)">
