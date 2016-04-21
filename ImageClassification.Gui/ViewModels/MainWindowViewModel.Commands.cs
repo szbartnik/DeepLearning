@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Infrastructure;
 
@@ -15,20 +13,23 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
     {
         public RelayCommand BrowseForTrainFilesPathCommand { get; set; }
         public RelayCommand ConfigureNewTrainingCommand { get; set; }
-        public RelayCommand LoadTrainingDataCommand { get; set; }
+        public RelayCommand LoadSavedNetworkCommand { get; set; }
         public RelayCommand<object> SelectedCategoriesChangedCommand { get; set; }
-        public RelayCommand StartTrainingCommand { get; set; }
 
+        public RelayCommand StartTrainingCommand { get; set; }
         public RelayCommand ClassifyImageCommand { get; set; }
+        public RelayCommand SaveNetworkCommand { get; set; }
 
         private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
             ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
-            LoadTrainingDataCommand = new RelayCommand(LoadTrainingData);
+            LoadSavedNetworkCommand = new RelayCommand(LoadSavedNetwork);
             SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
+
             StartTrainingCommand = new RelayCommand(StartTraining);
             ClassifyImageCommand = new RelayCommand(ClassifyImage);
+            SaveNetworkCommand = new RelayCommand(SaveNetwork);
         }
 
         private void BrowseForTrainFilesPath()

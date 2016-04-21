@@ -1,4 +1,6 @@
 ﻿using Wkiro.ImageClassification.Core.Engines;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
+using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core.Facades
@@ -12,6 +14,16 @@ namespace Wkiro.ImageClassification.Core.Facades
         {
             _classifier = classifier;
             _dataProvider = dataProvider;
+        }
+
+        public ClassifierFacade(
+            string savedNetworkPath, 
+            DataProviderConfiguration dataProviderConfiguration, 
+            ClassifierConfiguration classifierConfiguration, 
+            ILogger logger)
+        {
+            _dataProvider = new DataProvider(dataProviderConfiguration);
+            _classifier = new Classifier(savedNetworkPath, classifierConfiguration, logger);
         }
 
         public CategoryClassification ClassifyToCategory(string imageToClassifyPath)

@@ -203,8 +203,8 @@
             <Button Grid.Column="1"
                     Height="30"
                     Margin="10"
-                    Command="{Binding LoadTrainingDataCommand}"
-                    Content="Load training data" />
+                    Command="{Binding LoadSavedNetworkCommand}"
+                    Content="Load saved network" />
         </Grid>
 
         <!--  Training settings  -->
@@ -266,7 +266,7 @@
 
         <!--  Classify settings  -->
         <Grid Grid.Row="3">
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button Width="200"
                         Height="40"
                         Margin="10"
@@ -278,6 +278,12 @@
                         Margin="10"
                         Command="{Binding ClassifyImageCommand}"
                         Content="Classify image"
+                        FontSize="18" />
+                <Button Width="200"
+                        Height="40"
+                        Margin="10"
+                        Command="{Binding SaveNetworkCommand}"
+                        Content="Save network"
                         FontSize="18" />
             </StackPanel>
         </Grid>

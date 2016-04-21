@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Win32;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Configuration;
 using Wkiro.ImageClassification.Gui.Infrastructure;
-using Wkiro.ImageClassification.Gui.Views;
 using Application = System.Windows.Application;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
     public partial class MainWindowViewModel : ViewModelBase, ILogger
     {
+        private const string SavedNetworkFileExtension = "dbn";
+
         private LearningFacade _learningFacade;
         private ClassifierFacade _classifierFacade;
 
@@ -43,10 +41,60 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
         }
 
-        private void LoadTrainingData()
+        #region Load / save network
+
+        private void LoadSavedNetwork()
         {
-            
+            var fileDialog = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                Title = "Load network from selected save file",
+                Multiselect = false,
+                RestoreDirectory = true,
+                DefaultExt = SavedNetworkFileExtension,
+                AddExtension = true,
+                Filter = $"Deep network file (*.{SavedNetworkFileExtension})|*.{SavedNetworkFileExtension}",
+            };
+
+            if (fileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var fileName = fileDialog.FileName;
+            var classifierConfiguration = new ClassifierConfiguration
+            {
+                Categories = SelectedCategories,
+            };
+
+            _classifierFacade = new ClassifierFacade(
+                savedNetworkPath:          fileName, 
+                dataProviderConfiguration: _dataProviderConfiguration, 
+                classifierConfiguration:   classifierConfiguration, 
+                logger:                    this);
         }
+
+        private void SaveNetwork()
+        {
+            var dateTimeFormatted = DateTime.Now.ToString("yyyyMMdd.HHmmss");
+
+            var fileDialog = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
+                Title = "Save trained network file",
+                RestoreDirectory = true,
+                AddExtension = true,
+                Filter = $"Deep network file (*.{SavedNetworkFileExtension})|*.{SavedNetworkFileExtension}",
+                DefaultExt = SavedNetworkFileExtension,
+                FileName = $"Deep_{dateTimeFormatted}.{SavedNetworkFileExtension}",
+            };
+
+            if (fileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var fileName = fileDialog.FileName;
+            _classifierFacade.SaveClassifier(fileName);
+        }
+
+        #endregion
 
         private async void StartTraining()
         {
@@ -76,16 +124,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 Title = "Select file to classify",
                 Multiselect = false,
+                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif",
                 RestoreDirectory = true,
             };
-            var result = fileDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                var fileName = fileDialog.FileName;
-                var classification = _classifierFacade.ClassifyToCategory(fileName);
-                LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
-            }
 
+            if (fileDialog.ShowDialog() != DialogResult.OK)
+                return;
+
+            var fileName = fileDialog.FileName;
+            var classification = _classifierFacade.ClassifyToCategory(fileName);
+            LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
         }
 
         public void LogWriteLine(string logMessage)
