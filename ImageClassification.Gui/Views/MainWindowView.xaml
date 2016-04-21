@@ -45,8 +45,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="2" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
@@ -87,42 +86,6 @@
                          Text="{Binding DataProviderConfiguration.FileExtensions,
                                         Converter={StaticResource ListOfStringsToStringConverter}}" />
 
-                <!--  Train data ratio  -->
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Style="{StaticResource CaptionStyle}"
-                           Text="Train data ratio" />
-
-                <Grid Grid.Row="2" Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Margin="0 0 8 0"
-                               VerticalAlignment="Center"
-                               Text="Test" />
-                    <Slider x:Name="TrainDataRatioSlider"
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            IsSnapToTickEnabled="True"
-                            Maximum="1"
-                            Minimum="0"
-                            TickFrequency="0.01"
-                            Value="{Binding DataProviderConfiguration.TrainDataRatio}" />
-                    <TextBlock Grid.Column="2"
-                               Margin="8 0 15 0"
-                               VerticalAlignment="Center"
-                               Text="Train" />
-                    <TextBlock Grid.Column="3"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Text="{Binding ElementName=TrainDataRatioSlider,
-                                              Path=Value,
-                                              StringFormat={}{0:F2}}" />
-                </Grid>
-
                 <!--  Crop dimensions  -->
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
@@ -153,40 +116,6 @@
                              VerticalContentAlignment="Center"
                              Text="{Binding DataProviderConfiguration.CropHeight}" />
                 </Grid>
-
-                <!--  Processing dimensions  -->
-                <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           Style="{StaticResource CaptionStyle}"
-                           Text="Processing dimensions" />
-
-                <Grid Grid.Row="4" Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0"
-                               Margin="0 0 5 0"
-                               VerticalAlignment="Center"
-                               Text="Width:" />
-                    <TextBox Grid.Column="1"
-                             Margin="0 2 0 0"
-                             VerticalAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.ProcessingWidth}" />
-                    <TextBlock Grid.Column="2"
-                               Margin="5 0 5 0"
-                               VerticalAlignment="Center"
-                               Text="Height:" />
-                    <TextBox Grid.Column="3"
-                             Margin="0 2 0 0"
-                             VerticalAlignment="Center"
-                             VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.ProcessingHeight}" />
-                </Grid>
-
             </Grid>
         </GroupBox>
 
@@ -216,10 +145,74 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Neural network settings">
+            <GroupBox Header="Global training settings">
                 <StackPanel>
+                    <!--  Layers configuration  -->
                     <TextBlock Text="Layers configuration" />
                     <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+
+                    <!--  Train data ratio  -->
+                    <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+                        <TextBlock Margin="0 0 4 0" Text="Train data ratio" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Text="{Binding ElementName=TrainDataRatioSlider,
+                                                  Path=Value,
+                                                  StringFormat={}({0:F2})}" />
+                    </StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0 0 8 0"
+                                   VerticalAlignment="Center"
+                                   Text="Test" />
+                        <Slider x:Name="TrainDataRatioSlider"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                IsSnapToTickEnabled="True"
+                                Maximum="1"
+                                Minimum="0"
+                                TickFrequency="0.01"
+                                Value="{Binding DataProviderConfiguration.TrainDataRatio}" />
+                        <TextBlock Grid.Column="2"
+                                   Margin="8 0 0 0"
+                                   VerticalAlignment="Center"
+                                   Text="Train" />
+                    </Grid>
+
+                    <!--  Processing dimensions  -->
+                    <TextBlock Margin="0 10 0 0" Text="Processing dimensions" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0 0 5 0"
+                                   VerticalAlignment="Center"
+                                   Text="Width:" />
+                        <TextBox Grid.Column="1"
+                                 Margin="0 2 0 0"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding DataProviderConfiguration.ProcessingWidth}" />
+                        <TextBlock Grid.Column="2"
+                                   Margin="5 0 5 0"
+                                   VerticalAlignment="Center"
+                                   Text="Height:" />
+                        <TextBox Grid.Column="3"
+                                 Margin="0 2 0 0"
+                                 VerticalAlignment="Center"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding DataProviderConfiguration.ProcessingHeight}" />
+                    </Grid>
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Tr. #1 params (unsupervised)">
