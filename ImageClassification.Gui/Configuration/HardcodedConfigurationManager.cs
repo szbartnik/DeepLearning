@@ -10,21 +10,22 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             {
                 CropWidth = 300,
                 CropHeight = 200,
-                ProcessingWidth = 30,
-                ProcessingHeight = 20,
+                
                 TrainFilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
                 FileExtensions = new[] { "jpg" },
-                TrainDataRatio = 0.8,
             };
 
             return initialDataProviderConfiguration;
         }
 
-        public TrainerConfiguration GetInitialTrainerConfiguration()
+        public GlobalTrainerConfiguration GetInitialGlobalTrainerConfiguration()
         {
-            return new TrainerConfiguration
+            return new GlobalTrainerConfiguration
             {
                 Layers = new[] {600, 400, 2, 2},
+                ProcessingWidth = 30,
+                ProcessingHeight = 20,
+                TrainDataRatio = 0.8,
             };
         }
 

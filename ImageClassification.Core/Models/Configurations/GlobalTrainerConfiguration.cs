@@ -1,54 +1,55 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Wkiro.ImageClassification.Core.Annotations;
 
 namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
-    public class DataProviderConfiguration : INotifyPropertyChanged
+    public class GlobalTrainerConfiguration : INotifyPropertyChanged
     {
-        private string _trainFilesLocationPath;
-        private string[] _fileExtensions;
-        
-        private int _cropWidth;
-        private int _cropHeight;
+        public int[] Layers
+        {
+            get { return _layers; }
+            set
+            {
+                if (Equals(value, _layers)) return;
+                _layers = value;
+                OnPropertyChanged();
+            }
+        }
+        private int[] _layers;
 
-        public string TrainFilesLocationPath
+        public double TrainDataRatio
         {
-            get { return _trainFilesLocationPath; }
+            get { return _trainDataRatio; }
             set
             {
-                _trainFilesLocationPath = value;
+                _trainDataRatio = value;
                 OnPropertyChanged();
             }
         }
-        public string[] FileExtensions
+        private double _trainDataRatio;
+
+        public int ProcessingWidth
         {
-            get { return _fileExtensions; }
+            get { return _processingWidth; }
             set
             {
-                _fileExtensions = value;
+                _processingWidth = value;
                 OnPropertyChanged();
             }
         }
-        
-        public int CropWidth
+        private int _processingWidth;
+
+        public int ProcessingHeight
         {
-            get { return _cropWidth; }
+            get { return _processingHeight; }
             set
             {
-                _cropWidth = value;
+                _processingHeight = value;
                 OnPropertyChanged();
             }
         }
-        public int CropHeight
-        {
-            get { return _cropHeight; }
-            set
-            {
-                _cropHeight = value;
-                OnPropertyChanged();
-            }
-        }
+        private int _processingHeight;
 
         #region Property changed stuff
 

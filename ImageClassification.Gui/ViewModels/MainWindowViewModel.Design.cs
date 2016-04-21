@@ -13,7 +13,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             var configurationManager = new HardcodedConfigurationManager();
 
             DataProviderConfiguration = configurationManager.GetInitialDataProviderConfiguration();
-            TrainerConfiguration = configurationManager.GetInitialTrainerConfiguration();
+            GlobalTrainerConfiguration = configurationManager.GetInitialGlobalTrainerConfiguration();
             Training1Parameters = configurationManager.GetInitialTraining1Parameters();
             Training2Parameters = configurationManager.GetInitialTraining2Parameters();
 

@@ -11,23 +11,27 @@ namespace Wkiro.ImageClassification.Core.Engines
 {
     internal class DataProvider
     {
-        private readonly DataProviderConfiguration _configuration;
+        private readonly DataProviderConfiguration _dataProviderconfiguration;
+        private readonly GlobalTrainerConfiguration _globalTrainerConfiguration;
         private readonly ImageToArray _imageToArray;
-        private readonly ArrayToImage _arrayToImage;
 
-        public DataProvider(DataProviderConfiguration configuration)
+        public DataProvider(DataProviderConfiguration dataProviderconfiguration)
         {
-            _configuration = configuration;
+            _dataProviderconfiguration = dataProviderconfiguration;
             _imageToArray = new ImageToArray(min: 0, max: 1);
-            _arrayToImage = new ArrayToImage(
-                configuration.ProcessingWidth, 
-                configuration.ProcessingHeight, 
-                min: 0.0, max: 1.0);
+        }
+
+        public DataProvider(
+            DataProviderConfiguration dataProviderConfiguration,
+            GlobalTrainerConfiguration globalTrainerConfiguration)
+            : this(dataProviderConfiguration)
+        {
+            _globalTrainerConfiguration = globalTrainerConfiguration;
         }
 
         public IEnumerable<Category> GetAvailableCategories()
         {
-            var filesLocationPath = _configuration.TrainFilesLocationPath;
+            var filesLocationPath = _dataProviderconfiguration.TrainFilesLocationPath;
             var categoriesFolders = Directory.GetDirectories(filesLocationPath);
 
             var itemCategoryEntries = categoriesFolders.Select((categoryFolderPath, i) =>
@@ -62,7 +66,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         private LearningSet SplitOnTrainAndTest(InputsOutputsData inputOutputsData)
         {
             var numOfSamples = inputOutputsData.Count;
-            var trainDataRatio = _configuration.TrainDataRatio;
+            var trainDataRatio = _globalTrainerConfiguration.TrainDataRatio;
             var trainSamplesNum = (int)Math.Round(trainDataRatio * numOfSamples);
             var testSamplesNum = numOfSamples - trainSamplesNum;
 
@@ -97,7 +101,9 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private Bitmap ShrinkImage(Image bitmap)
         {
-            var newBitmap = new Bitmap(_configuration.ProcessingWidth, _configuration.ProcessingHeight);
+            var newBitmap = new Bitmap(
+                _globalTrainerConfiguration.ProcessingWidth, 
+                _globalTrainerConfiguration.ProcessingHeight);
 
             var graphics = Graphics.FromImage(newBitmap);
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
@@ -114,11 +120,11 @@ namespace Wkiro.ImageClassification.Core.Engines
             foreach (var file in category.Files)
             {
                 var image = (Bitmap)Image.FromFile(file.FullName, true);
-                if (image.Width < _configuration.CropWidth || image.Height < _configuration.CropHeight)
+                if (image.Width < _dataProviderconfiguration.CropWidth || image.Height < _dataProviderconfiguration.CropHeight)
                     continue;
 
                 // Crop the image
-                image = image.Clone(new Rectangle(0, 0, _configuration.CropWidth, _configuration.CropHeight), image.PixelFormat);
+                image = image.Clone(new Rectangle(0, 0, _dataProviderconfiguration.CropWidth, _dataProviderconfiguration.CropHeight), image.PixelFormat);
 
                 // Downsample the image to save memory
                 var smallImage = ShrinkImage(image);
@@ -141,7 +147,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private FileInfo[] GetFilesOfCategoryFolder(DirectoryInfo categoryDirectory)
         {
-            var filesExtensions = _configuration.FileExtensions;
+            var filesExtensions = _dataProviderconfiguration.FileExtensions;
 
             var files = Enumerable.Empty<FileInfo>();
             foreach (var extension in filesExtensions)

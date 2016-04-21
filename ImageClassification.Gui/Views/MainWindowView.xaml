@@ -149,7 +149,7 @@
                 <StackPanel>
                     <!--  Layers configuration  -->
                     <TextBlock Text="Layers configuration" />
-                    <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding TrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+                    <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding GlobalTrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
 
                     <!--  Train data ratio  -->
                     <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
@@ -177,7 +177,7 @@
                                 Maximum="1"
                                 Minimum="0"
                                 TickFrequency="0.01"
-                                Value="{Binding DataProviderConfiguration.TrainDataRatio}" />
+                                Value="{Binding GlobalTrainerConfiguration.TrainDataRatio}" />
                         <TextBlock Grid.Column="2"
                                    Margin="8 0 0 0"
                                    VerticalAlignment="Center"
@@ -202,7 +202,7 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding DataProviderConfiguration.ProcessingWidth}" />
+                                 Text="{Binding GlobalTrainerConfiguration.ProcessingWidth}" />
                         <TextBlock Grid.Column="2"
                                    Margin="5 0 5 0"
                                    VerticalAlignment="Center"
@@ -211,7 +211,7 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding DataProviderConfiguration.ProcessingHeight}" />
+                                 Text="{Binding GlobalTrainerConfiguration.ProcessingHeight}" />
                     </Grid>
                 </StackPanel>
             </GroupBox>
