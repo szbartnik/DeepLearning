@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Gui.Models;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -83,15 +84,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         }
         private ObservableCollection<Category> _selectedCategories;
 
-        public bool IsProcessing
+        public ProgramState ProgramState
         {
-            get { return _isProcessing; }
+            get { return _programState; }
             set
             {
-                _isProcessing = value;
+                _programState = value; 
                 OnPropertyChanged();
             }
         }
-        private bool _isProcessing;
+        private ProgramState _programState;
+
     }
 }

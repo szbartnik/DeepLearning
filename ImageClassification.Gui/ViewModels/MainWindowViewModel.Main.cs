@@ -8,6 +8,7 @@ using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Configuration;
 using Wkiro.ImageClassification.Gui.Infrastructure;
+using Wkiro.ImageClassification.Gui.Models;
 using Application = System.Windows.Application;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
@@ -27,6 +28,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         {
             _configurationManager = new HardcodedConfigurationManager();
 
+            ProgramState = ProgramState.Initial;
+
             InitializeCommands();
             DataProviderConfiguration = _configurationManager.GetInitialDataProviderConfiguration();
         }
@@ -39,6 +42,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
             AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
+
+            ProgramState = ProgramState.ConfiguringTraining;
         }
 
         #region Load / save network
@@ -70,6 +75,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 dataProviderConfiguration: _dataProviderConfiguration, 
                 classifierConfiguration:   classifierConfiguration, 
                 logger:                    this);
+
+            ProgramState = ProgramState.ClassifierReady;
         }
 
         private void SaveNetwork()
@@ -98,6 +105,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private async void StartTraining()
         {
+            ProgramState = ProgramState.TrainingInProgress;
+
             _learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
             var categories = SelectedCategories.Select((x, i) =>
             {
@@ -114,6 +123,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);
             _classifierFacade = await task;
+
+            ProgramState = ProgramState.ClassifierReady;
         }
 
         private void ClassifyImage()

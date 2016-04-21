@@ -100,6 +100,8 @@ namespace Wkiro.ImageClassification.Core.Engines
         {
             var correctnessFactor = 0;
 
+            var onePercent = testData.Inputs.Length / 100;
+
             for (int i = 0; i < testData.Inputs.Length; i++)
             {
                 var outputValues = _neuralNetwork.Compute(testData.Inputs[i]);
@@ -110,7 +112,8 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (predicted == actual)
                     correctnessFactor++;
 
-                _logger.LogWriteLine($"predicted: {predicted} actual: {actual}");
+                if (i%onePercent == 0)
+                    _logger.LogWriteLine($"Computing correctness: {i * 100 / testData.Inputs.Length}%");
             }
 
             _logger.LogWriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");

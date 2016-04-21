@@ -70,6 +70,8 @@
     <Compile Include="Configuration\IConfigurationManager.cs" />
     <Compile Include="Helpers\AssembliesHelper.cs" />
     <Compile Include="Helpers\BindableListBox.cs" />
+    <Compile Include="Helpers\Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Helpers\Converters\EnumToVisibilityConverter.cs" />
     <Compile Include="Helpers\Converters\ListOfIntsToStringConverter.cs" />
     <Compile Include="Helpers\Converters\ListOfStringsToStringConverter.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />

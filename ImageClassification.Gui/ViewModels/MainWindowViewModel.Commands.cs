@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Infrastructure;
+using Wkiro.ImageClassification.Gui.Models;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -19,6 +20,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand StartTrainingCommand { get; set; }
         public RelayCommand ClassifyImageCommand { get; set; }
         public RelayCommand SaveNetworkCommand { get; set; }
+        public RelayCommand ReconfigureCommand { get; set; }
 
         private void InitializeCommands()
         {
@@ -30,6 +32,12 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             StartTrainingCommand = new RelayCommand(StartTraining);
             ClassifyImageCommand = new RelayCommand(ClassifyImage);
             SaveNetworkCommand = new RelayCommand(SaveNetwork);
+            ReconfigureCommand = new RelayCommand(Reconfigure);
+        }
+
+        private void Reconfigure()
+        {
+            ProgramState = ProgramState.Initial;
         }
 
         private void BrowseForTrainFilesPath()

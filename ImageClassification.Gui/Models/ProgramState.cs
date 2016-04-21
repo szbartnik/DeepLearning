@@ -4,6 +4,7 @@
     {
         Initial,
         ConfiguringTraining,
-
+        TrainingInProgress,
+        ClassifierReady,
     }
 }

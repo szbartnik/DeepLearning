@@ -24,18 +24,24 @@
         </Style>
         <converters:ListOfStringsToStringConverter x:Key="ListOfStringsToStringConverter" />
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
+        <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="220" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!--  General options  -->
-        <GroupBox Header="General options" Padding="5">
+        <GroupBox Header="General options"
+                  IsEnabled="{Binding ProgramState,
+                                      Converter={StaticResource EnumToBooleanConverter},
+                                      ConverterParameter=Initial}"
+                  Padding="5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -120,32 +126,58 @@
         </GroupBox>
 
         <!--  Training/load selection panel  -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1"
+              HorizontalAlignment="Center"
+              IsEnabled="{Binding ProgramState,
+                                  Converter={StaticResource EnumToBooleanConverter},
+                                  ConverterParameter='! TrainingInProgress'}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
+                    Width="200"
                     Height="30"
                     Margin="10"
                     Command="{Binding ConfigureNewTrainingCommand}"
-                    Content="Configure new training" />
+                    Content="Configure new training"
+                    Visibility="{Binding ProgramState,
+                                         Converter={StaticResource EnumToVisibilityConverter},
+                                         ConverterParameter='Initial'}" />
             <Button Grid.Column="1"
+                    Width="200"
                     Height="30"
                     Margin="10"
                     Command="{Binding LoadSavedNetworkCommand}"
-                    Content="Load saved network" />
+                    Content="Load saved network"
+                    Visibility="{Binding ProgramState,
+                                         Converter={StaticResource EnumToVisibilityConverter},
+                                         ConverterParameter='Initial'}" />
+            <Button Grid.Column="2"
+                    Width="200"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding ReconfigureCommand}"
+                    Content="Reconfigure"
+                    Visibility="{Binding ProgramState,
+                                         Converter={StaticResource EnumToVisibilityConverter},
+                                         ConverterParameter='! Initial'}" />
         </Grid>
 
         <!--  Training settings  -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" IsEnabled="{Binding ProgramState, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='! TrainingInProgress'}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GroupBox Header="Global training settings">
+            <GroupBox Height="220"
+                      Header="Global training settings"
+                      Visibility="{Binding ProgramState,
+                                           Converter={StaticResource EnumToVisibilityConverter},
+                                           ConverterParameter='ConfiguringTraining, TrainingInProgress'}">
                 <StackPanel>
                     <!--  Layers configuration  -->
                     <TextBlock Text="Layers configuration" />
@@ -215,7 +247,12 @@
                     </Grid>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Tr. #1 params (unsupervised)">
+            <GroupBox Grid.Column="1"
+                      Height="220"
+                      Header="Tr. #1 params (unsupervised)"
+                      Visibility="{Binding ProgramState,
+                                           Converter={StaticResource EnumToVisibilityConverter},
+                                           ConverterParameter='ConfiguringTraining, TrainingInProgress'}">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
                     <TextBox Text="{Binding Training1Parameters.LearningRate}" />
@@ -227,7 +264,12 @@
                     <TextBox Text="{Binding Training1Parameters.Decay}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="2" Header="Tr. #2 params (supervised)">
+            <GroupBox Grid.Column="2"
+                      Height="220"
+                      Header="Tr. #2 params (supervised)"
+                      Visibility="{Binding ProgramState,
+                                           Converter={StaticResource EnumToVisibilityConverter},
+                                           ConverterParameter='ConfiguringTraining, TrainingInProgress'}">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
                     <TextBox Text="{Binding Training2Parameters.LearningRate}" />
@@ -237,7 +279,12 @@
                     <TextBox Text="{Binding Training2Parameters.SupervisedEpochs}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="3" Header="Categories">
+            <GroupBox Grid.Column="3"
+                      Height="220"
+                      Header="Categories"
+                      Visibility="{Binding ProgramState,
+                                           Converter={StaticResource EnumToVisibilityConverter},
+                                           ConverterParameter='! Initial'}">
                 <helpers:BindableListBox x:Name="CategoriesListBox"
                                          ItemsSource="{Binding AvailableCategories}"
                                          SelectedItemsList="{Binding SelectedCategories,
@@ -266,19 +313,28 @@
                         Margin="10"
                         Command="{Binding StartTrainingCommand}"
                         Content="Start training"
-                        FontSize="18" />
+                        FontSize="18"
+                        Visibility="{Binding ProgramState,
+                                             Converter={StaticResource EnumToVisibilityConverter},
+                                             ConverterParameter='ConfiguringTraining'}" />
                 <Button Width="200"
                         Height="40"
                         Margin="10"
                         Command="{Binding ClassifyImageCommand}"
                         Content="Classify image"
-                        FontSize="18" />
+                        FontSize="18"
+                        Visibility="{Binding ProgramState,
+                                             Converter={StaticResource EnumToVisibilityConverter},
+                                             ConverterParameter='ClassifierReady'}" />
                 <Button Width="200"
                         Height="40"
                         Margin="10"
                         Command="{Binding SaveNetworkCommand}"
                         Content="Save network"
-                        FontSize="18" />
+                        FontSize="18"
+                        Visibility="{Binding ProgramState,
+                                             Converter={StaticResource EnumToVisibilityConverter},
+                                             ConverterParameter='ClassifierReady'}" />
             </StackPanel>
         </Grid>
 
