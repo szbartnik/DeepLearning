@@ -23,7 +23,7 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
 
         public Training1Parameters Training1Parameters { get; set; }
         public Training2Parameters Training2Parameters { get; set; }
-        public ObservableCollection<Category> SelectedCategories { get; set; }
+        public IEnumerable<Category> SelectedCategories { get; set; }
 
         #region Property changed stuff
 

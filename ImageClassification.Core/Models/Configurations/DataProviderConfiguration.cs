@@ -19,7 +19,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _trainFilesLocationPath; }
             set
             {
-                if (value == _trainFilesLocationPath) return;
                 _trainFilesLocationPath = value;
                 OnPropertyChanged();
             }
@@ -29,7 +28,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _fileExtensions; }
             set
             {
-                if (Equals(value, _fileExtensions)) return;
                 _fileExtensions = value;
                 OnPropertyChanged();
             }
@@ -39,7 +37,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _trainDataRatio; }
             set
             {
-                if (value.Equals(_trainDataRatio)) return;
                 _trainDataRatio = value;
                 OnPropertyChanged();
             }
@@ -49,7 +46,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _processingWidth; }
             set
             {
-                if (value == _processingWidth) return;
                 _processingWidth = value;
                 OnPropertyChanged();
             }
@@ -59,7 +55,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _processingHeight; }
             set
             {
-                if (value == _processingHeight) return;
                 _processingHeight = value;
                 OnPropertyChanged();
             }
@@ -69,7 +64,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _cropWidth; }
             set
             {
-                if (value == _cropWidth) return;
                 _cropWidth = value;
                 OnPropertyChanged();
             }
@@ -79,7 +73,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             get { return _cropHeight; }
             set
             {
-                if (value == _cropHeight) return;
                 _cropHeight = value;
                 OnPropertyChanged();
             }

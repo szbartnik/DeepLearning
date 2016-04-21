@@ -1,23 +1,23 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
 namespace Wkiro.ImageClassification.Gui.Helpers.Converters
 {
-    public class ListOfStringsToStringConverter : IValueConverter
+    public class ListOfIntsToStringConverter : IValueConverter
     {
         private const char Delimiter = ';'; // delimiter to join
         private readonly char[] _delimiters = { ';', ',', ' ' }; // possible delimiters, which might be in the string when converting back
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var list = value as string[];
+            var list = value as int[];
 
             if (list == null || !list.Any())
                 return null;
 
-            var result = list.Aggregate((x, y) => $"{x}{Delimiter} {y}");
+            var result = list.Select(x => x.ToString()).Aggregate((x, y) => $"{x}{Delimiter} {y}");
             return result;
         }
 
@@ -32,7 +32,8 @@ namespace Wkiro.ImageClassification.Gui.Helpers.Converters
             var list = valuestring
                 .Split(_delimiters)
                 .Select(x => x.Trim())
-                .Where(x => !string.IsNullOrWhiteSpace(x));
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(int.Parse);
 
             return list.ToArray();
         }
