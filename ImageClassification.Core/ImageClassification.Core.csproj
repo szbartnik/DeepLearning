@@ -82,6 +82,7 @@
     <Compile Include="Infrastructure\Logging\Logger.cs" />
     <Compile Include="Models\Configurations\ClassifierConfiguration.cs" />
     <Compile Include="Models\Configurations\DataProviderConfiguration.cs" />
+    <Compile Include="Models\Configurations\GlobalTrainerConfiguration.cs" />
     <Compile Include="Models\Configurations\TrainerConfiguration.cs" />
     <Compile Include="Models\Configurations\Training1Parameters.cs" />
     <Compile Include="Models\Configurations\Training2Parameters.cs" />

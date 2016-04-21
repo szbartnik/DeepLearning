@@ -33,11 +33,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private void ConfigureNewTraining()
         {
-            TrainerConfiguration = _configurationManager.GetInitialTrainerConfiguration();
+            GlobalTrainerConfiguration = _configurationManager.GetInitialGlobalTrainerConfiguration();
             Training1Parameters = _configurationManager.GetInitialTraining1Parameters();
             Training2Parameters = _configurationManager.GetInitialTraining2Parameters();
 
-            var learningFacade = new LearningFacade(DataProviderConfiguration, this);
+            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
             AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
         }
 
@@ -98,7 +98,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private async void StartTraining()
         {
-            _learningFacade = new LearningFacade(DataProviderConfiguration, this);
+            _learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
             var categories = SelectedCategories.Select((x, i) =>
             {
                 x.Index = i;
@@ -110,7 +110,6 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 Training1Parameters = Training1Parameters,
                 Training2Parameters = Training2Parameters,
                 SelectedCategories = categories,
-                Layers = TrainerConfiguration.Layers,
             };
 
             var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);

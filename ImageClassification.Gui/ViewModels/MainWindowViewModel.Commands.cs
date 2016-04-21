@@ -37,7 +37,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             var directory = _dataProviderConfiguration.TrainFilesLocationPath;
             var dialog = new FolderBrowserDialog
             {
-                RootFolder = Environment.SpecialFolder.DesktopDirectory,
+                RootFolder = Environment.SpecialFolder.MyComputer,
                 Description = "Select directory containing training folders",
                 ShowNewFolderButton = false
             };
