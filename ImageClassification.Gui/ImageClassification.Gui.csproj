@@ -137,6 +137,7 @@ del *.xml
 xcopy *.dll "$(TargetDir)Libraries\"
 move Accord.dll.config "$(TargetDir)Libraries\"
 del *.dll
+del *.manifest
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
