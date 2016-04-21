@@ -20,6 +20,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand ClassifyImageCommand { get; set; }
         public RelayCommand SaveNetworkCommand { get; set; }
         public RelayCommand ReconfigureCommand { get; set; }
+        public RelayCommand CancelComputingCommand { get; set; }
 
         private void InitializeCommands()
         {
@@ -27,8 +28,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadSavedNetworkCommand = new RelayCommand(LoadSavedNetwork);
             SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
+
             StartTrainingCommand = new RelayCommand(StartTraining);
             ClassifyImageCommand = new RelayCommand(ClassifyImage);
+            CancelComputingCommand = new RelayCommand(CancelComputing);
+
             SaveNetworkCommand = new RelayCommand(SaveNetwork);
             ReconfigureCommand = new RelayCommand(Reconfigure);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
@@ -23,6 +24,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         private ClassifierFacade _classifierFacade;
 
         private readonly IConfigurationManager _configurationManager;
+        private CancellationTokenSource _cts;
 
         public MainWindowViewModel(bool isNotDesignMode)
         {
@@ -152,11 +154,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 SelectedCategories = categories,
             };
 
-            var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);
-
             try
             {
-                _classifierFacade = await task;
+                _cts = new CancellationTokenSource();
+                _classifierFacade = await _learningFacade.RunTrainingForSelectedCategories(trainingParameters, _cts.Token);
+
                 ProgramState = ProgramState.ClassifierReady;
             }
             catch (Exception e)
@@ -164,6 +166,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 LogWriteLine($"Problems during training. Error: {e.Message}");
                 ProgramState = ProgramState.Initial;
             }
+        }
+
+        private void CancelComputing()
+        {
+            _cts.Cancel();
         }
 
         private void ClassifyImage()

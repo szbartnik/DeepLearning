@@ -10,12 +10,12 @@
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
                       Title="Images Classification"
                       Width="815"
-                      SizeToContent="WidthAndHeight"
                       Height="Auto"
-                      ResizeMode="CanMinimize"
                       MinWidth="815"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
+                      ResizeMode="CanMinimize"
+                      SizeToContent="WidthAndHeight"
                       mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="CaptionStyle" TargetType="TextBlock">
@@ -27,6 +27,14 @@
         <converters:ListOfIntsToStringConverter x:Key="ListOfIntsToStringConverter" />
         <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
         <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <Style x:Key="BigButtonStyle"
+               BasedOn="{StaticResource {x:Type Button}}"
+               TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -309,40 +317,40 @@
         <!--  Classify settings  -->
         <Grid Grid.Row="3">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Width="200"
-                        Height="40"
-                        Margin="10"
-                        Command="{Binding StartTrainingCommand}"
+                <Button Command="{Binding StartTrainingCommand}"
                         Content="Start training"
-                        FontSize="18"
+                        Style="{StaticResource BigButtonStyle}"
                         Visibility="{Binding ProgramState,
                                              Converter={StaticResource EnumToVisibilityConverter},
                                              ConverterParameter='ConfiguringTraining'}" />
-                <Button Width="200"
-                        Height="40"
-                        Margin="10"
-                        Command="{Binding ClassifyImageCommand}"
+                <Button Command="{Binding ClassifyImageCommand}"
                         Content="Classify image"
-                        FontSize="18"
+                        Style="{StaticResource BigButtonStyle}"
                         Visibility="{Binding ProgramState,
                                              Converter={StaticResource EnumToVisibilityConverter},
                                              ConverterParameter='ClassifierReady'}" />
-                <Button Width="200"
-                        Height="40"
-                        Margin="10"
-                        Command="{Binding SaveNetworkCommand}"
+                <Button Command="{Binding SaveNetworkCommand}"
                         Content="Save network"
-                        FontSize="18"
+                        Style="{StaticResource BigButtonStyle}"
                         Visibility="{Binding ProgramState,
                                              Converter={StaticResource EnumToVisibilityConverter},
                                              ConverterParameter='ClassifierReady'}" />
+
+                <Button Command="{Binding CancelComputingCommand}"
+                        Content="Cancel"
+                        Style="{StaticResource BigButtonStyle}"
+                        Visibility="{Binding ProgramState,
+                                             Converter={StaticResource EnumToVisibilityConverter},
+                                             ConverterParameter='TrainingInProgress'}" />
             </StackPanel>
         </Grid>
 
         <!--  Log box  -->
         <Grid Grid.Row="4">
             <GroupBox Header="Output" Padding="3">
-                <TextBox x:Name="LogTextBox" MinHeight="50" MaxHeight="200"
+                <TextBox x:Name="LogTextBox"
+                         MinHeight="50"
+                         MaxHeight="200"
                          IsReadOnly="True"
                          Text="{Binding OutputTextBoxContent}"
                          TextChanged="OnLogTextBoxTextChanged"
