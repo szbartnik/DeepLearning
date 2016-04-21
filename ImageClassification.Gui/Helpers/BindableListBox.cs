@@ -11,7 +11,7 @@ namespace Wkiro.ImageClassification.Gui.Helpers
             SelectionChanged += ListBoxCustom_SelectionChanged;
         }
 
-        void ListBoxCustom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxCustom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedItemsList = SelectedItems;
         }
@@ -24,6 +24,5 @@ namespace Wkiro.ImageClassification.Gui.Helpers
 
         public static readonly DependencyProperty SelectedItemsListProperty =
            DependencyProperty.Register("SelectedItemsList", typeof(IList), typeof(BindableListBox), new PropertyMetadata(null));
-
     }
 }

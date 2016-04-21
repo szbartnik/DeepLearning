@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Gui.Properties;
@@ -10,12 +11,14 @@ namespace Wkiro.ImageClassification.Gui.Configuration
 
         public DataProviderConfiguration GetDataProviderConfiguration()
         {
+            var trainFilesLocationPath = Settings.Default.DataProviderConfiguration_TrainFilesLocationPath;
+
             var initialDataProviderConfiguration = new DataProviderConfiguration
             {
                 CropWidth              = Settings.Default.DataProviderConfiguration_CropWidth,
                 CropHeight             = Settings.Default.DataProviderConfiguration_CropHeight,
                 
-                TrainFilesLocationPath = Settings.Default.DataProviderConfiguration_TrainFilesLocationPath,
+                TrainFilesLocationPath = string.IsNullOrEmpty(trainFilesLocationPath) ? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) : trainFilesLocationPath,
                 FileExtensions         = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(),
             };
 

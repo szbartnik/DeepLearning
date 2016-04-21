@@ -8,7 +8,7 @@
                       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
-                      Title="Images Classification"
+                      Title="Images Classification (Deep Learning)"
                       Width="815"
                       Height="Auto"
                       MinWidth="815"
@@ -36,6 +36,14 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="FontSize" Value="18" />
         </Style>
+        <Style x:Key="SmallButtonStyle"
+               BasedOn="{StaticResource {x:Type Button}}"
+               TargetType="Button">
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="FontSize" Value="13" />
+        </Style>
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -44,6 +52,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--  General options  -->
@@ -151,29 +160,23 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
-                    Width="200"
-                    Height="30"
-                    Margin="10"
                     Command="{Binding ConfigureNewTrainingCommand}"
                     Content="Configure new training"
+                    Style="{StaticResource SmallButtonStyle}"
                     Visibility="{Binding ProgramState,
                                          Converter={StaticResource EnumToVisibilityConverter},
                                          ConverterParameter='Initial'}" />
             <Button Grid.Column="1"
-                    Width="200"
-                    Height="30"
-                    Margin="10"
                     Command="{Binding LoadSavedNetworkCommand}"
                     Content="Load saved network"
+                    Style="{StaticResource SmallButtonStyle}"
                     Visibility="{Binding ProgramState,
                                          Converter={StaticResource EnumToVisibilityConverter},
                                          ConverterParameter='Initial'}" />
             <Button Grid.Column="2"
-                    Width="200"
-                    Height="30"
-                    Margin="10"
                     Command="{Binding ReconfigureCommand}"
                     Content="Reconfigure"
+                    Style="{StaticResource SmallButtonStyle}"
                     Visibility="{Binding ProgramState,
                                          Converter={StaticResource EnumToVisibilityConverter},
                                          ConverterParameter='! Initial'}" />
@@ -187,6 +190,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
+            <!--  Global training settings GroupBox  -->
             <GroupBox MaxHeight="220"
                       Header="Global training settings"
                       Visibility="{Binding ProgramState,
@@ -263,6 +268,8 @@
                     </Grid>
                 </StackPanel>
             </GroupBox>
+
+            <!--  Training #1 parameters GroupBox  -->
             <GroupBox Grid.Column="1"
                       MaxHeight="220"
                       Header="Tr. #1 params (unsupervised)"
@@ -280,6 +287,8 @@
                     <TextBox Text="{Binding Training1Parameters.Decay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </GroupBox>
+
+            <!--  Training #2 parameters GroupBox  -->
             <GroupBox Grid.Column="2"
                       MaxHeight="220"
                       Header="Tr. #2 params (supervised)"
@@ -295,6 +304,8 @@
                     <TextBox Text="{Binding Training2Parameters.SupervisedEpochs, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </GroupBox>
+
+            <!--  Categories GroupBox  -->
             <GroupBox Grid.Column="3"
                       MaxHeight="220"
                       Header="Categories"
@@ -321,7 +332,7 @@
             </GroupBox>
         </Grid>
 
-        <!--  Classify settings  -->
+        <!--  Control buttons  -->
         <Grid Grid.Row="3">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Button Command="{Binding StartTrainingCommand}"
@@ -352,7 +363,7 @@
             </StackPanel>
         </Grid>
 
-        <!--  Log box  -->
+        <!--  Output box  -->
         <Grid Grid.Row="4">
             <GroupBox Header="Output" Padding="3">
                 <TextBox x:Name="LogTextBox"
@@ -364,6 +375,10 @@
                          VerticalScrollBarVisibility="Auto" />
             </GroupBox>
         </Grid>
+        <TextBlock Grid.Row="5"
+                   HorizontalAlignment="Center"
+                   Foreground="DarkGray"
+                   Text="Copyright © 2016    -    Szymon Bartnik,   Bartłomiej Szostek,   Tomasz Domaradzki,   Adam Lipiński,   Michał Bychawski" />
     </Grid>
 </controls:MetroWindow>
 

@@ -40,7 +40,7 @@ namespace Wkiro.ImageClassification.Gui.Helpers
 				return assembly;
 
 			var binding = knownAssemblies.SingleOrDefault(x => x.Key.StartsWith(e.Name.Split(',')[0]));
-			return Assembly.LoadFile(binding.Value);
+			return binding.Value != null ? Assembly.LoadFile(binding.Value) : null;
 		}
 	}
 }
