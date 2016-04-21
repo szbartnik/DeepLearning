@@ -340,7 +340,7 @@
         </Grid>
 
         <!--  Log box  -->
-        <Grid Grid.Row="4" Visibility="{Binding ProgramState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=! Initial}">
+        <Grid Grid.Row="4">
             <GroupBox Header="Output" Padding="3">
                 <TextBox x:Name="LogTextBox" MinHeight="50" MaxHeight="200"
                          IsReadOnly="True"

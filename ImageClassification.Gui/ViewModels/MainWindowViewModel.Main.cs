@@ -40,10 +40,17 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             Training1Parameters = _configurationManager.GetInitialTraining1Parameters();
             Training2Parameters = _configurationManager.GetInitialTraining2Parameters();
 
-            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
-            AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
+            try
+            {
+                var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
+                AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
 
-            ProgramState = ProgramState.ConfiguringTraining;
+                ProgramState = ProgramState.ConfiguringTraining;
+            }
+            catch (Exception e)
+            {
+                LogWriteLine($"Problem with creating new training. {e.Message}");
+            }
         }
 
         #region Load / save network
@@ -70,13 +77,22 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 Categories = SelectedCategories,
             };
 
-            _classifierFacade = new ClassifierFacade(
-                savedNetworkPath:          fileName, 
-                dataProviderConfiguration: _dataProviderConfiguration, 
-                classifierConfiguration:   classifierConfiguration, 
-                logger:                    this);
+            try
+            {
+                _classifierFacade = new ClassifierFacade(
+                    savedNetworkPath:          fileName, 
+                    dataProviderConfiguration: _dataProviderConfiguration, 
+                    classifierConfiguration:   classifierConfiguration, 
+                    logger:                    this);
 
-            ProgramState = ProgramState.ClassifierReady;
+                LogWriteLine($"Successfully loaded saved network from file '{fileName}'");
+
+                ProgramState = ProgramState.ClassifierReady;
+            }
+            catch (Exception e)
+            {
+                LogWriteLine($"Problems with loading saved network: {e.Message}");
+            }
         }
 
         private void SaveNetwork()
@@ -98,13 +114,28 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 return;
 
             var fileName = fileDialog.FileName;
-            _classifierFacade.SaveClassifier(fileName);
+
+            try
+            {
+                _classifierFacade.SaveClassifier(fileName);
+                LogWriteLine($"Successfully saved network to the file: '{fileName}'");
+            }
+            catch (Exception e)
+            {
+                LogWriteLine($"Problems with saving network: {e.Message}");
+            }
         }
 
         #endregion
 
         private async void StartTraining()
         {
+            if (SelectedCategories.Count < 2)
+            {
+                LogWriteLine("You cannot classify an image when at least 2 categories are not selected.");
+                return;
+            }
+
             ProgramState = ProgramState.TrainingInProgress;
 
             _learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
@@ -122,19 +153,32 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             };
 
             var task = _learningFacade.RunTrainingForSelectedCategories(trainingParameters);
-            _classifierFacade = await task;
 
-            ProgramState = ProgramState.ClassifierReady;
+            try
+            {
+                _classifierFacade = await task;
+                ProgramState = ProgramState.ClassifierReady;
+            }
+            catch (Exception e)
+            {
+                LogWriteLine($"Problems during training: {e.Message}");
+                ProgramState = ProgramState.Initial;
+            }
         }
 
         private void ClassifyImage()
         {
+            if (SelectedCategories.Count < 2)
+            {
+                LogWriteLine("You cannot classify an image when at least 2 categories are not selected.");
+                return;
+            }
+
             var fileDialog = new OpenFileDialog
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory),
                 Title = "Select file to classify",
                 Multiselect = false,
-                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif",
                 RestoreDirectory = true,
             };
 
@@ -142,8 +186,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 return;
 
             var fileName = fileDialog.FileName;
-            var classification = _classifierFacade.ClassifyToCategory(fileName);
-            LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
+
+            try
+            {
+                var classification = _classifierFacade.ClassifyToCategory(fileName);
+                LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
+            }
+            catch (Exception e)
+            {
+                LogWriteLine($"Problems with classifying image of path '{fileName}': {e.Message}");
+            }
         }
 
         public void LogWriteLine(string logMessage)
