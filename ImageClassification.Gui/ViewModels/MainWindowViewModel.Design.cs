@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Configuration;
 using Wkiro.ImageClassification.Gui.Models;
@@ -13,7 +12,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         {
             var configurationManager = new HardcodedConfigurationManager();
 
-            ProgramState = ProgramState.TrainingInProgress;
+            ProgramState = ProgramState.ClassifierReady;
 
             DataProviderConfiguration = configurationManager.GetInitialDataProviderConfiguration();
             GlobalTrainerConfiguration = configurationManager.GetInitialGlobalTrainerConfiguration();

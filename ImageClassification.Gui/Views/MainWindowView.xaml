@@ -10,9 +10,10 @@
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
                       Title="Images Classification"
                       Width="815"
-                      Height="700"
+                      SizeToContent="WidthAndHeight"
+                      Height="Auto"
+                      ResizeMode="CanMinimize"
                       MinWidth="815"
-                      MinHeight="700"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
                       mc:Ignorable="d">
@@ -173,7 +174,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <GroupBox Height="220"
+            <GroupBox MaxHeight="220"
                       Header="Global training settings"
                       Visibility="{Binding ProgramState,
                                            Converter={StaticResource EnumToVisibilityConverter},
@@ -248,7 +249,7 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="1"
-                      Height="220"
+                      MaxHeight="220"
                       Header="Tr. #1 params (unsupervised)"
                       Visibility="{Binding ProgramState,
                                            Converter={StaticResource EnumToVisibilityConverter},
@@ -265,7 +266,7 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="2"
-                      Height="220"
+                      MaxHeight="220"
                       Header="Tr. #2 params (supervised)"
                       Visibility="{Binding ProgramState,
                                            Converter={StaticResource EnumToVisibilityConverter},
@@ -280,7 +281,7 @@
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="3"
-                      Height="220"
+                      MaxHeight="220"
                       Header="Categories"
                       Visibility="{Binding ProgramState,
                                            Converter={StaticResource EnumToVisibilityConverter},
@@ -339,9 +340,9 @@
         </Grid>
 
         <!--  Log box  -->
-        <Grid Grid.Row="4">
+        <Grid Grid.Row="4" Visibility="{Binding ProgramState, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter=! Initial}">
             <GroupBox Header="Output" Padding="3">
-                <TextBox x:Name="LogTextBox"
+                <TextBox x:Name="LogTextBox" MinHeight="50" MaxHeight="200"
                          IsReadOnly="True"
                          Text="{Binding OutputTextBoxContent}"
                          TextChanged="OnLogTextBoxTextChanged"
