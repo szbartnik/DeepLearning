@@ -15,7 +15,6 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand ConfigureNewTrainingCommand { get; set; }
         public RelayCommand LoadSavedNetworkCommand { get; set; }
         public RelayCommand<object> SelectedCategoriesChangedCommand { get; set; }
-
         public RelayCommand StartTrainingCommand { get; set; }
         public RelayCommand ClassifyImageCommand { get; set; }
         public RelayCommand SaveNetworkCommand { get; set; }
@@ -26,7 +25,6 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadSavedNetworkCommand = new RelayCommand(LoadSavedNetwork);
             SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
-
             StartTrainingCommand = new RelayCommand(StartTraining);
             ClassifyImageCommand = new RelayCommand(ClassifyImage);
             SaveNetworkCommand = new RelayCommand(SaveNetwork);
@@ -37,7 +35,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             var directory = _dataProviderConfiguration.TrainFilesLocationPath;
             var dialog = new FolderBrowserDialog
             {
-                RootFolder = Environment.SpecialFolder.DesktopDirectory,
+                RootFolder = Environment.SpecialFolder.MyComputer,
                 Description = "Select directory containing training folders",
                 ShowNewFolderButton = false
             };
