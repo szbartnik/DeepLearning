@@ -49,7 +49,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problem with creating new training. {e.Message}");
+                LogWriteLine($"Problem with creating new training. Error: {e.Message}");
             }
         }
 
@@ -85,13 +85,13 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                     classifierConfiguration:   classifierConfiguration, 
                     logger:                    this);
 
-                LogWriteLine($"Successfully loaded saved network from file '{fileName}'");
+                LogWriteLine($"Successfully loaded saved network from file '{fileName}'.");
 
                 ProgramState = ProgramState.ClassifierReady;
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with loading saved network: {e.Message}");
+                LogWriteLine($"Problems with loading saved network. Error: {e.Message}");
             }
         }
 
@@ -118,11 +118,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             try
             {
                 _classifierFacade.SaveClassifier(fileName);
-                LogWriteLine($"Successfully saved network to the file: '{fileName}'");
+                LogWriteLine($"Successfully saved network to the file '{fileName}'.");
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with saving network: {e.Message}");
+                LogWriteLine($"Problems with saving network. Error: {e.Message}");
             }
         }
 
@@ -130,9 +130,9 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private async void StartTraining()
         {
-            if (SelectedCategories.Count < 2)
+            if (SelectedCategories == null || SelectedCategories.Count < 2)
             {
-                LogWriteLine("You cannot classify an image when at least 2 categories are not selected.");
+                LogWriteLine("You cannot start a training until at least 2 categories are selected.");
                 return;
             }
 
@@ -161,16 +161,16 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems during training: {e.Message}");
+                LogWriteLine($"Problems during training. Error: {e.Message}");
                 ProgramState = ProgramState.Initial;
             }
         }
 
         private void ClassifyImage()
         {
-            if (SelectedCategories.Count < 2)
+            if (SelectedCategories == null || SelectedCategories.Count < 2)
             {
-                LogWriteLine("You cannot classify an image when at least 2 categories are not selected.");
+                LogWriteLine("You cannot classify an image until at least 2 categories are selected.");
                 return;
             }
 
@@ -190,11 +190,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             try
             {
                 var classification = _classifierFacade.ClassifyToCategory(fileName);
-                LogWriteLine($"Classified to category: {classification.Category} with {classification.Probability} probability.");
+                LogWriteLine($"Classified to category '{classification.Category}' with {classification.Probability} probability.");
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with classifying image of path '{fileName}': {e.Message}");
+                LogWriteLine($"Problems with classifying image of path '{fileName}'. Error: {e.Message}");
             }
         }
 
