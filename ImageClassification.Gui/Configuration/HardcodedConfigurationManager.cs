@@ -1,24 +1,26 @@
+using System.Windows;
 using Wkiro.ImageClassification.Core.Models.Configurations;
+using Wkiro.ImageClassification.Gui.Properties;
 
 namespace Wkiro.ImageClassification.Gui.Configuration
 {
     internal class HardcodedConfigurationManager : IConfigurationManager
     {
-        public DataProviderConfiguration GetInitialDataProviderConfiguration()
+        public DataProviderConfiguration GetDataProviderConfiguration()
         {
             var initialDataProviderConfiguration = new DataProviderConfiguration
             {
-                CropWidth = 300,
-                CropHeight = 200,
+                CropWidth = Settings.Default.DataProviderConfiguration_CropWidth,
+                CropHeight = Settings.Default.DataProviderConfiguration_CropHeight,
                 
-                TrainFilesLocationPath = @"C:\Users\Szymon\Desktop\101_ObjectCategories",
-                FileExtensions = new[] { "jpg" },
+                TrainFilesLocationPath = Settings.Default.DataProviderConfiguration_TrainFilesLocationPath,
+                FileExtensions = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' '),
             };
 
             return initialDataProviderConfiguration;
         }
 
-        public GlobalTrainerConfiguration GetInitialGlobalTrainerConfiguration()
+        public GlobalTrainerConfiguration GetGlobalTrainerConfiguration()
         {
             return new GlobalTrainerConfiguration
             {
@@ -29,7 +31,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             };
         }
 
-        public Training1Parameters GetInitialTraining1Parameters()
+        public Training1Parameters GetTraining1Parameters()
         {
             var initialTraining1Parameters = new Training1Parameters
             {
@@ -42,7 +44,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             return initialTraining1Parameters;
         }
 
-        public Training2Parameters GetInitialTraining2Parameters()
+        public Training2Parameters GetTraining2Parameters()
         {
             var initialTraining2Parameters = new Training2Parameters
             {
@@ -52,6 +54,15 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             };
 
             return initialTraining2Parameters;
+        }
+
+        public void SaveConfigs(
+            DataProviderConfiguration dataProviderConfiguration,
+            GlobalTrainerConfiguration globalTrainerConfiguration,
+            Training1Parameters training1Parameters,
+            Training2Parameters training2Parameters)
+        {
+            
         }
     }
 }

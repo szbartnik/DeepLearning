@@ -14,6 +14,7 @@
                       MinWidth="815"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
+                      Closing="MainWindowView_OnClosing"
                       ResizeMode="CanMinimize"
                       SizeToContent="WidthAndHeight"
                       mc:Ignorable="d">
@@ -79,7 +80,8 @@
                              VerticalAlignment="Stretch"
                              VerticalContentAlignment="Center"
                              IsReadOnly="True"
-                             Text="{Binding DataProviderConfiguration.TrainFilesLocationPath}" />
+                             Text="{Binding DataProviderConfiguration.TrainFilesLocationPath,
+                                            UpdateSourceTrigger=PropertyChanged}" />
                     <Button Grid.Column="1"
                             Command="{Binding BrowseForTrainFilesPathCommand}"
                             Content="Browse"
@@ -99,7 +101,8 @@
                          VerticalContentAlignment="Center"
                          controls:TextBoxHelper.Watermark="i.e. jpg; png; gif"
                          Text="{Binding DataProviderConfiguration.FileExtensions,
-                                        Converter={StaticResource ListOfStringsToStringConverter}}" />
+                                        Converter={StaticResource ListOfStringsToStringConverter},
+                                        UpdateSourceTrigger=PropertyChanged}" />
 
                 <!--  Crop dimensions  -->
                 <TextBlock Grid.Row="3"
@@ -121,7 +124,8 @@
                     <TextBox Grid.Column="1"
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.CropWidth}" />
+                             Text="{Binding DataProviderConfiguration.CropWidth,
+                                            UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Grid.Column="2"
                                Margin="5 0 5 0"
                                VerticalAlignment="Center"
@@ -129,7 +133,8 @@
                     <TextBox Grid.Column="3"
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.CropHeight}" />
+                             Text="{Binding DataProviderConfiguration.CropHeight,
+                                            UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Grid>
         </GroupBox>
@@ -190,7 +195,7 @@
                 <StackPanel>
                     <!--  Layers configuration  -->
                     <TextBlock Text="Layers configuration" />
-                    <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding GlobalTrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}}" />
+                    <TextBox controls:TextBoxHelper.Watermark="i.e. 600; 300; 400; 20" Text="{Binding GlobalTrainerConfiguration.Layers, Converter={StaticResource ListOfIntsToStringConverter}, UpdateSourceTrigger=PropertyChanged}" />
 
                     <!--  Train data ratio  -->
                     <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
@@ -243,7 +248,8 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding GlobalTrainerConfiguration.ProcessingWidth}" />
+                                 Text="{Binding GlobalTrainerConfiguration.ProcessingWidth,
+                                                UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Grid.Column="2"
                                    Margin="5 0 5 0"
                                    VerticalAlignment="Center"
@@ -252,7 +258,8 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding GlobalTrainerConfiguration.ProcessingHeight}" />
+                                 Text="{Binding GlobalTrainerConfiguration.ProcessingHeight,
+                                                UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </StackPanel>
             </GroupBox>
@@ -264,13 +271,13 @@
                                            ConverterParameter='ConfiguringTraining, TrainingInProgress'}">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
-                    <TextBox Text="{Binding Training1Parameters.LearningRate}" />
+                    <TextBox Text="{Binding Training1Parameters.LearningRate, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="Momentum" />
-                    <TextBox Text="{Binding Training1Parameters.Momentum}" />
+                    <TextBox Text="{Binding Training1Parameters.Momentum, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="Unsupervised Epochs" />
-                    <TextBox Text="{Binding Training1Parameters.UnsupervisedEpochs}" />
+                    <TextBox Text="{Binding Training1Parameters.UnsupervisedEpochs, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="Decay" />
-                    <TextBox Text="{Binding Training1Parameters.Decay}" />
+                    <TextBox Text="{Binding Training1Parameters.Decay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="2"
@@ -281,11 +288,11 @@
                                            ConverterParameter='ConfiguringTraining, TrainingInProgress'}">
                 <StackPanel>
                     <TextBlock Text="Learning rate" />
-                    <TextBox Text="{Binding Training2Parameters.LearningRate}" />
+                    <TextBox Text="{Binding Training2Parameters.LearningRate, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="Momentum" />
-                    <TextBox Text="{Binding Training2Parameters.Momentum}" />
+                    <TextBox Text="{Binding Training2Parameters.Momentum, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Text="Supervised Epochs" />
-                    <TextBox Text="{Binding Training2Parameters.SupervisedEpochs}" />
+                    <TextBox Text="{Binding Training2Parameters.SupervisedEpochs, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Grid.Column="3"

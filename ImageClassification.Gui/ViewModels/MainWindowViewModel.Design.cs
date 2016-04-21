@@ -14,10 +14,10 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             ProgramState = ProgramState.ClassifierReady;
 
-            DataProviderConfiguration = configurationManager.GetInitialDataProviderConfiguration();
-            GlobalTrainerConfiguration = configurationManager.GetInitialGlobalTrainerConfiguration();
-            Training1Parameters = configurationManager.GetInitialTraining1Parameters();
-            Training2Parameters = configurationManager.GetInitialTraining2Parameters();
+            DataProviderConfiguration = configurationManager.GetDataProviderConfiguration();
+            GlobalTrainerConfiguration = configurationManager.GetGlobalTrainerConfiguration();
+            Training1Parameters = configurationManager.GetTraining1Parameters();
+            Training2Parameters = configurationManager.GetTraining2Parameters();
 
             AvailableCategories = new ObservableCollection<Category>
             {

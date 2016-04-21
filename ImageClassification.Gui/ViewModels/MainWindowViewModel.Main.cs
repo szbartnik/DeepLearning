@@ -28,19 +28,19 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         public MainWindowViewModel(bool isNotDesignMode)
         {
-            _configurationManager = new HardcodedConfigurationManager();
+            _configurationManager = new SettingsConfigurationManager();
 
             ProgramState = ProgramState.Initial;
 
             InitializeCommands();
-            DataProviderConfiguration = _configurationManager.GetInitialDataProviderConfiguration();
+            DataProviderConfiguration = _configurationManager.GetDataProviderConfiguration();
         }
 
         private void ConfigureNewTraining()
         {
-            GlobalTrainerConfiguration = _configurationManager.GetInitialGlobalTrainerConfiguration();
-            Training1Parameters = _configurationManager.GetInitialTraining1Parameters();
-            Training2Parameters = _configurationManager.GetInitialTraining2Parameters();
+            GlobalTrainerConfiguration = _configurationManager.GetGlobalTrainerConfiguration();
+            Training1Parameters = _configurationManager.GetTraining1Parameters();
+            Training2Parameters = _configurationManager.GetTraining2Parameters();
 
             try
             {
@@ -203,6 +203,15 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             {
                 LogWriteLine($"Problems with classifying image of path '{fileName}'. Error: {e.Message}");
             }
+        }
+
+        public void SaveConfiguration()
+        {
+            _configurationManager.SaveConfigs(
+                DataProviderConfiguration,
+                GlobalTrainerConfiguration,
+                Training1Parameters,
+                Training2Parameters);
         }
 
         public void LogWriteLine(string logMessage)
