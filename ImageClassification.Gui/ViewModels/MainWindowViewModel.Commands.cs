@@ -39,7 +39,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private void Reconfigure()
         {
-            ProgramState = ProgramState.Initial;
+            ReturnToInitialWithSaving();
         }
 
         private void BrowseForTrainFilesPath()

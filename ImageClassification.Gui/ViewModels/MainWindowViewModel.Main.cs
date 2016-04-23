@@ -20,7 +20,6 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
     {
         private const string SavedNetworkFileExtension = "dbn";
 
-        private LearningFacade _learningFacade;
         private ClassifierFacade _classifierFacade;
 
         private readonly IConfigurationManager _configurationManager;
@@ -51,7 +50,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problem with creating new training. Error: {e.Message}");
+                LogWriteLine($"Problem with creating new training configuration. Error: {e.Message}");
             }
         }
 
@@ -86,6 +85,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                     dataProviderConfiguration: _dataProviderConfiguration, 
                     classifierConfiguration:   classifierConfiguration, 
                     logger:                    this);
+
+                AvailableCategories = new ObservableCollection<Category>(_classifierFacade.GetAvailableCategories());
 
                 LogWriteLine($"Successfully loaded saved network from file '{fileName}'.");
 
@@ -140,7 +141,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             ProgramState = ProgramState.TrainingInProgress;
 
-            _learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
+            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
             var categories = SelectedCategories.Select((x, i) =>
             {
                 x.Index = i;
@@ -157,15 +158,28 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             try
             {
                 _cts = new CancellationTokenSource();
-                _classifierFacade = await _learningFacade.RunTrainingForSelectedCategories(trainingParameters, _cts.Token);
+                _classifierFacade = await learningFacade.RunTrainingForSelectedCategories(trainingParameters, _cts.Token);
 
                 ProgramState = ProgramState.ClassifierReady;
             }
             catch (Exception e)
             {
                 LogWriteLine($"Problems during training. Error: {e.Message}");
-                ProgramState = ProgramState.Initial;
+                ReturnToInitialWithSaving();
             }
+        }
+
+        private void ReturnToInitialWithSaving()
+        {
+            SaveConfiguration();
+
+            AvailableCategories = null;
+            SelectedCategories = null;
+            GlobalTrainerConfiguration = null;
+            Training1Parameters = null;
+            Training2Parameters = null;
+
+            ProgramState = ProgramState.Initial;
         }
 
         private void CancelComputing()

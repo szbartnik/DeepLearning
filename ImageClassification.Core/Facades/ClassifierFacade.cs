@@ -1,11 +1,12 @@
-﻿using Wkiro.ImageClassification.Core.Engines;
+﻿using System.Collections.Generic;
+using Wkiro.ImageClassification.Core.Engines;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Core.Facades
 {
-    public class ClassifierFacade
+    public class ClassifierFacade 
     {
         private readonly DataProvider _dataProvider;
         private readonly Classifier _classifier;
@@ -24,6 +25,11 @@ namespace Wkiro.ImageClassification.Core.Facades
         {
             _dataProvider = new DataProvider(dataProviderConfiguration);
             _classifier = new Classifier(savedNetworkPath, classifierConfiguration, logger);
+        }
+
+        public IEnumerable<Category> GetAvailableCategories()
+        {
+            return _dataProvider.GetAvailableCategories();
         }
 
         public CategoryClassification ClassifyToCategory(string imageToClassifyPath)

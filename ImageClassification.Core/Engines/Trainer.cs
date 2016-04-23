@@ -100,7 +100,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         {
             var correctnessFactor = 0;
 
-            var onePercent = testData.Inputs.Length / 100;
+            var onePercent = (int)Math.Ceiling(testData.Inputs.Length / 100d);
 
             for (int i = 0; i < testData.Inputs.Length; i++)
             {
@@ -113,7 +113,7 @@ namespace Wkiro.ImageClassification.Core.Engines
                     correctnessFactor++;
 
                 if (i%onePercent == 0)
-                    _logger.LogWriteLine($"Computing correctness: {i * 100 / testData.Inputs.Length}%");
+                    _logger.LogWriteLine($"Progress of computing correctness: {i * 100 / testData.Inputs.Length}%");
             }
 
             _logger.LogWriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
