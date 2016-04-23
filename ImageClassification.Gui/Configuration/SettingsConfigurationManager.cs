@@ -29,7 +29,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new GlobalTrainerConfiguration
             {
-                Layers           = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
+                HiddenLayers           = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
                 ProcessingWidth  = Settings.Default.GlobalTrainerConfiguration_ProcessingWidth,
                 ProcessingHeight = Settings.Default.GlobalTrainerConfiguration_ProcessingHeight,
                 TrainDataRatio   = Settings.Default.GlobalTrainerConfiguration_TrainDataRatio,
@@ -96,7 +96,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             Settings.Default["GlobalTrainerConfiguration_ProcessingWidth"]  = globalTrainerConfiguration.ProcessingWidth;
             Settings.Default["GlobalTrainerConfiguration_ProcessingHeight"] = globalTrainerConfiguration.ProcessingHeight;
 
-            Settings.Default["GlobalTrainerConfiguration_Layers"]           = string.Join(";", globalTrainerConfiguration.Layers);
+            Settings.Default["GlobalTrainerConfiguration_Layers"]           = string.Join(";", globalTrainerConfiguration.HiddenLayers);
             Settings.Default["GlobalTrainerConfiguration_TrainDataRatio"]   = globalTrainerConfiguration.TrainDataRatio;
         }
 

@@ -24,7 +24,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new GlobalTrainerConfiguration
             {
-                Layers = new[] {600, 400, 2, 2},
+                HiddenLayers = new[] {600, 400, 2, 2},
                 ProcessingWidth = 30,
                 ProcessingHeight = 20,
                 TrainDataRatio = 0.8,

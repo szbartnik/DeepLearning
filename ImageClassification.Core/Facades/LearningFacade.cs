@@ -45,12 +45,15 @@ namespace Wkiro.ImageClassification.Core.Facades
 
         private ClassifierFacade RunTrainingForSelectedCategoriesImpl(TrainingParameters trainingParameters)
         {
-            var learningSet =
-                    _dataProvider.GetLearningSetForCategories(trainingParameters.SelectedCategories.ToList());
+            var categories = trainingParameters.SelectedCategories.ToList();
+            var learningSet = _dataProvider.GetLearningSetForCategories(categories);
 
+            var layers = _globalTrainerConfiguration.HiddenLayers.ToList();
+            int outputLayerSize = categories.Count;
+            layers.Add(outputLayerSize);
             var trainer = new Trainer(new TrainerConfiguration
             {
-                Layers = _globalTrainerConfiguration.Layers,
+                Layers = layers.ToArray(),
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
             }, _logger);
 
