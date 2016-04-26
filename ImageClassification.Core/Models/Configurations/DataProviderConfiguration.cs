@@ -9,8 +9,8 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
         private string _trainFilesLocationPath;
         private string[] _fileExtensions;
         
-        private int _cropWidth;
-        private int _cropHeight;
+        private int _processingWidth;
+        private int _processingHeight;
 
         public string TrainFilesLocationPath
         {
@@ -31,21 +31,21 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             }
         }
         
-        public int CropWidth
+        public int ProcessingWidth
         {
-            get { return _cropWidth; }
+            get { return _processingWidth; }
             set
             {
-                _cropWidth = value;
+                _processingWidth = value;
                 OnPropertyChanged();
             }
         }
-        public int CropHeight
+        public int ProcessingHeight
         {
-            get { return _cropHeight; }
+            get { return _processingHeight; }
             set
             {
-                _cropHeight = value;
+                _processingHeight = value;
                 OnPropertyChanged();
             }
         }

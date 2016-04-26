@@ -18,9 +18,9 @@ namespace Wkiro.ImageClassification.Core.Engines
         public DeepBeliefNetwork NeuralNetwork => _neuralNetwork;
         private readonly DeepBeliefNetwork _neuralNetwork;
 
-        private readonly ILogger _logger;
+        private readonly IGuiLogger _logger;
 
-        public Trainer(TrainerConfiguration configuration, ILogger logger)
+        public Trainer(TrainerConfiguration configuration, IGuiLogger logger)
         {
             _neuralNetwork = CreateNetworkToTeach(configuration);
             _configuration  = configuration;

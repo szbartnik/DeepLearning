@@ -10,9 +10,8 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             var initialDataProviderConfiguration = new DataProviderConfiguration
             {
-                CropWidth = Settings.Default.DataProviderConfiguration_CropWidth,
-                CropHeight = Settings.Default.DataProviderConfiguration_CropHeight,
-                
+                ProcessingWidth = 30,
+                ProcessingHeight = 20,
                 TrainFilesLocationPath = Settings.Default.DataProviderConfiguration_TrainFilesLocationPath,
                 FileExtensions = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' '),
             };
@@ -25,8 +24,9 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             return new GlobalTrainerConfiguration
             {
                 HiddenLayers = new[] {600, 400, 2, 2},
-                ProcessingWidth = 30,
-                ProcessingHeight = 20,
+                CropWidth = Settings.Default.GlobalTrainerConfiguration_CropWidth,
+                CropHeight = Settings.Default.GlobalTrainerConfiguration_CropHeight,
+                
                 TrainDataRatio = 0.8,
             };
         }

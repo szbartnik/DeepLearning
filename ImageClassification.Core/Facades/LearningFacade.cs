@@ -14,12 +14,12 @@ namespace Wkiro.ImageClassification.Core.Facades
     {
         private readonly DataProvider _dataProvider;
         private readonly GlobalTrainerConfiguration _globalTrainerConfiguration;
-        private readonly ILogger _logger;
+        private readonly IGuiLogger _logger;
 
         public LearningFacade(
             DataProviderConfiguration dataProviderConfiguration, 
             GlobalTrainerConfiguration globalTrainerConfiguration, 
-            ILogger logger)
+            IGuiLogger logger)
         {
             _dataProvider = new DataProvider(dataProviderConfiguration, globalTrainerConfiguration);
             _globalTrainerConfiguration = globalTrainerConfiguration;
@@ -62,10 +62,7 @@ namespace Wkiro.ImageClassification.Core.Facades
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
 
-            var classifier = new Classifier(trainer.NeuralNetwork, new ClassifierConfiguration
-            {
-                Categories = trainingParameters.SelectedCategories,
-            }, _logger);
+            var classifier = new Classifier(trainer.NeuralNetwork, _logger);
 
             var classifierFacade = new ClassifierFacade(_dataProvider, classifier);
             return classifierFacade;

@@ -102,8 +102,8 @@ namespace Wkiro.ImageClassification.Core.Engines
         private Bitmap ShrinkImage(Image bitmap)
         {
             var newBitmap = new Bitmap(
-                _globalTrainerConfiguration.ProcessingWidth, 
-                _globalTrainerConfiguration.ProcessingHeight);
+                _dataProviderconfiguration.ProcessingWidth,
+                _dataProviderconfiguration.ProcessingHeight);
 
             var graphics = Graphics.FromImage(newBitmap);
             graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
@@ -120,11 +120,11 @@ namespace Wkiro.ImageClassification.Core.Engines
             foreach (var file in category.Files)
             {
                 var image = (Bitmap)Image.FromFile(file.FullName, true);
-                if (image.Width < _dataProviderconfiguration.CropWidth || image.Height < _dataProviderconfiguration.CropHeight)
+                if (image.Width < _globalTrainerConfiguration.CropWidth || image.Height < _globalTrainerConfiguration.CropHeight)
                     continue;
 
                 // Crop the image
-                image = image.Clone(new Rectangle(0, 0, _dataProviderconfiguration.CropWidth, _dataProviderconfiguration.CropHeight), image.PixelFormat);
+                image = image.Clone(new Rectangle(0, 0, _globalTrainerConfiguration.CropWidth, _globalTrainerConfiguration.CropHeight), image.PixelFormat);
 
                 // Downsample the image to save memory
                 var smallImage = ShrinkImage(image);

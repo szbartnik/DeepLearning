@@ -117,7 +117,7 @@
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Style="{StaticResource CaptionStyle}"
-                           Text="Crop dimensions" />
+                           Text="Processing dimensions" />
 
                 <Grid Grid.Row="3" Grid.Column="2">
                     <Grid.ColumnDefinitions>
@@ -133,7 +133,7 @@
                     <TextBox Grid.Column="1"
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.CropWidth,
+                             Text="{Binding DataProviderConfiguration.ProcessingWidth,
                                             UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Grid.Column="2"
                                Margin="5 0 5 0"
@@ -142,7 +142,7 @@
                     <TextBox Grid.Column="3"
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Center"
-                             Text="{Binding DataProviderConfiguration.CropHeight,
+                             Text="{Binding DataProviderConfiguration.ProcessingHeight,
                                             UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Grid>
@@ -236,7 +236,7 @@
                     </Grid>
 
                     <!--  Processing dimensions  -->
-                    <TextBlock Margin="0 10 0 0" Text="Processing dimensions" />
+                    <TextBlock Margin="0 10 0 0" Text="Crop dimensions" />
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -253,7 +253,7 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding GlobalTrainerConfiguration.ProcessingWidth,
+                                 Text="{Binding GlobalTrainerConfiguration.CropWidth,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Grid.Column="2"
                                    Margin="5 0 5 0"
@@ -263,7 +263,7 @@
                                  Margin="0 2 0 0"
                                  VerticalAlignment="Center"
                                  VerticalContentAlignment="Center"
-                                 Text="{Binding GlobalTrainerConfiguration.ProcessingHeight,
+                                 Text="{Binding GlobalTrainerConfiguration.CropHeight,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </StackPanel>

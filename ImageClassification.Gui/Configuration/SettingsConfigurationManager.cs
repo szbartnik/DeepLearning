@@ -15,9 +15,9 @@ namespace Wkiro.ImageClassification.Gui.Configuration
 
             var initialDataProviderConfiguration = new DataProviderConfiguration
             {
-                CropWidth              = Settings.Default.DataProviderConfiguration_CropWidth,
-                CropHeight             = Settings.Default.DataProviderConfiguration_CropHeight,
-                
+                ProcessingWidth = Settings.Default.DataProviderConfiguration_ProcessingWidth,
+                ProcessingHeight = Settings.Default.DataProviderConfiguration_ProcessingHeight,
+
                 TrainFilesLocationPath = string.IsNullOrEmpty(trainFilesLocationPath) ? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) : trainFilesLocationPath,
                 FileExtensions         = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(),
             };
@@ -29,9 +29,11 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new GlobalTrainerConfiguration
             {
+                CropWidth = Settings.Default.GlobalTrainerConfiguration_CropWidth,
+                CropHeight = Settings.Default.GlobalTrainerConfiguration_CropHeight,
+
                 HiddenLayers     = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
-                ProcessingWidth  = Settings.Default.GlobalTrainerConfiguration_ProcessingWidth,
-                ProcessingHeight = Settings.Default.GlobalTrainerConfiguration_ProcessingHeight,
+                
                 TrainDataRatio   = Settings.Default.GlobalTrainerConfiguration_TrainDataRatio,
             };
         }
@@ -81,8 +83,8 @@ namespace Wkiro.ImageClassification.Gui.Configuration
 
         private void SaveDataProviderConfiguration(DataProviderConfiguration dataProviderConfiguration)
         {
-            Settings.Default["DataProviderConfiguration_CropWidth"]              = dataProviderConfiguration.CropWidth;
-            Settings.Default["DataProviderConfiguration_CropHeight"]             = dataProviderConfiguration.CropHeight;
+            Settings.Default["DataProviderConfiguration_ProcessingWidth"] = dataProviderConfiguration.ProcessingWidth;
+            Settings.Default["DataProviderConfiguration_ProcessingHeight"] = dataProviderConfiguration.ProcessingHeight;
 
             Settings.Default["DataProviderConfiguration_TrainFilesLocationPath"] = dataProviderConfiguration.TrainFilesLocationPath;
             Settings.Default["DataProviderConfiguration_FileExtensions"]         = string.Join(";", dataProviderConfiguration.FileExtensions);
@@ -93,8 +95,10 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             if (globalTrainerConfiguration == null)
                 return;
 
-            Settings.Default["GlobalTrainerConfiguration_ProcessingWidth"]  = globalTrainerConfiguration.ProcessingWidth;
-            Settings.Default["GlobalTrainerConfiguration_ProcessingHeight"] = globalTrainerConfiguration.ProcessingHeight;
+            Settings.Default["GlobalTrainerConfiguration_CropWidth"] = globalTrainerConfiguration.CropWidth;
+            Settings.Default["GlobalTrainerConfiguration_CropHeight"] = globalTrainerConfiguration.CropHeight;
+
+            
 
             Settings.Default["GlobalTrainerConfiguration_Layers"]           = string.Join(";", globalTrainerConfiguration.HiddenLayers);
             Settings.Default["GlobalTrainerConfiguration_TrainDataRatio"]   = globalTrainerConfiguration.TrainDataRatio;

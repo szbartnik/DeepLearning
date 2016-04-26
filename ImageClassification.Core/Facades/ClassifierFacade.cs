@@ -20,11 +20,10 @@ namespace Wkiro.ImageClassification.Core.Facades
         public ClassifierFacade(
             string savedNetworkPath, 
             DataProviderConfiguration dataProviderConfiguration, 
-            ClassifierConfiguration classifierConfiguration, 
-            ILogger logger)
+            IGuiLogger logger)
         {
             _dataProvider = new DataProvider(dataProviderConfiguration);
-            _classifier = new Classifier(savedNetworkPath, classifierConfiguration, logger);
+            _classifier = new Classifier(savedNetworkPath, logger);
         }
 
         public IEnumerable<Category> GetAvailableCategories()
@@ -32,10 +31,10 @@ namespace Wkiro.ImageClassification.Core.Facades
             return _dataProvider.GetAvailableCategories();
         }
 
-        public CategoryClassification ClassifyToCategory(string imageToClassifyPath)
+        public CategoryClassification ClassifyToCategory(string imageToClassifyPath, ClassifierConfiguration configuration)
         {
             var preparedImage = _dataProvider.PrepareImageByPath(imageToClassifyPath);
-            var classifiedCategory = _classifier.ClassifyToCategory(preparedImage);
+            var classifiedCategory = _classifier.ClassifyToCategory(preparedImage, configuration);
             
             return classifiedCategory;
         }

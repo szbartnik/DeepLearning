@@ -26,24 +26,24 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("300")]
-        public int DataProviderConfiguration_CropWidth {
+        public int GlobalTrainerConfiguration_CropWidth {
             get {
-                return ((int)(this["DataProviderConfiguration_CropWidth"]));
+                return ((int)(this["GlobalTrainerConfiguration_CropWidth"]));
             }
             set {
-                this["DataProviderConfiguration_CropWidth"] = value;
+                this["GlobalTrainerConfiguration_CropWidth"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("200")]
-        public int DataProviderConfiguration_CropHeight {
+        public int GlobalTrainerConfiguration_CropHeight {
             get {
-                return ((int)(this["DataProviderConfiguration_CropHeight"]));
+                return ((int)(this["GlobalTrainerConfiguration_CropHeight"]));
             }
             set {
-                this["DataProviderConfiguration_CropHeight"] = value;
+                this["GlobalTrainerConfiguration_CropHeight"] = value;
             }
         }
         
@@ -61,7 +61,7 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("jpg")]
+        [global::System.Configuration.DefaultSettingValueAttribute("jpg;png;bmp")]
         public string DataProviderConfiguration_FileExtensions {
             get {
                 return ((string)(this["DataProviderConfiguration_FileExtensions"]));
@@ -86,24 +86,24 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("30")]
-        public int GlobalTrainerConfiguration_ProcessingWidth {
+        public int DataProviderConfiguration_ProcessingWidth {
             get {
-                return ((int)(this["GlobalTrainerConfiguration_ProcessingWidth"]));
+                return ((int)(this["DataProviderConfiguration_ProcessingWidth"]));
             }
             set {
-                this["GlobalTrainerConfiguration_ProcessingWidth"] = value;
+                this["DataProviderConfiguration_ProcessingWidth"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("20")]
-        public int GlobalTrainerConfiguration_ProcessingHeight {
+        public int DataProviderConfiguration_ProcessingHeight {
             get {
-                return ((int)(this["GlobalTrainerConfiguration_ProcessingHeight"]));
+                return ((int)(this["DataProviderConfiguration_ProcessingHeight"]));
             }
             set {
-                this["GlobalTrainerConfiguration_ProcessingHeight"] = value;
+                this["DataProviderConfiguration_ProcessingHeight"] = value;
             }
         }
         

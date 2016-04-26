@@ -2,25 +2,25 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Wkiro.ImageClassification.Gui.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DataProviderConfiguration_CropWidth" Type="System.Int32" Scope="User">
+    <Setting Name="GlobalTrainerConfiguration_CropWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">300</Value>
     </Setting>
-    <Setting Name="DataProviderConfiguration_CropHeight" Type="System.Int32" Scope="User">
+    <Setting Name="GlobalTrainerConfiguration_CropHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="DataProviderConfiguration_TrainFilesLocationPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DataProviderConfiguration_FileExtensions" Type="System.String" Scope="User">
-      <Value Profile="(Default)">jpg</Value>
+      <Value Profile="(Default)">jpg;png;bmp</Value>
     </Setting>
     <Setting Name="GlobalTrainerConfiguration_Layers" Type="System.String" Scope="User">
       <Value Profile="(Default)">600; 400; 2; 2</Value>
     </Setting>
-    <Setting Name="GlobalTrainerConfiguration_ProcessingWidth" Type="System.Int32" Scope="User">
+    <Setting Name="DataProviderConfiguration_ProcessingWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
     </Setting>
-    <Setting Name="GlobalTrainerConfiguration_ProcessingHeight" Type="System.Int32" Scope="User">
+    <Setting Name="DataProviderConfiguration_ProcessingHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="GlobalTrainerConfiguration_TrainDataRatio" Type="System.Double" Scope="User">

@@ -78,8 +78,7 @@
     <Compile Include="Engines\DataProvider.cs" />
     <Compile Include="Facades\ClassifierFacade.cs" />
     <Compile Include="Facades\LearningFacade.cs" />
-    <Compile Include="Infrastructure\Logging\ILogger.cs" />
-    <Compile Include="Infrastructure\Logging\Logger.cs" />
+    <Compile Include="Infrastructure\Logging\IGuiLogger.cs" />
     <Compile Include="Models\Configurations\ClassifierConfiguration.cs" />
     <Compile Include="Models\Configurations\DataProviderConfiguration.cs" />
     <Compile Include="Models\Configurations\GlobalTrainerConfiguration.cs" />

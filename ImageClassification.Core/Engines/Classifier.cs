@@ -9,36 +9,31 @@ namespace Wkiro.ImageClassification.Core.Engines
 {
     internal class Classifier
     {
-        private readonly ClassifierConfiguration _configuration;
-        private readonly ILogger _logger;
+        private readonly IGuiLogger _logger;
         private readonly DeepBeliefNetwork _network;
 
-        private Classifier(ClassifierConfiguration configuration, ILogger logger)
+        private Classifier(IGuiLogger logger)
         {
-            _configuration = configuration;
             _logger = logger;
         }
 
         public Classifier(
             DeepBeliefNetwork network, 
-            ClassifierConfiguration configuration, 
-            ILogger logger) : this(configuration, logger)
+            IGuiLogger logger) : this(logger)
         {
             _network = network;
         }
 
         public Classifier(
             string savedNetworkFilePath, 
-            ClassifierConfiguration configuration, 
-            ILogger logger) : this(configuration, logger)
+            IGuiLogger logger) : this(logger)
         {
             _network = DeepBeliefNetwork.Load(savedNetworkFilePath);
         }
 
-        public CategoryClassification ClassifyToCategory(double[] dataToClassify)
+        public CategoryClassification ClassifyToCategory(double[] dataToClassify, ClassifierConfiguration configuration)
         {
-            var categories = _configuration.Categories;
-
+            var categories = configuration.Categories;
             var output = _network.Compute(dataToClassify);
             var categoryIndex = GetIndexOfResult(output);
             var predictedCategory = categories.Single(x => x.Index == categoryIndex);

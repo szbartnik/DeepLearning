@@ -29,27 +29,28 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
         }
         private double _trainDataRatio;
 
-        public int ProcessingWidth
+        public int CropWidth
         {
-            get { return _processingWidth; }
+            get { return _cropWidth; }
             set
             {
-                _processingWidth = value;
+                _cropWidth = value;
                 OnPropertyChanged();
             }
         }
-        private int _processingWidth;
+        private int _cropWidth;
 
-        public int ProcessingHeight
+        public int CropHeight
         {
-            get { return _processingHeight; }
+            get { return _cropHeight; }
             set
             {
-                _processingHeight = value;
+                _cropHeight = value;
                 OnPropertyChanged();
             }
         }
-        private int _processingHeight;
+
+        private int _cropHeight;
 
         #region Property changed stuff
 

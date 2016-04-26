@@ -1,6 +1,6 @@
 ﻿namespace Wkiro.ImageClassification.Core.Infrastructure.Logging
 {
-    public interface ILogger
+    public interface IGuiLogger
     {
         void LogWriteLine(string logMessage);
     }

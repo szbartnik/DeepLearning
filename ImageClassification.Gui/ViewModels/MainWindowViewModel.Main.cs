@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using NLog;
 using Wkiro.ImageClassification.Core.Facades;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
@@ -16,7 +18,7 @@ using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase, ILogger
+    public partial class MainWindowViewModel : ViewModelBase, IGuiLogger
     {
         private const string SavedNetworkFileExtension = "dbn";
 
@@ -24,6 +26,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private readonly IConfigurationManager _configurationManager;
         private CancellationTokenSource _cts;
+
+        private ILogger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         public MainWindowViewModel(bool isNotDesignMode)
         {
@@ -37,6 +41,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private void ConfigureNewTraining()
         {
+            
             GlobalTrainerConfiguration = _configurationManager.GetGlobalTrainerConfiguration();
             Training1Parameters = _configurationManager.GetTraining1Parameters();
             Training2Parameters = _configurationManager.GetTraining2Parameters();
@@ -50,7 +55,10 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problem with creating new training configuration. Error: {e.Message}");
+                const string errorMessage = "Problem with creating new training configuration.";
+
+                LogWriteLine($"{errorMessage} Error: {e.Message}");
+                Logger.Error(e, errorMessage);
             }
         }
 
@@ -83,7 +91,6 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 _classifierFacade = new ClassifierFacade(
                     savedNetworkPath:          fileName, 
                     dataProviderConfiguration: _dataProviderConfiguration, 
-                    classifierConfiguration:   classifierConfiguration, 
                     logger:                    this);
 
                 AvailableCategories = new ObservableCollection<Category>(_classifierFacade.GetAvailableCategories());
@@ -94,7 +101,10 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with loading saved network. Error: {e.Message}");
+                const string errorMessage = "Problems with loading saved network.";
+
+                LogWriteLine($"{errorMessage} Error: {e.Message}");
+                Logger.Error(e, errorMessage);
             }
         }
 
@@ -125,7 +135,10 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with saving network. Error: {e.Message}");
+                const string errorMessage = "Problems with saving network.";
+
+                LogWriteLine($"{errorMessage} Error: {e.Message}");
+                Logger.Error(e, errorMessage);
             }
         }
 
@@ -142,17 +155,13 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             ProgramState = ProgramState.TrainingInProgress;
 
             var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
-            var categories = SelectedCategories.Select((x, i) =>
-            {
-                x.Index = i;
-                return x;
-            });
+            var categories = GetSelectedCategories();
 
             var trainingParameters = new TrainingParameters
             {
                 Training1Parameters = Training1Parameters,
                 Training2Parameters = Training2Parameters,
-                SelectedCategories = categories,
+                SelectedCategories = categories.ToList(),
             };
 
             try
@@ -164,7 +173,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems during training. Error: {e.Message}");
+                const string errorMessage = "Problems during training.";
+
+                LogWriteLine($"{errorMessage} Error: {e.Message}");
+                Logger.Error(e, errorMessage);
+
                 ReturnToInitialWithSaving();
             }
         }
@@ -210,13 +223,28 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             try
             {
-                var classification = _classifierFacade.ClassifyToCategory(fileName);
+                var classification = _classifierFacade.ClassifyToCategory(fileName, new ClassifierConfiguration
+                {
+                    Categories = GetSelectedCategories(),
+                });
                 LogWriteLine($"Classified to category '{classification.Category}' with {classification.Probability} probability.");
             }
             catch (Exception e)
             {
-                LogWriteLine($"Problems with classifying image of path '{fileName}'. Error: {e.Message}");
+                string errorMessage = $"Problems with classifying image of path '{fileName}'.";
+
+                LogWriteLine($"{errorMessage} Error: {e.Message}");
+                Logger.Error(e, errorMessage);
             }
+        }
+
+        private IEnumerable<Category> GetSelectedCategories()
+        {
+            return SelectedCategories.OrderBy(x => x.Name).Select((x, i) =>
+            {
+                x.Index = i;
+                return x;
+            }).ToList();
         }
 
         public void SaveConfiguration()
