@@ -5,6 +5,7 @@ using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Neuro.Networks;
 using AForge.Neuro.Learning;
+using NLog;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
@@ -19,6 +20,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         private readonly DeepBeliefNetwork _neuralNetwork;
 
         private readonly IGuiLogger _logger;
+        private ILogger Logger { get; } = LogManager.GetCurrentClassLogger();
 
         public Trainer(TrainerConfiguration configuration, IGuiLogger logger)
         {
@@ -41,6 +43,10 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         public void RunTraining1(Training1Parameters parameters)
         {
+            const string startInfo = "Started unsupervised training.";
+            Logger.Info(startInfo);
+            _logger.LogWriteLine(startInfo);
+
             var teacher = new DeepBeliefNetworkLearning(_neuralNetwork)
             {
                 Algorithm = (hiddenLayer, visibleLayer, i) => new ContrastiveDivergenceLearning(hiddenLayer, visibleLayer)
@@ -68,16 +74,22 @@ namespace Wkiro.ImageClassification.Core.Engines
                 for (int i = 0; i < parameters.UnsupervisedEpochs; i++)
                 {
                     var error = teacher.RunEpoch(layerData) / inputs.Length;
-                    if (i %10 != 0)
-                        continue;
+                    var message = $"Layer: {layerIndex} Epoch: {i}, Error: {error}";
 
-                    _logger.LogWriteLine($"Layer: {layerIndex} Epoch: {i}, Error: {error}");
+                    if (i%10 == 0)
+                        _logger.LogWriteLine(message);
+                    
+                    Logger.Info(message);
                 }
             }
         }
 
         public void RunTraining2(Training2Parameters parameters)
         {
+            const string startInfo = "Started supervised training.";
+            Logger.Info(startInfo);
+            _logger.LogWriteLine(startInfo);
+
             var trainingData = _configuration.InputsOutputsData;
 
             var teacher = new BackPropagationLearning(_neuralNetwork)
@@ -89,10 +101,12 @@ namespace Wkiro.ImageClassification.Core.Engines
             for (int i = 0; i < parameters.SupervisedEpochs; i++)
             {
                 var error = teacher.RunEpoch(trainingData.Inputs, trainingData.Outputs) / trainingData.Inputs.Length;
-                if (i % 10 != 0)
-                    continue;
+                var message = $"Supervised: {i}, Error = {error}";
 
-                _logger.LogWriteLine($"Supervised: {i}, Error = {error}");
+                if (i % 10 == 0)
+                    _logger.LogWriteLine(message);
+
+                Logger.Info(message);
             }
         }
 
@@ -112,11 +126,18 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (predicted == actual)
                     correctnessFactor++;
 
-                if (i%onePercent == 0)
-                    _logger.LogWriteLine($"Progress of computing correctness: {i * 100 / testData.Inputs.Length}%");
+
+                if (i%onePercent != 0)
+                    continue;
+
+                var message = $"Progress of computing correctness: {i * 100 / testData.Inputs.Length}%";
+                _logger.LogWriteLine(message);
+                Logger.Info(message);
             }
 
-            _logger.LogWriteLine($"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%");
+            var correctnessMessage = $"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%";
+            _logger.LogWriteLine(correctnessMessage);
+            Logger.Info(correctnessMessage);
         }
 
         private static int GetIndexOfResult(double[] output)
