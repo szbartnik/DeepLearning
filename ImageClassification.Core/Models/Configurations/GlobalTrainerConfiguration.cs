@@ -29,29 +29,6 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
         }
         private double _trainDataRatio;
 
-        public int CropWidth
-        {
-            get { return _cropWidth; }
-            set
-            {
-                _cropWidth = value;
-                OnPropertyChanged();
-            }
-        }
-        private int _cropWidth;
-
-        public int CropHeight
-        {
-            get { return _cropHeight; }
-            set
-            {
-                _cropHeight = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private int _cropHeight;
-
         #region Property changed stuff
 
         public event PropertyChangedEventHandler PropertyChanged;

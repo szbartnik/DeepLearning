@@ -2,12 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Wkiro.ImageClassification.Gui.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GlobalTrainerConfiguration_CropWidth" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">300</Value>
-    </Setting>
-    <Setting Name="GlobalTrainerConfiguration_CropHeight" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">200</Value>
-    </Setting>
     <Setting Name="DataProviderConfiguration_TrainFilesLocationPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

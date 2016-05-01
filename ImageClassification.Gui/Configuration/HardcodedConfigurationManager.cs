@@ -24,9 +24,6 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             return new GlobalTrainerConfiguration
             {
                 HiddenLayers = new[] {600, 400, 2, 2},
-                CropWidth = Settings.Default.GlobalTrainerConfiguration_CropWidth,
-                CropHeight = Settings.Default.GlobalTrainerConfiguration_CropHeight,
-                
                 TrainDataRatio = 0.8,
             };
         }

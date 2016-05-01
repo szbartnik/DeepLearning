@@ -29,12 +29,10 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new GlobalTrainerConfiguration
             {
-                CropWidth = Settings.Default.GlobalTrainerConfiguration_CropWidth,
-                CropHeight = Settings.Default.GlobalTrainerConfiguration_CropHeight,
-
-                HiddenLayers     = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
+                HiddenLayers = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ')
+                    .Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
                 
-                TrainDataRatio   = Settings.Default.GlobalTrainerConfiguration_TrainDataRatio,
+                TrainDataRatio = Settings.Default.GlobalTrainerConfiguration_TrainDataRatio,
             };
         }
 
@@ -94,11 +92,6 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             if (globalTrainerConfiguration == null)
                 return;
-
-            Settings.Default["GlobalTrainerConfiguration_CropWidth"] = globalTrainerConfiguration.CropWidth;
-            Settings.Default["GlobalTrainerConfiguration_CropHeight"] = globalTrainerConfiguration.CropHeight;
-
-            
 
             Settings.Default["GlobalTrainerConfiguration_Layers"]           = string.Join(";", globalTrainerConfiguration.HiddenLayers);
             Settings.Default["GlobalTrainerConfiguration_TrainDataRatio"]   = globalTrainerConfiguration.TrainDataRatio;

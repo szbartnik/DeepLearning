@@ -25,30 +25,6 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300")]
-        public int GlobalTrainerConfiguration_CropWidth {
-            get {
-                return ((int)(this["GlobalTrainerConfiguration_CropWidth"]));
-            }
-            set {
-                this["GlobalTrainerConfiguration_CropWidth"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("200")]
-        public int GlobalTrainerConfiguration_CropHeight {
-            get {
-                return ((int)(this["GlobalTrainerConfiguration_CropHeight"]));
-            }
-            set {
-                this["GlobalTrainerConfiguration_CropHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string DataProviderConfiguration_TrainFilesLocationPath {
             get {
