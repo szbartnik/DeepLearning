@@ -299,8 +299,9 @@
                                          ItemsSource="{Binding AvailableCategories}"
                                          SelectedItemsList="{Binding SelectedCategories,
                                                                      UpdateSourceTrigger=PropertyChanged,
-                                                                     Mode=TwoWay}"
-                                         SelectionMode="Multiple">
+                                                                     Mode=OneWayToSource}"
+                                         SelectionMode="Multiple"
+                                         SelectAllOnSourceChange="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectedCategoriesChangedCommand}" CommandParameter="{Binding ElementName=CategoriesListBox, Path=SelectedItems}" />

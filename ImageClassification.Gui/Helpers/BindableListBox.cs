@@ -22,7 +22,22 @@ namespace Wkiro.ImageClassification.Gui.Helpers
             set { SetValue(SelectedItemsListProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedItemsListProperty =
-           DependencyProperty.Register("SelectedItemsList", typeof(IList), typeof(BindableListBox), new PropertyMetadata(null));
+        public bool SelectAllOnSourceChange
+        {
+            get { return (bool)GetValue(SelectAllOnSourceChangeProperty); }
+            set { SetValue(SelectAllOnSourceChangeProperty, value); }
+        }
+
+        protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
+        {
+            base.OnItemsSourceChanged(oldValue, newValue);
+            if(SelectAllOnSourceChange)
+                SelectAll();
+        }
+
+        public static readonly DependencyProperty SelectedItemsListProperty = DependencyProperty
+            .Register("SelectedItemsList", typeof(IList), typeof(BindableListBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectAllOnSourceChangeProperty = DependencyProperty
+            .Register("SelectAllOnSourceChange", typeof(bool), typeof(BindableListBox), new PropertyMetadata(defaultValue: false));
     }
 }
