@@ -1,10 +1,6 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Wkiro.ImageClassification.Core.Annotations;
-
 namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
-    public class GlobalTrainerConfiguration : INotifyPropertyChanged
+    public class GlobalTrainerConfiguration : PropertyChangedNotifier
     {
         public int[] HiddenLayers
         {
@@ -29,16 +25,5 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
         }
         private double _trainDataRatio;
 
-        #region Property changed stuff
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }

@@ -199,8 +199,8 @@
                                 Grid.RowSpan="2"
                                 VerticalAlignment="Center"
                                 IsSnapToTickEnabled="True"
-                                Maximum="1"
-                                Minimum="0"
+                                Maximum="0.99"
+                                Minimum="0.01"
                                 TickFrequency="0.01"
                                 Value="{Binding GlobalTrainerConfiguration.TrainDataRatio}" />
                         <TextBlock Grid.Column="2"

@@ -1,10 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Wkiro.ImageClassification.Core.Annotations;
-
-namespace Wkiro.ImageClassification.Core.Models.Configurations
+﻿namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
-    public class DataProviderConfiguration : INotifyPropertyChanged
+    public class DataProviderConfiguration : PropertyChangedNotifier
     {
         private string _trainFilesLocationPath;
         private string[] _fileExtensions;
@@ -50,16 +46,5 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             }
         }
 
-        #region Property changed stuff
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }

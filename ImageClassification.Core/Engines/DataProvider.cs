@@ -65,38 +65,39 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private LearningSet SplitOnTrainAndTest(InputsOutputsData inputOutputsData)
         {
-            var numOfSamples = inputOutputsData.Count;
-            var trainDataRatio = _globalTrainerConfiguration.TrainDataRatio;
-            var trainSamplesNum = (int)Math.Round(trainDataRatio * numOfSamples);
-            var testSamplesNum = numOfSamples - trainSamplesNum;
+            var allSamplesCount = inputOutputsData.Count;
+            var trainSamplesCount = GetTrainSampleCount(allSamplesCount);
+            var testSamplesCount = allSamplesCount - trainSamplesCount;
 
             var rand = new Random();
-
             var learningSet = new LearningSet();
             var trainingData = learningSet.TrainingData;
             var testData = learningSet.TestData;
 
-            for (int i = 0; i < numOfSamples; i++)
+            for (int i = 0, trainSamplesLeft = trainSamplesCount, samplesLeft = allSamplesCount; 
+                i < allSamplesCount; 
+                ++i, --samplesLeft)
             {
-                if (trainingData.Count < trainSamplesNum && testData.Count < testSamplesNum)
+                bool shouldTakeNextTrainSample = rand.Next(1, samplesLeft) <= trainSamplesLeft;
+                if(shouldTakeNextTrainSample)
                 {
-                    var randChoice = rand.Next(1);
-                    if (randChoice == 1)
-                        trainingData.AddData(inputOutputsData.Inputs[i], inputOutputsData.Outputs[i]);
-                    else
-                        testData.AddData(inputOutputsData.Inputs[i], inputOutputsData.Outputs[i]);
-
-                    continue;
-                }
-
-                // Executed only if one training or test data set is full.
-                if (trainingData.Count < trainSamplesNum)
                     trainingData.AddData(inputOutputsData.Inputs[i], inputOutputsData.Outputs[i]);
+                    --trainSamplesLeft;
+                }
                 else
+                {
                     testData.AddData(inputOutputsData.Inputs[i], inputOutputsData.Outputs[i]);
+                }
             }
 
             return learningSet;
+        }
+
+        private int GetTrainSampleCount(int allSamplesCount)
+        {
+            var trainDataRatio = _globalTrainerConfiguration.TrainDataRatio;
+            var trainSamplesCount = (int)Math.Round(trainDataRatio * allSamplesCount);
+            return Math.Max(1, trainSamplesCount);
         }
 
         private Bitmap CropImage(Bitmap bitmap)

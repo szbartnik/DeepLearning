@@ -1,10 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Wkiro.ImageClassification.Core.Annotations;
-
-namespace Wkiro.ImageClassification.Core.Models.Configurations
+﻿namespace Wkiro.ImageClassification.Core.Models.Configurations
 {
-    public class Training1Parameters : INotifyPropertyChanged
+    public class Training1Parameters : PropertyChangedNotifier
     {
         private double _learningRate;
         private double _momentum;
@@ -48,16 +44,5 @@ namespace Wkiro.ImageClassification.Core.Models.Configurations
             }
         }
 
-        #region Property changed stuff
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }
