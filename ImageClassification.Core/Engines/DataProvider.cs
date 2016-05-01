@@ -40,9 +40,9 @@ namespace Wkiro.ImageClassification.Core.Engines
                 var filesOfCategory = GetFilesOfCategoryFolder(categoryDirectoryInfo);
 
                 var category = new Category(
-                    name:       categoryDirectoryInfo.Name,
-                    fullPath:   categoryFolderPath,
-                    files:      filesOfCategory);
+                    name: categoryDirectoryInfo.Name,
+                    fullPath: categoryFolderPath,
+                    files: filesOfCategory);
 
                 return category;
             });
@@ -99,6 +99,26 @@ namespace Wkiro.ImageClassification.Core.Engines
             return learningSet;
         }
 
+        private Bitmap CropImage(Bitmap bitmap)
+        {
+            double actualRatio = (double)bitmap.Width / bitmap.Height;
+            double expectedRatio = (double)_dataProviderconfiguration.ProcessingWidth
+                / _dataProviderconfiguration.ProcessingHeight;
+
+            if (actualRatio > expectedRatio)
+            {
+                int cropWidth = (int)(bitmap.Height * expectedRatio);
+                int dW = (bitmap.Width - cropWidth) / 2;
+                return bitmap.Clone(new Rectangle(dW, 0, cropWidth, bitmap.Height), bitmap.PixelFormat);
+            }
+            else
+            {
+                int cropHeight = (int)(bitmap.Width / expectedRatio);
+                int dH = (bitmap.Height - cropHeight) / 2;
+                return bitmap.Clone(new Rectangle(0, dH, bitmap.Width, cropHeight), bitmap.PixelFormat);
+            }
+        }
+
         private Bitmap ShrinkImage(Image bitmap)
         {
             var newBitmap = new Bitmap(
@@ -119,26 +139,19 @@ namespace Wkiro.ImageClassification.Core.Engines
 
             foreach (var file in category.Files)
             {
-                var image = (Bitmap)Image.FromFile(file.FullName, true);
-                if (image.Width < _globalTrainerConfiguration.CropWidth || image.Height < _globalTrainerConfiguration.CropHeight)
-                    continue;
+                using (var image = (Bitmap)Image.FromFile(file.FullName, true))
+                using (var croppedImage = CropImage(image))
+                using (var smallImage = ShrinkImage(croppedImage))
+                {
+                    double[] input;
+                    _imageToArray.Convert(smallImage, out input);
 
-                // Crop the image
-                image = image.Clone(new Rectangle(0, 0, _globalTrainerConfiguration.CropWidth, _globalTrainerConfiguration.CropHeight), image.PixelFormat);
+                    var output = new double[numberOfCategories];
+                    output[category.Index] = 1;
 
-                // Downsample the image to save memory
-                var smallImage = ShrinkImage(image);
-                image.Dispose();
-
-                double[] input;
-                _imageToArray.Convert(smallImage, out input);
-                smallImage.Dispose();
-
-                var output = new double[numberOfCategories];
-                output[category.Index] = 1;
-
-                inputOutputsData.Inputs.Add(input);
-                inputOutputsData.Outputs.Add(output);
+                    inputOutputsData.Inputs.Add(input);
+                    inputOutputsData.Outputs.Add(output);
+                }
             }
 
             var splittedSets = SplitOnTrainAndTest(inputOutputsData);
