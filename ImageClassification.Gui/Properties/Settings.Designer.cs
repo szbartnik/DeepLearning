@@ -49,13 +49,13 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("600; 400; 2; 2")]
-        public string GlobalTrainerConfiguration_Layers {
+        [global::System.Configuration.DefaultSettingValueAttribute("500; 300; 100")]
+        public string GlobalTrainerConfiguration_HiddenLayers {
             get {
-                return ((string)(this["GlobalTrainerConfiguration_Layers"]));
+                return ((string)(this["GlobalTrainerConfiguration_HiddenLayers"]));
             }
             set {
-                this["GlobalTrainerConfiguration_Layers"] = value;
+                this["GlobalTrainerConfiguration_HiddenLayers"] = value;
             }
         }
         
@@ -133,7 +133,7 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("200")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int Training1Parameters_UnsupervisedEpochs {
             get {
                 return ((int)(this["Training1Parameters_UnsupervisedEpochs"]));
@@ -169,13 +169,37 @@ namespace Wkiro.ImageClassification.Gui.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int Training2Parameters_SupervisedEpochs {
             get {
                 return ((int)(this["Training2Parameters_SupervisedEpochs"]));
             }
             set {
                 this["Training2Parameters_SupervisedEpochs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DataProviderConfiguration_UseGrayScale {
+            get {
+                return ((bool)(this["DataProviderConfiguration_UseGrayScale"]));
+            }
+            set {
+                this["DataProviderConfiguration_UseGrayScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DataProviderConfiguration_ShouldAutoCrop {
+            get {
+                return ((bool)(this["DataProviderConfiguration_ShouldAutoCrop"]));
+            }
+            set {
+                this["DataProviderConfiguration_ShouldAutoCrop"] = value;
             }
         }
     }

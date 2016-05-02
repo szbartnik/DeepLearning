@@ -7,6 +7,8 @@
         
         private int _processingWidth;
         private int _processingHeight;
+        private bool _useGrayScale;
+        private bool _shouldAutoCrop;
 
         public string TrainFilesLocationPath
         {
@@ -42,6 +44,26 @@
             set
             {
                 _processingHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool UseGrayScale
+        {
+            get { return _useGrayScale; }
+            set
+            {
+                _useGrayScale = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ShouldAutoCrop
+        {
+            get { return _shouldAutoCrop; }
+            set
+            {
+                _shouldAutoCrop = value;
                 OnPropertyChanged();
             }
         }

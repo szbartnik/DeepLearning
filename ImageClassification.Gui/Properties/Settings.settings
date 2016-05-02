@@ -8,8 +8,8 @@
     <Setting Name="DataProviderConfiguration_FileExtensions" Type="System.String" Scope="User">
       <Value Profile="(Default)">jpg;png;bmp</Value>
     </Setting>
-    <Setting Name="GlobalTrainerConfiguration_Layers" Type="System.String" Scope="User">
-      <Value Profile="(Default)">600; 400; 2; 2</Value>
+    <Setting Name="GlobalTrainerConfiguration_HiddenLayers" Type="System.String" Scope="User">
+      <Value Profile="(Default)">500; 300; 100</Value>
     </Setting>
     <Setting Name="DataProviderConfiguration_ProcessingWidth" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">30</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">0.1</Value>
     </Setting>
     <Setting Name="Training1Parameters_UnsupervisedEpochs" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">200</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Training2Parameters_Momentum" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0.5</Value>
@@ -39,7 +39,13 @@
       <Value Profile="(Default)">0.1</Value>
     </Setting>
     <Setting Name="Training2Parameters_SupervisedEpochs" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">300</Value>
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="DataProviderConfiguration_UseGrayScale" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DataProviderConfiguration_ShouldAutoCrop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

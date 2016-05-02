@@ -1,12 +1,11 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
-using Wkiro.ImageClassification.Core.Models.Configurations;
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
     public class GrayScale : IImagePreprocessingStrategy
     {
-        public Bitmap Process(Bitmap bitmap, DataProviderConfiguration configuration)
+        public Bitmap Process(Bitmap bitmap)
         {
             var newBitmap = new Bitmap(bitmap.Width, bitmap.Height);
             var colorMatrix = new ColorMatrix(new[]

@@ -9,9 +9,9 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
                       Title="Images Classification (Deep Learning)"
-                      Width="815"
+                      
                       Height="Auto"
-                      MinWidth="815"
+                      MinWidth="845"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
                                                        IsDesignTimeCreatable=True}"
                       Closing="MainWindowView_OnClosing"
@@ -158,11 +158,44 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- Image preprocessing options GroupBox -->
+            <GroupBox Grid.Column="0" 
+                      MaxHeight="220"
+                      Header="Image settings"
+                      Visibility="{Binding ProgramState,
+                                           Converter={StaticResource EnumToVisibilityConverter},
+                                           ConverterParameter='! Initial'}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Gray scale"/>
+                        <CheckBox Grid.Column="2"
+                                  IsChecked="{Binding DataProviderConfiguration.UseGrayScale, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="Auto crop"/>
+                        <CheckBox Grid.Row="1"
+                                  Grid.Column="2"
+                                  IsChecked="{Binding DataProviderConfiguration.ShouldAutoCrop, Mode=TwoWay}"/>
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
             <!--  Global training settings GroupBox  -->
-            <GroupBox MaxHeight="220"
+            <GroupBox Grid.Column="1" 
+                      MaxHeight="220"
                       Header="Global training settings"
                       Visibility="{Binding ProgramState,
                                            Converter={StaticResource EnumToVisibilityConverter},
@@ -220,7 +253,6 @@
 
                     <!--  Processing dimensions  -->
                     <TextBlock Margin="0 10 0 0" Text="Processing dimensions" />
-
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -249,11 +281,12 @@
                                  Text="{Binding DataProviderConfiguration.ProcessingHeight,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
+                    
                 </StackPanel>
             </GroupBox>
 
             <!--  Training #1 parameters GroupBox  -->
-            <GroupBox Grid.Column="1"
+            <GroupBox Grid.Column="2"
                       MaxHeight="220"
                       Header="Tr. #1 params (unsupervised)"
                       Visibility="{Binding ProgramState,
@@ -272,7 +305,7 @@
             </GroupBox>
 
             <!--  Training #2 parameters GroupBox  -->
-            <GroupBox Grid.Column="2"
+            <GroupBox Grid.Column="3"
                       MaxHeight="220"
                       Header="Tr. #2 params (supervised)"
                       Visibility="{Binding ProgramState,
@@ -289,7 +322,7 @@
             </GroupBox>
 
             <!--  Categories GroupBox  -->
-            <GroupBox Grid.Column="3"
+            <GroupBox Grid.Column="4"
                       MaxHeight="220"
                       Header="Categories"
                       Visibility="{Binding ProgramState,

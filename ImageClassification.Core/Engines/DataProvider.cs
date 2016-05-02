@@ -103,14 +103,14 @@ namespace Wkiro.ImageClassification.Core.Engines
         private LearningSet GetCategoryLearningSet(Category category, int numberOfCategories)
         {
             var inputOutputsData = new InputsOutputsData();
-            var imagePreprocessingStrategy = new ChainedImagePreprocessing(new AutoCrop(), new Scale());
+            var imagePreprocessingStrategy = _dataProviderconfiguration.ToImagePreprocessingStrategy();
 
             foreach (var file in category.Files)
             {
                 using (var image = (Bitmap)Image.FromFile(file.FullName, true))
-                using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
+                using (var processedImage = imagePreprocessingStrategy.Process(image))
                 {
-                    var input = ConvertImage(processedImage, isGrayScale: false);
+                    var input = ConvertImage(processedImage);
                     inputOutputsData.Inputs.Add(input);
 
                     var output = new double[numberOfCategories];
@@ -138,18 +138,18 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         public double[] PrepareImageByPath(string imageFilePath)
         {
-            var imagePreprocessingStrategy = new ChainedImagePreprocessing(new AutoCrop(), new Scale());
+            var imagePreprocessingStrategy = _dataProviderconfiguration.ToImagePreprocessingStrategy();
             using (var image = (Bitmap)Image.FromFile(imageFilePath, true))
-            using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
+            using (var processedImage = imagePreprocessingStrategy.Process(image))
             {
-                return ConvertImage(processedImage, isGrayScale: false);
+                return ConvertImage(processedImage);
             }
         }
 
-        private double[] ConvertImage(Bitmap image, bool isGrayScale)
+        private double[] ConvertImage(Bitmap image)
         {
             double[] converted;
-            if (isGrayScale)
+            if (_dataProviderconfiguration.UseGrayScale)
                 _imageToArray.Convert(image, out converted);
             else
                 ExtractRgb(image, out converted);

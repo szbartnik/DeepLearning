@@ -5,11 +5,18 @@ namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
     public class AutoCrop : IImagePreprocessingStrategy
     {
-        public Bitmap Process(Bitmap bitmap, DataProviderConfiguration configuration)
+        private readonly DataProviderConfiguration _configuration;
+
+        public AutoCrop(DataProviderConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public Bitmap Process(Bitmap bitmap)
         {
             double actualRatio = (double) bitmap.Width/bitmap.Height;
-            double expectedRatio = (double) configuration.ProcessingWidth
-                                   /configuration.ProcessingHeight;
+            double expectedRatio = (double) _configuration.ProcessingWidth
+                                   / _configuration.ProcessingHeight;
 
             return actualRatio > expectedRatio
                 ? CropFromLeftAndRight(bitmap, expectedRatio)

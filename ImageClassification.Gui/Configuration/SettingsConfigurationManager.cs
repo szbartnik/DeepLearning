@@ -17,6 +17,8 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             {
                 ProcessingWidth = Settings.Default.DataProviderConfiguration_ProcessingWidth,
                 ProcessingHeight = Settings.Default.DataProviderConfiguration_ProcessingHeight,
+                UseGrayScale = Settings.Default.DataProviderConfiguration_UseGrayScale,
+                ShouldAutoCrop = Settings.Default.DataProviderConfiguration_ShouldAutoCrop,
 
                 TrainFilesLocationPath = string.IsNullOrEmpty(trainFilesLocationPath) ? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) : trainFilesLocationPath,
                 FileExtensions         = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(),
@@ -29,7 +31,7 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             return new GlobalTrainerConfiguration
             {
-                HiddenLayers = Settings.Default.GlobalTrainerConfiguration_Layers.Split(',', ';', ' ')
+                HiddenLayers = Settings.Default.GlobalTrainerConfiguration_HiddenLayers.Split(',', ';', ' ')
                     .Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToArray(),
                 
                 TrainDataRatio = Settings.Default.GlobalTrainerConfiguration_TrainDataRatio,
@@ -79,43 +81,45 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             Settings.Default.Save();
         }
 
-        private void SaveDataProviderConfiguration(DataProviderConfiguration dataProviderConfiguration)
+        private static void SaveDataProviderConfiguration(DataProviderConfiguration dataProviderConfiguration)
         {
-            Settings.Default["DataProviderConfiguration_ProcessingWidth"] = dataProviderConfiguration.ProcessingWidth;
-            Settings.Default["DataProviderConfiguration_ProcessingHeight"] = dataProviderConfiguration.ProcessingHeight;
+            Settings.Default.DataProviderConfiguration_ProcessingWidth = dataProviderConfiguration.ProcessingWidth;
+            Settings.Default.DataProviderConfiguration_ProcessingHeight = dataProviderConfiguration.ProcessingHeight;
+            Settings.Default.DataProviderConfiguration_UseGrayScale = dataProviderConfiguration.UseGrayScale;
+            Settings.Default.DataProviderConfiguration_ShouldAutoCrop = dataProviderConfiguration.ShouldAutoCrop;
 
-            Settings.Default["DataProviderConfiguration_TrainFilesLocationPath"] = dataProviderConfiguration.TrainFilesLocationPath;
-            Settings.Default["DataProviderConfiguration_FileExtensions"]         = string.Join(";", dataProviderConfiguration.FileExtensions);
+            Settings.Default.DataProviderConfiguration_TrainFilesLocationPath = dataProviderConfiguration.TrainFilesLocationPath;
+            Settings.Default.DataProviderConfiguration_FileExtensions = string.Join(";", dataProviderConfiguration.FileExtensions);
         }
 
-        private void SaveGlobalTrainerConfiguration(GlobalTrainerConfiguration globalTrainerConfiguration)
+        private static void SaveGlobalTrainerConfiguration(GlobalTrainerConfiguration globalTrainerConfiguration)
         {
             if (globalTrainerConfiguration == null)
                 return;
 
-            Settings.Default["GlobalTrainerConfiguration_Layers"]           = string.Join(";", globalTrainerConfiguration.HiddenLayers);
-            Settings.Default["GlobalTrainerConfiguration_TrainDataRatio"]   = globalTrainerConfiguration.TrainDataRatio;
+            Settings.Default.GlobalTrainerConfiguration_HiddenLayers = string.Join(";", globalTrainerConfiguration.HiddenLayers);
+            Settings.Default.GlobalTrainerConfiguration_TrainDataRatio = globalTrainerConfiguration.TrainDataRatio;
         }
 
-        private void SaveTraining1Parameters(Training1Parameters training1Parameters)
+        private static void SaveTraining1Parameters(Training1Parameters training1Parameters)
         {
             if (training1Parameters == null)
                 return;
 
-            Settings.Default["Training1Parameters_Momentum"]           = training1Parameters.Momentum;
-            Settings.Default["Training1Parameters_Decay"]              = training1Parameters.Decay;
-            Settings.Default["Training1Parameters_LearningRate"]       = training1Parameters.LearningRate;
-            Settings.Default["Training1Parameters_UnsupervisedEpochs"] = training1Parameters.UnsupervisedEpochs;
+            Settings.Default.Training1Parameters_Momentum           = training1Parameters.Momentum;
+            Settings.Default.Training1Parameters_Decay              = training1Parameters.Decay;
+            Settings.Default.Training1Parameters_LearningRate       = training1Parameters.LearningRate;
+            Settings.Default.Training1Parameters_UnsupervisedEpochs = training1Parameters.UnsupervisedEpochs;
         }
 
-        private void SaveTraining2Parameters(Training2Parameters training2Parameters)
+        private static void SaveTraining2Parameters(Training2Parameters training2Parameters)
         {
             if (training2Parameters == null)
                 return;
 
-            Settings.Default["Training2Parameters_Momentum"]         = training2Parameters.Momentum;
-            Settings.Default["Training2Parameters_LearningRate"]     = training2Parameters.LearningRate;
-            Settings.Default["Training2Parameters_SupervisedEpochs"] = training2Parameters.SupervisedEpochs;
+            Settings.Default.Training2Parameters_Momentum         = training2Parameters.Momentum;
+            Settings.Default.Training2Parameters_LearningRate     = training2Parameters.LearningRate;
+            Settings.Default.Training2Parameters_SupervisedEpochs = training2Parameters.SupervisedEpochs;
         }
 
         #endregion

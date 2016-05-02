@@ -6,11 +6,18 @@ namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
     public class Scale : IImagePreprocessingStrategy
     {
-        public Bitmap Process(Bitmap bitmap, DataProviderConfiguration configuration)
+        private readonly DataProviderConfiguration _configuration;
+
+        public Scale(DataProviderConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+        public Bitmap Process(Bitmap bitmap)
         {
             var newBitmap = new Bitmap(
-                configuration.ProcessingWidth,
-                configuration.ProcessingHeight);
+                _configuration.ProcessingWidth,
+                _configuration.ProcessingHeight);
 
             var graphics = Graphics.FromImage(newBitmap);
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
