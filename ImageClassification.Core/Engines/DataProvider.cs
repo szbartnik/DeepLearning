@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
+using Wkiro.ImageClassification.Core.Engines.ImagePreprocessing;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 
@@ -67,7 +68,6 @@ namespace Wkiro.ImageClassification.Core.Engines
         {
             var allSamplesCount = inputOutputsData.Count;
             var trainSamplesCount = GetTrainSampleCount(allSamplesCount);
-            var testSamplesCount = allSamplesCount - trainSamplesCount;
 
             var rand = new Random();
             var learningSet = new LearningSet();
@@ -100,52 +100,18 @@ namespace Wkiro.ImageClassification.Core.Engines
             return Math.Max(1, trainSamplesCount);
         }
 
-        private Bitmap CropImage(Bitmap bitmap)
-        {
-            double actualRatio = (double)bitmap.Width / bitmap.Height;
-            double expectedRatio = (double)_dataProviderconfiguration.ProcessingWidth
-                / _dataProviderconfiguration.ProcessingHeight;
-
-            if (actualRatio > expectedRatio)
-            {
-                int cropWidth = (int)(bitmap.Height * expectedRatio);
-                int dW = (bitmap.Width - cropWidth) / 2;
-                return bitmap.Clone(new Rectangle(dW, 0, cropWidth, bitmap.Height), bitmap.PixelFormat);
-            }
-            else
-            {
-                int cropHeight = (int)(bitmap.Width / expectedRatio);
-                int dH = (bitmap.Height - cropHeight) / 2;
-                return bitmap.Clone(new Rectangle(0, dH, bitmap.Width, cropHeight), bitmap.PixelFormat);
-            }
-        }
-
-        private Bitmap ShrinkImage(Image bitmap)
-        {
-            var newBitmap = new Bitmap(
-                _dataProviderconfiguration.ProcessingWidth,
-                _dataProviderconfiguration.ProcessingHeight);
-
-            var graphics = Graphics.FromImage(newBitmap);
-            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            graphics.DrawImage(bitmap, 0, 0, newBitmap.Width, newBitmap.Height);
-            graphics.Dispose();
-
-            return newBitmap;
-        }
-
         private LearningSet GetCategoryLearningSet(Category category, int numberOfCategories)
         {
             var inputOutputsData = new InputsOutputsData();
+            var imagePreprocessingStrategy = new ChainedImagePreprocessing(new AutoCrop(), new Scale());
 
             foreach (var file in category.Files)
             {
                 using (var image = (Bitmap)Image.FromFile(file.FullName, true))
-                using (var croppedImage = CropImage(image))
-                using (var smallImage = ShrinkImage(croppedImage))
+                using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
                 {
                     double[] input;
-                    _imageToArray.Convert(smallImage, out input);
+                    _imageToArray.Convert(processedImage, out input);
 
                     var output = new double[numberOfCategories];
                     output[category.Index] = 1;
@@ -174,13 +140,15 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         public double[] PrepareImageByPath(string imageFilePath)
         {
-            var image = (Bitmap)Image.FromFile(imageFilePath, true);
-            var shrinked = ShrinkImage(image);
+            var imagePreprocessingStrategy = new ChainedImagePreprocessing(new AutoCrop(), new Scale());
+            using (var image = (Bitmap)Image.FromFile(imageFilePath, true))
+            using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
+            {
+                double[] converted;
+                _imageToArray.Convert(processedImage, out converted);
 
-            double[] converted;
-            _imageToArray.Convert(shrinked, out converted);
-
-            return converted;
+                return converted;
+            }
         }
     }
 }

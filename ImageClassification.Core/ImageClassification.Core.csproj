@@ -81,6 +81,10 @@
   <ItemGroup>
     <Compile Include="Engines\Classifier.cs" />
     <Compile Include="Engines\DataProvider.cs" />
+    <Compile Include="Engines\ImagePreprocessing\AutoCrop.cs" />
+    <Compile Include="Engines\ImagePreprocessing\ChainedImagePreprocessing.cs" />
+    <Compile Include="Engines\ImagePreprocessing\IImagePreprocessingStrategy.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Scale.cs" />
     <Compile Include="Facades\ClassifierFacade.cs" />
     <Compile Include="Facades\LearningFacade.cs" />
     <Compile Include="Infrastructure\Logging\IGuiLogger.cs" />
