@@ -110,13 +110,11 @@ namespace Wkiro.ImageClassification.Core.Engines
                 using (var image = (Bitmap)Image.FromFile(file.FullName, true))
                 using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
                 {
-                    double[] input;
-                    _imageToArray.Convert(processedImage, out input);
+                    var input = ConvertImage(processedImage, isGrayScale: false);
+                    inputOutputsData.Inputs.Add(input);
 
                     var output = new double[numberOfCategories];
                     output[category.Index] = 1;
-
-                    inputOutputsData.Inputs.Add(input);
                     inputOutputsData.Outputs.Add(output);
                 }
             }
@@ -144,11 +142,30 @@ namespace Wkiro.ImageClassification.Core.Engines
             using (var image = (Bitmap)Image.FromFile(imageFilePath, true))
             using (var processedImage = imagePreprocessingStrategy.Process(image, _dataProviderconfiguration))
             {
-                double[] converted;
-                _imageToArray.Convert(processedImage, out converted);
-
-                return converted;
+                return ConvertImage(processedImage, isGrayScale: false);
             }
+        }
+
+        private double[] ConvertImage(Bitmap image, bool isGrayScale)
+        {
+            double[] converted;
+            if (isGrayScale)
+                _imageToArray.Convert(image, out converted);
+            else
+                ExtractRgb(image, out converted);
+            return converted;
+        }
+
+        private void ExtractRgb(Bitmap image, out double[] rgb)
+        {
+            double[][] argb;
+            _imageToArray.Convert(image, out argb);
+
+            rgb = new double[argb.Length * 3];
+            int rgbI = 0;
+            foreach (var pixel in argb)
+                foreach (var i in Enumerable.Range(1, 3))
+                    rgb[rgbI++] = pixel[i];
         }
     }
 }
