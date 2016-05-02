@@ -9,6 +9,7 @@
         private int _processingHeight;
         private bool _useGrayScale;
         private bool _shouldAutoCrop;
+        private bool _shouldEqualizeHistogram;
 
         public string TrainFilesLocationPath
         {
@@ -64,6 +65,16 @@
             set
             {
                 _shouldAutoCrop = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool ShouldEqualizeHistorgram
+        {
+            get { return _shouldEqualizeHistogram; }
+            set
+            {
+                _shouldEqualizeHistogram = value;
                 OnPropertyChanged();
             }
         }

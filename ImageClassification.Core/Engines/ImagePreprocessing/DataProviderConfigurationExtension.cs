@@ -14,6 +14,8 @@ namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
                 orderedStrategies.Add(new GrayScale());
             if(configuration.ShouldAutoCrop)
                 orderedStrategies.Add(new AutoCrop(configuration));
+            if(configuration.ShouldEqualizeHistorgram)
+                orderedStrategies.Add(new EqualizeHistogram());
             orderedStrategies.Add(new Scale(configuration));
 
             return orderedStrategies.Count == 1

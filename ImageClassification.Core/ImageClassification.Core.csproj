@@ -84,6 +84,7 @@
     <Compile Include="Engines\ImagePreprocessing\AutoCrop.cs" />
     <Compile Include="Engines\ImagePreprocessing\ChainedImagePreprocessing.cs" />
     <Compile Include="Engines\ImagePreprocessing\DataProviderConfigurationExtension.cs" />
+    <Compile Include="Engines\ImagePreprocessing\EqualizeHistogram.cs" />
     <Compile Include="Engines\ImagePreprocessing\GrayScale.cs" />
     <Compile Include="Engines\ImagePreprocessing\IImagePreprocessingStrategy.cs" />
     <Compile Include="Engines\ImagePreprocessing\Scale.cs" />

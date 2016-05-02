@@ -173,10 +173,11 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="4"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
+                            <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
@@ -189,6 +190,11 @@
                         <CheckBox Grid.Row="1"
                                   Grid.Column="2"
                                   IsChecked="{Binding DataProviderConfiguration.ShouldAutoCrop, Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="2"
+                                   Text="Equalize histogram"/>
+                        <CheckBox Grid.Row="2"
+                                  Grid.Column="2"
+                                  IsChecked="{Binding DataProviderConfiguration.ShouldEqualizeHistorgram, Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
             </GroupBox>

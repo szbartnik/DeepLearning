@@ -17,8 +17,10 @@ namespace Wkiro.ImageClassification.Gui.Configuration
             {
                 ProcessingWidth = Settings.Default.DataProviderConfiguration_ProcessingWidth,
                 ProcessingHeight = Settings.Default.DataProviderConfiguration_ProcessingHeight,
+
                 UseGrayScale = Settings.Default.DataProviderConfiguration_UseGrayScale,
                 ShouldAutoCrop = Settings.Default.DataProviderConfiguration_ShouldAutoCrop,
+                ShouldEqualizeHistorgram = Settings.Default.DataProviderConfiguration_ShouldEqualizeHistogram,
 
                 TrainFilesLocationPath = string.IsNullOrEmpty(trainFilesLocationPath) ? Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) : trainFilesLocationPath,
                 FileExtensions         = Settings.Default.DataProviderConfiguration_FileExtensions.Split(',', ';', ' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(),
@@ -85,8 +87,11 @@ namespace Wkiro.ImageClassification.Gui.Configuration
         {
             Settings.Default.DataProviderConfiguration_ProcessingWidth = dataProviderConfiguration.ProcessingWidth;
             Settings.Default.DataProviderConfiguration_ProcessingHeight = dataProviderConfiguration.ProcessingHeight;
+
             Settings.Default.DataProviderConfiguration_UseGrayScale = dataProviderConfiguration.UseGrayScale;
             Settings.Default.DataProviderConfiguration_ShouldAutoCrop = dataProviderConfiguration.ShouldAutoCrop;
+            Settings.Default.DataProviderConfiguration_ShouldEqualizeHistogram =
+                dataProviderConfiguration.ShouldEqualizeHistorgram;
 
             Settings.Default.DataProviderConfiguration_TrainFilesLocationPath = dataProviderConfiguration.TrainFilesLocationPath;
             Settings.Default.DataProviderConfiguration_FileExtensions = string.Join(";", dataProviderConfiguration.FileExtensions);

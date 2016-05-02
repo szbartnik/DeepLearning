@@ -202,5 +202,17 @@ namespace Wkiro.ImageClassification.Gui.Properties {
                 this["DataProviderConfiguration_ShouldAutoCrop"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DataProviderConfiguration_ShouldEqualizeHistogram {
+            get {
+                return ((bool)(this["DataProviderConfiguration_ShouldEqualizeHistogram"]));
+            }
+            set {
+                this["DataProviderConfiguration_ShouldEqualizeHistogram"] = value;
+            }
+        }
     }
 }

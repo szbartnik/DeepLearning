@@ -112,7 +112,7 @@ namespace Wkiro.ImageClassification.Core.Engines
                 {
                     var input = ConvertImage(processedImage);
                     inputOutputsData.Inputs.Add(input);
-
+                    
                     var output = new double[numberOfCategories];
                     output[category.Index] = 1;
                     inputOutputsData.Outputs.Add(output);
@@ -164,7 +164,7 @@ namespace Wkiro.ImageClassification.Core.Engines
             rgb = new double[argb.Length * 3];
             int rgbI = 0;
             foreach (var pixel in argb)
-                foreach (var i in Enumerable.Range(1, 3))
+                foreach (var i in Enumerable.Range(argb[0].Length - 3, 3))
                     rgb[rgbI++] = pixel[i];
         }
     }
