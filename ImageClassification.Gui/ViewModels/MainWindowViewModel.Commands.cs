@@ -6,7 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Wkiro.ImageClassification.Core.Models.Dto;
 using Wkiro.ImageClassification.Gui.Infrastructure;
-using Wkiro.ImageClassification.Gui.Models;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
 {
@@ -61,9 +60,8 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private void SelectedCategoriesChanged(object categories)
         {
-            var casted = (IList) categories;
-            var casted2 = casted.Cast<Category>();
-            SelectedCategories = new ObservableCollection<Category>(casted2);
+            var casted = ((IList) categories).Cast<Category>();
+            SelectedCategories = new ObservableCollection<Category>(casted);
         }
     }
 }

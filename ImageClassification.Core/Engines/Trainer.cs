@@ -25,8 +25,8 @@ namespace Wkiro.ImageClassification.Core.Engines
         public Trainer(TrainerConfiguration configuration, IGuiLogger logger)
         {
             _neuralNetwork = CreateNetworkToTeach(configuration);
-            _configuration  = configuration;
-            _logger         = logger;
+            _configuration = configuration;
+            _logger        = logger;
         }
 
         private static DeepBeliefNetwork CreateNetworkToTeach(TrainerConfiguration configuration)
@@ -43,9 +43,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         public void RunTraining1(Training1Parameters parameters)
         {
-            const string startInfo = "Started unsupervised training.";
-            Logger.Info(startInfo);
-            _logger.LogWriteLine(startInfo);
+            LogInfoUsingBothLoggers("Started unsupervised training.");
 
             var teacher = new DeepBeliefNetworkLearning(_neuralNetwork)
             {
@@ -67,16 +65,18 @@ namespace Wkiro.ImageClassification.Core.Engines
             var batches = inputs.Subgroups(groups);
 
             // Unsupervised learning on each hidden layer, except for the output layer.
+            var guiLogIntensity = GetGuiLogIntensity(parameters.UnsupervisedEpochs);
             for (int layerIndex = 0; layerIndex < _neuralNetwork.Machines.Count - 1; layerIndex++)
             {
                 teacher.LayerIndex = layerIndex;
                 var layerData = teacher.GetLayerInput(batches);
-                for (int i = 0; i < parameters.UnsupervisedEpochs; i++)
+                foreach (int i in Enumerable.Range(1, parameters.UnsupervisedEpochs))
                 {
                     var error = teacher.RunEpoch(layerData) / inputs.Length;
                     var message = $"Layer: {layerIndex} Epoch: {i}, Error: {error}";
 
-                    if (i%10 == 0)
+                    bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.UnsupervisedEpochs;
+                    if (shouldLogToGui)
                         _logger.LogWriteLine(message);
                     
                     Logger.Info(message);
@@ -84,11 +84,10 @@ namespace Wkiro.ImageClassification.Core.Engines
             }
         }
 
+
         public void RunTraining2(Training2Parameters parameters)
         {
-            const string startInfo = "Started supervised training.";
-            Logger.Info(startInfo);
-            _logger.LogWriteLine(startInfo);
+            LogInfoUsingBothLoggers("Started supervised training.");
 
             var trainingData = _configuration.InputsOutputsData;
 
@@ -98,22 +97,30 @@ namespace Wkiro.ImageClassification.Core.Engines
                 Momentum     = parameters.Momentum,
             };
 
-            for (int i = 0; i < parameters.SupervisedEpochs; i++)
+            var guiLogIntensity = GetGuiLogIntensity(parameters.SupervisedEpochs);
+            foreach (int i in Enumerable.Range(1, parameters.SupervisedEpochs))
             {
                 var error = teacher.RunEpoch(trainingData.Inputs, trainingData.Outputs) / trainingData.Inputs.Length;
                 var message = $"Supervised: {i}, Error = {error}";
 
-                if (i % 10 == 0)
+                bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.SupervisedEpochs;
+                if (shouldLogToGui)
                     _logger.LogWriteLine(message);
 
                 Logger.Info(message);
             }
         }
 
+        private static int GetGuiLogIntensity(int epochsCount)
+        {
+            return epochsCount > 100
+                ? 10
+                : epochsCount > 20 ? 5 : 1;
+        }
+
         public void CheckAccuracy(InputOutputsDataNative testData)
         {
-            var correctnessFactor = 0;
-
+            var accurateTestsCount = 0;
             var onePercent = (int)Math.Ceiling(testData.Inputs.Length / 100d);
 
             for (int i = 0; i < testData.Inputs.Length; i++)
@@ -124,25 +131,28 @@ namespace Wkiro.ImageClassification.Core.Engines
                 var actual = GetIndexOfResult(testData.Outputs[i]);
 
                 if (predicted == actual)
-                    correctnessFactor++;
-
+                    accurateTestsCount++;
 
                 if (i%onePercent != 0)
                     continue;
 
-                var message = $"Progress of computing correctness: {i * 100 / testData.Inputs.Length}%";
-                _logger.LogWriteLine(message);
-                Logger.Info(message);
+                var message = $"Progress of evaluating accuracy: {i * 100 / testData.Inputs.Length}%";
+                LogInfoUsingBothLoggers(message);
             }
 
-            var correctnessMessage = $"Correct {Math.Round(correctnessFactor / (double)testData.Inputs.Length * 100, 2)}%";
-            _logger.LogWriteLine(correctnessMessage);
-            Logger.Info(correctnessMessage);
+            var accuracyMessage = $"Accuracy {Math.Round(accurateTestsCount / (double)testData.Inputs.Length * 100, 2)}%";
+            LogInfoUsingBothLoggers(accuracyMessage);
         }
 
         private static int GetIndexOfResult(double[] output)
         {
             return output.ToList().IndexOf(output.Max());
+        }
+
+        private void LogInfoUsingBothLoggers(string message)
+        {
+            _logger.LogWriteLine(message);
+            Logger.Info(message);
         }
     }
 }

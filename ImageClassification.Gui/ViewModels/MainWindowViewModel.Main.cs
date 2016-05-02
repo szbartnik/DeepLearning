@@ -146,7 +146,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private async void StartTraining()
         {
-            if (SelectedCategories == null || SelectedCategories.Count < 2)
+            if (IsCategoriesSelectionInvalid())
             {
                 LogWriteLine("You cannot start a training until at least 2 categories are selected.");
                 return;
@@ -154,7 +154,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             ProgramState = ProgramState.TrainingInProgress;
 
-            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration,  this);
+            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
             var categories = GetSelectedCategories();
 
             var trainingParameters = new TrainingParameters
@@ -182,6 +182,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             }
         }
 
+        private bool IsCategoriesSelectionInvalid()
+        {
+            return SelectedCategories?.Count < 2;
+        }
+
         private void ReturnToInitialWithSaving()
         {
             SaveConfiguration();
@@ -202,7 +207,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
         private void ClassifyImage()
         {
-            if (SelectedCategories == null || SelectedCategories.Count < 2)
+            if (IsCategoriesSelectionInvalid())
             {
                 LogWriteLine("You cannot classify an image until at least 2 categories are selected.");
                 return;
