@@ -2,7 +2,7 @@
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
-    public class ImagePreprocessingPipe : IImagePreprocessor
+    internal class ImagePreprocessingPipe : IImagePreprocessor
     {
         private readonly IImagePreprocessor[] _orderedStrategies;
 

@@ -97,6 +97,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         {
             var trainDataRatio = _globalTrainerConfiguration.TrainDataRatio;
             var trainSamplesCount = (int)Math.Round(trainDataRatio * allSamplesCount);
+
             return Math.Max(1, trainSamplesCount);
         }
 
@@ -126,8 +127,8 @@ namespace Wkiro.ImageClassification.Core.Engines
         private FileInfo[] GetFilesOfCategoryFolder(DirectoryInfo categoryDirectory)
         {
             var filesExtensions = _dataProviderconfiguration.FileExtensions;
-
             var files = Enumerable.Empty<FileInfo>();
+
             foreach (var extension in filesExtensions)
             {
                 files = files.Concat(categoryDirectory.GetFiles($"*.{extension}"));
@@ -139,6 +140,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         public double[] PrepareImageByPath(string imageFilePath)
         {
             var imagePreprocessingStrategy = _dataProviderconfiguration.ToImagePreprocessingStrategy();
+
             using (var image = (Bitmap)Image.FromFile(imageFilePath, true))
             using (var processedImage = imagePreprocessingStrategy.Process(image))
             {

@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class GrayScalePreprocessor : IImagePreprocessor
+    internal class GrayScalePreprocessor : IImagePreprocessor
     {
         public Bitmap Process(Bitmap bitmap)
         {

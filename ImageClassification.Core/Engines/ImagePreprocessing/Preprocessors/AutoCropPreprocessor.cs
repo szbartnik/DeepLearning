@@ -3,7 +3,7 @@ using Wkiro.ImageClassification.Core.Models.Configurations;
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class AutoCropPreprocessor : IImagePreprocessor
+    internal class AutoCropPreprocessor : IImagePreprocessor
     {
         private readonly DataProviderConfiguration _configuration;
 

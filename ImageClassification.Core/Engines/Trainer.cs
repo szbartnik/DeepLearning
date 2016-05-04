@@ -16,17 +16,16 @@ namespace Wkiro.ImageClassification.Core.Engines
     {
         private readonly TrainerConfiguration _configuration;
 
-        public DeepBeliefNetwork NeuralNetwork => _neuralNetwork;
-        private readonly DeepBeliefNetwork _neuralNetwork;
+        public DeepBeliefNetwork NeuralNetwork { get; }
 
-        private readonly IGuiLogger _logger;
-        private ILogger Logger { get; } = LogManager.GetCurrentClassLogger();
+        private IGuiLogger GuiLogger { get; }
+        private ILogger NLogLogger { get; } = LogManager.GetCurrentClassLogger();
 
-        public Trainer(TrainerConfiguration configuration, IGuiLogger logger)
+        public Trainer(TrainerConfiguration configuration, IGuiLogger guiLogger)
         {
-            _neuralNetwork = CreateNetworkToTeach(configuration);
+            NeuralNetwork = CreateNetworkToTeach(configuration);
             _configuration = configuration;
-            _logger        = logger;
+            GuiLogger        = guiLogger;
         }
 
         private static DeepBeliefNetwork CreateNetworkToTeach(TrainerConfiguration configuration)
@@ -45,7 +44,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         {
             LogInfoUsingBothLoggers("Started unsupervised training.");
 
-            var teacher = new DeepBeliefNetworkLearning(_neuralNetwork)
+            var teacher = new DeepBeliefNetworkLearning(NeuralNetwork)
             {
                 Algorithm = (hiddenLayer, visibleLayer, i) => new ContrastiveDivergenceLearning(hiddenLayer, visibleLayer)
                 {
@@ -66,7 +65,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
             // Unsupervised learning on each hidden layer, except for the output layer.
             var guiLogIntensity = GetGuiLogIntensity(parameters.UnsupervisedEpochs);
-            for (int layerIndex = 0; layerIndex < _neuralNetwork.Machines.Count - 1; layerIndex++)
+            for (int layerIndex = 0; layerIndex < NeuralNetwork.Machines.Count - 1; layerIndex++)
             {
                 teacher.LayerIndex = layerIndex;
                 var layerData = teacher.GetLayerInput(batches);
@@ -77,9 +76,9 @@ namespace Wkiro.ImageClassification.Core.Engines
 
                     bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.UnsupervisedEpochs;
                     if (shouldLogToGui)
-                        _logger.LogWriteLine(message);
+                        GuiLogger.LogWriteLine(message);
                     
-                    Logger.Info(message);
+                    NLogLogger.Info(message);
                 }
             }
         }
@@ -91,7 +90,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
             var trainingData = _configuration.InputsOutputsData;
 
-            var teacher = new BackPropagationLearning(_neuralNetwork)
+            var teacher = new BackPropagationLearning(NeuralNetwork)
             {
                 LearningRate = parameters.LearningRate,
                 Momentum     = parameters.Momentum,
@@ -105,9 +104,9 @@ namespace Wkiro.ImageClassification.Core.Engines
 
                 bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.SupervisedEpochs;
                 if (shouldLogToGui)
-                    _logger.LogWriteLine(message);
+                    GuiLogger.LogWriteLine(message);
 
-                Logger.Info(message);
+                NLogLogger.Info(message);
             }
         }
 
@@ -125,7 +124,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
             for (int i = 0; i < testData.Inputs.Length; i++)
             {
-                var outputValues = _neuralNetwork.Compute(testData.Inputs[i]);
+                var outputValues = NeuralNetwork.Compute(testData.Inputs[i]);
 
                 var predicted = GetIndexOfResult(outputValues);
                 var actual = GetIndexOfResult(testData.Outputs[i]);
@@ -151,8 +150,8 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private void LogInfoUsingBothLoggers(string message)
         {
-            _logger.LogWriteLine(message);
-            Logger.Info(message);
+            GuiLogger.LogWriteLine(message);
+            NLogLogger.Info(message);
         }
     }
 }

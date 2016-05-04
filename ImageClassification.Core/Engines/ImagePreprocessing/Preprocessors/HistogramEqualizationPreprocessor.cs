@@ -3,7 +3,7 @@ using AForge.Imaging.Filters;
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class HistogramEqualizationPreprocessor : IImagePreprocessor
+    internal class HistogramEqualizationPreprocessor : IImagePreprocessor
     {
         public Bitmap Process(Bitmap bitmap)
         {

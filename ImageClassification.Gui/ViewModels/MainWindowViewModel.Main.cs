@@ -27,7 +27,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         private readonly IConfigurationManager _configurationManager;
         private CancellationTokenSource _cts;
 
-        private ILogger Logger { get; } = LogManager.GetCurrentClassLogger();
+        private ILogger NLogLogger { get; } = LogManager.GetCurrentClassLogger();
 
         public MainWindowViewModel(bool isNotDesignMode)
         {
@@ -58,7 +58,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 const string errorMessage = "Problem with creating new training configuration.";
 
                 LogWriteLine($"{errorMessage} Error: {e.Message}");
-                Logger.Error(e, errorMessage);
+                NLogLogger.Error(e, errorMessage);
             }
         }
 
@@ -104,7 +104,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 const string errorMessage = "Problems with loading saved network.";
 
                 LogWriteLine($"{errorMessage} Error: {e.Message}");
-                Logger.Error(e, errorMessage);
+                NLogLogger.Error(e, errorMessage);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 const string errorMessage = "Problems with saving network.";
 
                 LogWriteLine($"{errorMessage} Error: {e.Message}");
-                Logger.Error(e, errorMessage);
+                NLogLogger.Error(e, errorMessage);
             }
         }
 
@@ -176,7 +176,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 const string errorMessage = "Problems during training.";
 
                 LogWriteLine($"{errorMessage} Error: {e.Message}");
-                Logger.Error(e, errorMessage);
+                NLogLogger.Error(e, errorMessage);
 
                 ReturnToInitialWithSaving();
             }
@@ -239,7 +239,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 string errorMessage = $"Problems with classifying image of path '{fileName}'.";
 
                 LogWriteLine($"{errorMessage} Error: {e.Message}");
-                Logger.Error(e, errorMessage);
+                NLogLogger.Error(e, errorMessage);
             }
         }
 

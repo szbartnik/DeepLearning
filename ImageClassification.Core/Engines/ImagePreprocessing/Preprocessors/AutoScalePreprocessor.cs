@@ -4,7 +4,7 @@ using Wkiro.ImageClassification.Core.Models.Configurations;
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class AutoScalePreprocessor : IImagePreprocessor
+    internal class AutoScalePreprocessor : IImagePreprocessor
     {
         private readonly DataProviderConfiguration _configuration;
 
