@@ -9,7 +9,6 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:viewModels="clr-namespace:Wkiro.ImageClassification.Gui.ViewModels"
                       Title="Images Classification (Deep Learning)"
-                      
                       Height="Auto"
                       MinWidth="845"
                       d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel,
@@ -114,7 +113,7 @@
                                         Converter={StaticResource ListOfStringsToStringConverter},
                                         UpdateSourceTrigger=PropertyChanged}" />
 
-                
+
             </Grid>
         </GroupBox>
 
@@ -162,8 +161,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Image preprocessing options GroupBox -->
-            <GroupBox Grid.Column="0" 
+            <!--  Image preprocessing options GroupBox  -->
+            <GroupBox Grid.Column="0"
                       MaxHeight="220"
                       Header="Image settings"
                       Visibility="{Binding ProgramState,
@@ -172,35 +171,34 @@
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="4" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock Text="Gray scale"/>
-                        <CheckBox Grid.Column="2"
-                                  IsChecked="{Binding DataProviderConfiguration.UseGrayScale, Mode=TwoWay}"/>
+                        <TextBlock Text="Gray scale" />
+                        <CheckBox Grid.Column="2" IsChecked="{Binding DataProviderConfiguration.UseGrayScale, Mode=TwoWay}" />
 
-                        <TextBlock Grid.Row="1"
-                                   Text="Auto crop"/>
+                        <TextBlock Grid.Row="1" Text="Auto crop" />
                         <CheckBox Grid.Row="1"
                                   Grid.Column="2"
-                                  IsChecked="{Binding DataProviderConfiguration.ShouldAutoCrop, Mode=TwoWay}"/>
-                        <TextBlock Grid.Row="2"
-                                   Text="Equalize histogram"/>
+                                  IsChecked="{Binding DataProviderConfiguration.ShouldAutoCrop,
+                                                      Mode=TwoWay}" />
+                        <TextBlock Grid.Row="2" Text="Equalize histogram" />
                         <CheckBox Grid.Row="2"
                                   Grid.Column="2"
-                                  IsChecked="{Binding DataProviderConfiguration.ShouldEqualizeHistorgram, Mode=TwoWay}"/>
+                                  IsChecked="{Binding DataProviderConfiguration.ShouldEqualizeHistorgram,
+                                                      Mode=TwoWay}" />
                     </Grid>
                 </StackPanel>
             </GroupBox>
 
             <!--  Global training settings GroupBox  -->
-            <GroupBox Grid.Column="1" 
+            <GroupBox Grid.Column="1"
                       MaxHeight="220"
                       Header="Global training settings"
                       Visibility="{Binding ProgramState,
@@ -226,16 +224,9 @@
                         <TextBlock Margin="4 0 4 0"
                                    VerticalAlignment="Center"
                                    Text="Train" />
-                        <TextBlock Grid.Row="1" 
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   FontWeight="Bold"
-                                   Text="{Binding ElementName=TrainDataRatioSlider,
-                                                  Path=Value,
-                                                  StringFormat={}({0:F2})}" />
                         <Slider x:Name="TrainDataRatioSlider"
-                                Grid.Column="1"
                                 Grid.RowSpan="2"
+                                Grid.Column="1"
                                 VerticalAlignment="Center"
                                 IsSnapToTickEnabled="True"
                                 Maximum="0.99"
@@ -246,8 +237,15 @@
                                    Margin="4 0 4 0"
                                    VerticalAlignment="Center"
                                    Text="Test" />
-                        <TextBlock Grid.Column="2" 
-                                   Grid.Row="1"
+                        <TextBlock Grid.Row="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Text="{Binding ElementName=TrainDataRatioSlider,
+                                                  Path=Value,
+                                                  StringFormat={}({0:F2})}" />
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="2"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
@@ -287,7 +285,7 @@
                                  Text="{Binding DataProviderConfiguration.ProcessingHeight,
                                                 UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
-                    
+
                 </StackPanel>
             </GroupBox>
 
@@ -336,11 +334,11 @@
                                            ConverterParameter='! Initial'}">
                 <helpers:BindableListBox x:Name="CategoriesListBox"
                                          ItemsSource="{Binding AvailableCategories}"
+                                         SelectAllOnSourceChange="True"
                                          SelectedItemsList="{Binding SelectedCategories,
                                                                      UpdateSourceTrigger=PropertyChanged,
                                                                      Mode=OneWayToSource}"
-                                         SelectionMode="Multiple"
-                                         SelectAllOnSourceChange="True">
+                                         SelectionMode="Multiple">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectedCategoriesChangedCommand}" CommandParameter="{Binding ElementName=CategoriesListBox, Path=SelectedItems}" />

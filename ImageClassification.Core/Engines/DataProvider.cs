@@ -41,9 +41,9 @@ namespace Wkiro.ImageClassification.Core.Engines
                 var filesOfCategory = GetFilesOfCategoryFolder(categoryDirectoryInfo);
 
                 var category = new Category(
-                    name: categoryDirectoryInfo.Name,
+                    name:     categoryDirectoryInfo.Name,
                     fullPath: categoryFolderPath,
-                    files: filesOfCategory);
+                    files:    filesOfCategory);
 
                 return category;
             });
@@ -161,11 +161,8 @@ namespace Wkiro.ImageClassification.Core.Engines
             double[][] argb;
             _imageToArray.Convert(image, out argb);
 
-            rgb = new double[argb.Length * 3];
-            int rgbI = 0;
-            foreach (var pixel in argb)
-                foreach (var i in Enumerable.Range(argb[0].Length - 3, 3))
-                    rgb[rgbI++] = pixel[i];
+            var numberOfPixelsToSkip = argb[0].Length - 3; // Skipping alpha channel
+            rgb = argb.SelectMany(x => x.Skip(numberOfPixelsToSkip)).ToArray();
         }
     }
 }
