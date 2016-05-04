@@ -2,13 +2,13 @@
 using System.Drawing.Drawing2D;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 
-namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
+namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class Scale : IImagePreprocessingStrategy
+    public class AutoScalePreprocessor : IImagePreprocessor
     {
         private readonly DataProviderConfiguration _configuration;
 
-        public Scale(DataProviderConfiguration configuration)
+        public AutoScalePreprocessor(DataProviderConfiguration configuration)
         {
             _configuration = configuration;
         }

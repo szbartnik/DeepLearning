@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
+namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class GrayScale : IImagePreprocessingStrategy
+    public class GrayScalePreprocessor : IImagePreprocessor
     {
         public Bitmap Process(Bitmap bitmap)
         {

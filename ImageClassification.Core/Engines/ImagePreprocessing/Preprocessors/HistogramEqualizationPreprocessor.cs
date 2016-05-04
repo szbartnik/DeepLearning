@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using AForge.Imaging.Filters;
 
-namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
+namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class EqualizeHistogram : IImagePreprocessingStrategy
+    public class HistogramEqualizationPreprocessor : IImagePreprocessor
     {
         public Bitmap Process(Bitmap bitmap)
         {

@@ -1,13 +1,13 @@
 ﻿using System.Drawing;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 
-namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
+namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Preprocessors
 {
-    public class AutoCrop : IImagePreprocessingStrategy
+    public class AutoCropPreprocessor : IImagePreprocessor
     {
         private readonly DataProviderConfiguration _configuration;
 
-        public AutoCrop(DataProviderConfiguration configuration)
+        public AutoCropPreprocessor(DataProviderConfiguration configuration)
         {
             _configuration = configuration;
         }

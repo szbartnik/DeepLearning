@@ -2,11 +2,11 @@
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
-    public class ChainedImagePreprocessing : IImagePreprocessingStrategy
+    public class ImagePreprocessingPipe : IImagePreprocessor
     {
-        private readonly IImagePreprocessingStrategy[] _orderedStrategies;
+        private readonly IImagePreprocessor[] _orderedStrategies;
 
-        public ChainedImagePreprocessing(params IImagePreprocessingStrategy[] orderedStrategies)
+        public ImagePreprocessingPipe(params IImagePreprocessor[] orderedStrategies)
         {
             _orderedStrategies = orderedStrategies;
         }

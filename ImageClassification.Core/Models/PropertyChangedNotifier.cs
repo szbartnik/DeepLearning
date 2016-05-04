@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Wkiro.ImageClassification.Core.Annotations;
+using Wkiro.ImageClassification.Core.Properties;
 
 namespace Wkiro.ImageClassification.Core.Models
 {

@@ -81,13 +81,13 @@
   <ItemGroup>
     <Compile Include="Engines\Classifier.cs" />
     <Compile Include="Engines\DataProvider.cs" />
-    <Compile Include="Engines\ImagePreprocessing\AutoCrop.cs" />
-    <Compile Include="Engines\ImagePreprocessing\ChainedImagePreprocessing.cs" />
-    <Compile Include="Engines\ImagePreprocessing\DataProviderConfigurationExtension.cs" />
-    <Compile Include="Engines\ImagePreprocessing\EqualizeHistogram.cs" />
-    <Compile Include="Engines\ImagePreprocessing\GrayScale.cs" />
-    <Compile Include="Engines\ImagePreprocessing\IImagePreprocessingStrategy.cs" />
-    <Compile Include="Engines\ImagePreprocessing\Scale.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Preprocessors\AutoCropPreprocessor.cs" />
+    <Compile Include="Engines\ImagePreprocessing\ImagePreprocessingPipe.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Helpers\ImagePreprocessingExtensions.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Preprocessors\HistogramEqualizationPreprocessor.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Preprocessors\GrayScalePreprocessor.cs" />
+    <Compile Include="Engines\ImagePreprocessing\IImagePreprocessor.cs" />
+    <Compile Include="Engines\ImagePreprocessing\Preprocessors\AutoScalePreprocessor.cs" />
     <Compile Include="Facades\ClassifierFacade.cs" />
     <Compile Include="Facades\LearningFacade.cs" />
     <Compile Include="Infrastructure\Logging\IGuiLogger.cs" />

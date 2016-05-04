@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
-using Wkiro.ImageClassification.Core.Engines.ImagePreprocessing;
+using Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Helpers;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 

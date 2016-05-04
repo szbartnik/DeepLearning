@@ -2,7 +2,7 @@
 
 namespace Wkiro.ImageClassification.Core.Engines.ImagePreprocessing
 {
-    public interface IImagePreprocessingStrategy
+    public interface IImagePreprocessor
     {
         Bitmap Process(Bitmap bitmap);
     }
