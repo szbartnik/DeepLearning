@@ -9,23 +9,29 @@ using NLog;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Core.Models.Requests;
 
 namespace Wkiro.ImageClassification.Core.Engines
 {
     internal class Trainer
     {
         private readonly TrainerConfiguration _configuration;
+        private readonly SkipPhaseRequest _skipPhaseRequest;
 
         public DeepBeliefNetwork NeuralNetwork { get; }
 
         private IGuiLogger GuiLogger { get; }
         private ILogger NLogLogger { get; } = LogManager.GetCurrentClassLogger();
 
-        public Trainer(TrainerConfiguration configuration, IGuiLogger guiLogger)
+        public Trainer(
+            TrainerConfiguration configuration, 
+            SkipPhaseRequest skipPhaseRequest,
+            IGuiLogger guiLogger)
         {
             NeuralNetwork = CreateNetworkToTeach(configuration);
             _configuration = configuration;
-            GuiLogger        = guiLogger;
+            _skipPhaseRequest = skipPhaseRequest;
+            GuiLogger = guiLogger;
         }
 
         private static DeepBeliefNetwork CreateNetworkToTeach(TrainerConfiguration configuration)
@@ -73,15 +79,36 @@ namespace Wkiro.ImageClassification.Core.Engines
                 {
                     var error = teacher.RunEpoch(layerData) / inputs.Length;
                     var message = $"Layer: {layerIndex} Epoch: {i}, Error: {error}";
+                    LogCurrentEpochResult(message, guiLogIntensity, i, parameters.UnsupervisedEpochs);
 
-                    bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.UnsupervisedEpochs;
-                    if (shouldLogToGui)
-                        GuiLogger.LogWriteLine(message);
-                    
-                    NLogLogger.Info(message);
+                    if (_skipPhaseRequest.RequestedAndUnhandled)
+                    {
+                        LogPhaseSkippnigAndNotifyHandled(i, parameters.UnsupervisedEpochs);
+                        break;
+                    }
                 }
             }
         }
+
+        private void LogCurrentEpochResult(
+            string message, int guiLogIntensity,
+            int currentEpoch, int plannedEpochCount
+            )
+        {
+            bool shouldLogToGui = (currentEpoch % guiLogIntensity == 0) 
+                || currentEpoch == plannedEpochCount;
+            if (shouldLogToGui)
+                GuiLogger.LogWriteLine(message);
+
+            NLogLogger.Info(message);
+        }
+
+        private void LogPhaseSkippnigAndNotifyHandled(int currentEpoch, int plannedEpochCount)
+        {
+            var message = $"Skipping phase... {plannedEpochCount-currentEpoch} epochs skipped.";
+            LogInfoUsingBothLoggers(message);
+            _skipPhaseRequest.RequestedAndUnhandled = false;
+        }  
 
 
         public void RunTraining2(Training2Parameters parameters)
@@ -101,12 +128,13 @@ namespace Wkiro.ImageClassification.Core.Engines
             {
                 var error = teacher.RunEpoch(trainingData.Inputs, trainingData.Outputs) / trainingData.Inputs.Length;
                 var message = $"Supervised: {i}, Error = {error}";
+                LogCurrentEpochResult(message, guiLogIntensity, i, parameters.SupervisedEpochs);
 
-                bool shouldLogToGui = (i % guiLogIntensity == 0) || i == parameters.SupervisedEpochs;
-                if (shouldLogToGui)
-                    GuiLogger.LogWriteLine(message);
-
-                NLogLogger.Info(message);
+                if (_skipPhaseRequest.RequestedAndUnhandled)
+                {
+                    LogPhaseSkippnigAndNotifyHandled(i, parameters.SupervisedEpochs);
+                    break;
+                }
             }
         }
 
@@ -120,7 +148,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         public void CheckAccuracy(InputOutputsDataNative testData)
         {
             var accurateTestsCount = 0;
-            var onePercent = (int)Math.Ceiling(testData.Inputs.Length / 100d);
+            var fivePercent = (int)Math.Ceiling(testData.Inputs.Length / 20d);
 
             for (int i = 0; i < testData.Inputs.Length; i++)
             {
@@ -132,7 +160,9 @@ namespace Wkiro.ImageClassification.Core.Engines
                 if (predicted == actual)
                     accurateTestsCount++;
 
-                if (i%onePercent != 0)
+
+
+                if (i%fivePercent != 0)
                     continue;
 
                 var message = $"Progress of evaluating accuracy: {i * 100 / testData.Inputs.Length}%";
@@ -143,10 +173,7 @@ namespace Wkiro.ImageClassification.Core.Engines
             LogInfoUsingBothLoggers(accuracyMessage);
         }
 
-        private static int GetIndexOfResult(double[] output)
-        {
-            return output.ToList().IndexOf(output.Max());
-        }
+        private static int GetIndexOfResult(double[] output) => output.ToList().IndexOf(output.Max());
 
         private void LogInfoUsingBothLoggers(string message)
         {

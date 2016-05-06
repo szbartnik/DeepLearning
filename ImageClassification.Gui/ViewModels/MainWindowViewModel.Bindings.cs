@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Core.Models.Requests;
 using Wkiro.ImageClassification.Gui.Models;
 
 namespace Wkiro.ImageClassification.Gui.ViewModels
@@ -95,5 +96,15 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         }
         private ProgramState _programState;
 
+        public SkipPhaseRequest SkipPhaseRequest
+        {
+            get { return _skipPhaseRequest; }
+            set
+            {
+                _skipPhaseRequest = value;
+                OnPropertyChanged();
+            }
+        }
+        private SkipPhaseRequest _skipPhaseRequest = new SkipPhaseRequest();
     }
 }

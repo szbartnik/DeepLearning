@@ -48,7 +48,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             try
             {
-                var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
+                var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, SkipPhaseRequest, this);
                 AvailableCategories = new ObservableCollection<Category>(learningFacade.GetAvailableCategories());
 
                 ProgramState = ProgramState.ConfiguringTraining;
@@ -154,7 +154,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             ProgramState = ProgramState.TrainingInProgress;
 
-            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, this);
+            var learningFacade = new LearningFacade(DataProviderConfiguration, GlobalTrainerConfiguration, SkipPhaseRequest, this);
             var categories = GetSelectedCategories();
 
             var trainingParameters = new TrainingParameters

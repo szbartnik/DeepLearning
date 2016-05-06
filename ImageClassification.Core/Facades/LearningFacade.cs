@@ -7,6 +7,7 @@ using Wkiro.ImageClassification.Core.Engines;
 using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
+using Wkiro.ImageClassification.Core.Models.Requests;
 
 namespace Wkiro.ImageClassification.Core.Facades
 {
@@ -14,15 +15,18 @@ namespace Wkiro.ImageClassification.Core.Facades
     {
         private readonly DataProvider _dataProvider;
         private readonly GlobalTrainerConfiguration _globalTrainerConfiguration;
+        private readonly SkipPhaseRequest _skipPhaseRequest;
         private readonly IGuiLogger _logger;
 
         public LearningFacade(
             DataProviderConfiguration dataProviderConfiguration, 
             GlobalTrainerConfiguration globalTrainerConfiguration, 
+            SkipPhaseRequest skipPhaseRequest,
             IGuiLogger logger)
         {
             _dataProvider = new DataProvider(dataProviderConfiguration, globalTrainerConfiguration);
             _globalTrainerConfiguration = globalTrainerConfiguration;
+            _skipPhaseRequest = skipPhaseRequest;
             _logger = logger;
         }
 
@@ -55,7 +59,7 @@ namespace Wkiro.ImageClassification.Core.Facades
             {
                 Layers = layers.ToArray(),
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
-            }, _logger);
+            }, _skipPhaseRequest, _logger);
 
             trainer.RunTraining1(trainingParameters.Training1Parameters);
             trainer.RunTraining2(trainingParameters.Training2Parameters);

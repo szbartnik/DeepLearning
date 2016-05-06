@@ -44,6 +44,14 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="FontSize" Value="13" />
         </Style>
+        <Style x:Key="BigToogleButtonStyle"
+               BasedOn="{StaticResource {x:Type ToggleButton}}"
+               TargetType="ToggleButton">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="FontSize" Value="18" />
+        </Style>
     </Window.Resources>
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -381,6 +389,13 @@
                         Visibility="{Binding ProgramState,
                                              Converter={StaticResource EnumToVisibilityConverter},
                                              ConverterParameter='TrainingInProgress'}" />
+
+                <ToggleButton Content="SKIP PHASE"
+                              IsChecked="{Binding SkipPhaseRequest.RequestedAndUnhandled}"
+                              Style="{StaticResource BigToogleButtonStyle}"
+                              Visibility="{Binding ProgramState,
+                                                   Converter={StaticResource EnumToVisibilityConverter},
+                                                   ConverterParameter='TrainingInProgress'}" />
             </StackPanel>
         </Grid>
 

@@ -103,6 +103,7 @@
     <Compile Include="Models\Dto\InputsOutputsData.cs" />
     <Compile Include="Models\Dto\LearningSet.cs" />
     <Compile Include="Models\PropertyChangedNotifier.cs" />
+    <Compile Include="Models\Requests\SkipPhaseRequest.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Engines\Trainer.cs" />
