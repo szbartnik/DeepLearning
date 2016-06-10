@@ -62,7 +62,8 @@ namespace Wkiro.ImageClassification.Core.Engines
                 var categoryInputsOutputs = GetCategoryLearningSet(category, categories.Length);
                 learningSet.AddData(categoryInputsOutputs);
             }
-
+            
+            learningSet.Shuffle();
             return learningSet;
         }
 

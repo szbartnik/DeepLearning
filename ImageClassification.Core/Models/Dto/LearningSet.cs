@@ -16,5 +16,10 @@
             TrainingData.AddData(categoryInputsOutputs.TrainingData);
             TestData.AddData(categoryInputsOutputs.TestData);
         }
+
+        public void Shuffle()
+        {
+            TrainingData.Shuffle();
+        }
     }
 }
