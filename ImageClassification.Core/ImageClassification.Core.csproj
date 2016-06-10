@@ -71,6 +71,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,6 +90,11 @@
     <Compile Include="Engines\ImagePreprocessing\Preprocessors\GrayScalePreprocessor.cs" />
     <Compile Include="Engines\ImagePreprocessing\IImagePreprocessor.cs" />
     <Compile Include="Engines\ImagePreprocessing\Preprocessors\AutoScalePreprocessor.cs" />
+    <Compile Include="Engines\PersistentStorage\Helpers\Serializer.cs" />
+    <Compile Include="Engines\PersistentStorage\IStorage.cs" />
+    <Compile Include="Engines\Model.cs" />
+    <Compile Include="Engines\PersistentStorage\Storage.cs" />
+    <Compile Include="Engines\PersistentStorage\TemporaryDirectory.cs" />
     <Compile Include="Facades\ClassifierFacade.cs" />
     <Compile Include="Facades\LearningFacade.cs" />
     <Compile Include="Infrastructure\Logging\IGuiLogger.cs" />

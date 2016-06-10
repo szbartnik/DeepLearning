@@ -16,6 +16,8 @@ namespace Wkiro.ImageClassification.Core.Engines
         private readonly GlobalTrainerConfiguration _globalTrainerConfiguration;
         private readonly ImageToArray _imageToArray;
 
+        public DataProviderConfiguration DataProviderConfiguration => _dataProviderconfiguration;
+
         public DataProvider(DataProviderConfiguration dataProviderconfiguration)
         {
             _dataProviderconfiguration = dataProviderconfiguration;
@@ -51,13 +53,13 @@ namespace Wkiro.ImageClassification.Core.Engines
             return itemCategoryEntries;
         }
 
-        public LearningSet GetLearningSetForCategories(List<Category> categories)
+        public LearningSet GetLearningSetForCategories(Category[] categories)
         {
             var learningSet = new LearningSet();
 
             foreach (var category in categories)
             {
-                var categoryInputsOutputs = GetCategoryLearningSet(category, categories.Count);
+                var categoryInputsOutputs = GetCategoryLearningSet(category, categories.Length);
                 learningSet.AddData(categoryInputsOutputs);
             }
 
@@ -108,7 +110,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
             foreach (var file in category.Files)
             {
-                using (var image = (Bitmap)Image.FromFile(file.FullName, true))
+                using (var image = (Bitmap)Image.FromFile(file, true))
                 using (var processedImage = imagePreprocessingStrategy.Process(image))
                 {
                     var input = ConvertImage(processedImage);

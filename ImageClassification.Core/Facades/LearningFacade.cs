@@ -49,11 +49,11 @@ namespace Wkiro.ImageClassification.Core.Facades
 
         private ClassifierFacade RunTrainingForSelectedCategoriesImpl(TrainingParameters trainingParameters)
         {
-            var categories = trainingParameters.SelectedCategories.ToList();
+            var categories = trainingParameters.SelectedCategories.ToArray();
             var learningSet = _dataProvider.GetLearningSetForCategories(categories);
 
             var layers = _globalTrainerConfiguration.HiddenLayers.ToList();
-            int outputLayerSize = categories.Count;
+            int outputLayerSize = categories.Length;
             layers.Add(outputLayerSize);
             var trainer = new Trainer(new TrainerConfiguration
             {
@@ -66,7 +66,8 @@ namespace Wkiro.ImageClassification.Core.Facades
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
 
-            var classifier = new Classifier(trainer.NeuralNetwork, _logger);
+            var classifierConfiguration = new ClassifierConfiguration() { Categories = categories };
+            var classifier = new Classifier(trainer.NeuralNetwork, classifierConfiguration, _logger);
 
             var classifierFacade = new ClassifierFacade(_dataProvider, classifier);
             return classifierFacade;

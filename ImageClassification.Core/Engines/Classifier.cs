@@ -11,29 +11,28 @@ namespace Wkiro.ImageClassification.Core.Engines
     {
         private readonly IGuiLogger _logger;
         private readonly DeepBeliefNetwork _network;
+        private readonly ClassifierConfiguration _configuration;
 
-        private Classifier(IGuiLogger logger)
+        public DeepBeliefNetwork Network => _network;
+        public ClassifierConfiguration ClassifierConfiguration => _configuration;
+
+        private Classifier(IGuiLogger logger, ClassifierConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         public Classifier(
-            DeepBeliefNetwork network, 
-            IGuiLogger logger) : this(logger)
+            DeepBeliefNetwork network,
+            ClassifierConfiguration configuration,
+            IGuiLogger logger) : this(logger, configuration)
         {
             _network = network;
         }
 
-        public Classifier(
-            string savedNetworkFilePath, 
-            IGuiLogger logger) : this(logger)
+        public CategoryClassification ClassifyToCategory(double[] dataToClassify)
         {
-            _network = DeepBeliefNetwork.Load(savedNetworkFilePath);
-        }
-
-        public CategoryClassification ClassifyToCategory(double[] dataToClassify, ClassifierConfiguration configuration)
-        {
-            var categories = configuration.Categories;
+            var categories = _configuration.Categories;
             var output = _network.Compute(dataToClassify);
             var categoryIndex = GetIndexOfResult(output);
             var predictedCategory = categories.Single(x => x.Index == categoryIndex);
@@ -47,14 +46,7 @@ namespace Wkiro.ImageClassification.Core.Engines
             return result;
         }
 
-        public void SaveClassifier(string saveLocationFilePath)
-        {
-            _network.Save(saveLocationFilePath);
-        }
+        private static int GetIndexOfResult(double[] output) => output.IndexOf(output.Max());
 
-        private static int GetIndexOfResult(double[] output)
-        {
-            return output.ToList().IndexOf(output.Max());
-        }
     }
 }

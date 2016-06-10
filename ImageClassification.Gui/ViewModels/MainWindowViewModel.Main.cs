@@ -81,19 +81,15 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
                 return;
 
             var fileName = fileDialog.FileName;
-            var classifierConfiguration = new ClassifierConfiguration
-            {
-                Categories = SelectedCategories,
-            };
 
             try
             {
                 _classifierFacade = new ClassifierFacade(
-                    savedNetworkPath:          fileName, 
-                    dataProviderConfiguration: _dataProviderConfiguration, 
+                    savedModelPath:          fileName, 
                     logger:                    this);
-
-                AvailableCategories = new ObservableCollection<Category>(_classifierFacade.GetAvailableCategories());
+                var loadedModel = _classifierFacade.GetCurrentModel();
+                DataProviderConfiguration = loadedModel.DataProviderConfiguration;
+                AvailableCategories = new ObservableCollection<Category>(loadedModel.ClassifierConfiguration.Categories);
 
                 LogWriteLine($"Successfully loaded saved network from file '{fileName}'.");
 
@@ -130,7 +126,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             try
             {
-                _classifierFacade.SaveClassifier(fileName);
+                _classifierFacade.SaveModel(fileName);
                 LogWriteLine($"Successfully saved network to the file '{fileName}'.");
             }
             catch (Exception e)
@@ -228,10 +224,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             try
             {
-                var classification = _classifierFacade.ClassifyToCategory(fileName, new ClassifierConfiguration
-                {
-                    Categories = GetSelectedCategories(),
-                });
+                var classification = _classifierFacade.ClassifyToCategory(fileName);
                 LogWriteLine($"Classified to category '{classification.Category}' with {classification.Probability} probability.");
             }
             catch (Exception e)
