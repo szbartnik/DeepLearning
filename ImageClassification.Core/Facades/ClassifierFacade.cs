@@ -12,19 +12,19 @@ namespace Wkiro.ImageClassification.Core.Facades
         private readonly Classifier _classifier;
         private readonly IStorage _storage = new Storage();
 
-        internal ClassifierFacade(DataProvider dataProvider, Classifier classifier)
+        internal ClassifierFacade(
+            DataProvider dataProvider, 
+            Classifier classifier)
         {
             _classifier = classifier;
             _dataProvider = dataProvider;
         }
 
-        public ClassifierFacade(
-            string savedModelPath, 
-            IGuiLogger logger)
+        public ClassifierFacade(string savedModelPath, IGuiLogger guiLogger)
         {
             var model = _storage.LoadModel(savedModelPath);
             _dataProvider = new DataProvider(model.DataProviderConfiguration);
-            _classifier = new Classifier(model.Network, model.ClassifierConfiguration, logger);
+            _classifier = new Classifier(model.Network, model.ClassifierConfiguration, guiLogger);
         }
 
         public CategoryClassification ClassifyToCategory(string imageToClassifyPath)

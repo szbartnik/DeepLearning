@@ -35,7 +35,14 @@ namespace Wkiro.ImageClassification.Gui.Helpers.Converters
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Select(int.Parse);
 
-            return list.ToArray();
+            try
+            {
+                return list.ToArray();
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

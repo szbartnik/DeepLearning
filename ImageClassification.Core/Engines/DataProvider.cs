@@ -4,7 +4,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using Accord.Imaging.Converters;
+using NLog;
 using Wkiro.ImageClassification.Core.Engines.ImagePreprocessing.Helpers;
+using Wkiro.ImageClassification.Core.Infrastructure.Logging;
 using Wkiro.ImageClassification.Core.Models.Configurations;
 using Wkiro.ImageClassification.Core.Models.Dto;
 
@@ -25,7 +27,7 @@ namespace Wkiro.ImageClassification.Core.Engines
         }
 
         public DataProvider(
-            DataProviderConfiguration dataProviderConfiguration,
+            DataProviderConfiguration dataProviderConfiguration, 
             GlobalTrainerConfiguration globalTrainerConfiguration)
             : this(dataProviderConfiguration)
         {
@@ -106,6 +108,12 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private LearningSet GetCategoryLearningSet(Category category, int numberOfCategories)
         {
+            if (!category.Files.Any())
+            {
+                var errorInfo = $"No files found in '{category.Name}' category.";
+                throw new InvalidOperationException(errorInfo);
+            }
+
             var inputOutputsData = new InputsOutputsData();
             var imagePreprocessingStrategy = _dataProviderconfiguration.ToImagePreprocessingStrategy();
 

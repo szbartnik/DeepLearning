@@ -16,18 +16,18 @@ namespace Wkiro.ImageClassification.Core.Facades
         private readonly DataProvider _dataProvider;
         private readonly GlobalTrainerConfiguration _globalTrainerConfiguration;
         private readonly SkipPhaseRequest _skipPhaseRequest;
-        private readonly IGuiLogger _logger;
+        private readonly IGuiLogger _guiLogger;
 
         public LearningFacade(
             DataProviderConfiguration dataProviderConfiguration, 
             GlobalTrainerConfiguration globalTrainerConfiguration, 
             SkipPhaseRequest skipPhaseRequest,
-            IGuiLogger logger)
+            IGuiLogger guiLogger)
         {
+            _guiLogger = guiLogger;
             _dataProvider = new DataProvider(dataProviderConfiguration, globalTrainerConfiguration);
             _globalTrainerConfiguration = globalTrainerConfiguration;
             _skipPhaseRequest = skipPhaseRequest;
-            _logger = logger;
         }
 
         public IEnumerable<Category> GetAvailableCategories()
@@ -55,19 +55,20 @@ namespace Wkiro.ImageClassification.Core.Facades
             var layers = _globalTrainerConfiguration.HiddenLayers.ToList();
             int outputLayerSize = categories.Length;
             layers.Add(outputLayerSize);
+
             var trainer = new Trainer(new TrainerConfiguration
             {
                 Layers = layers.ToArray(),
                 InputsOutputsData = learningSet.TrainingData.ToInputOutputsDataNative(),
-            }, _skipPhaseRequest, _logger);
+            }, _skipPhaseRequest, _guiLogger);
 
             trainer.RunTraining1(trainingParameters.Training1Parameters);
             trainer.RunTraining2(trainingParameters.Training2Parameters);
 
             trainer.CheckAccuracy(learningSet.TestData.ToInputOutputsDataNative());
 
-            var classifierConfiguration = new ClassifierConfiguration() { Categories = categories };
-            var classifier = new Classifier(trainer.NeuralNetwork, classifierConfiguration, _logger);
+            var classifierConfiguration = new ClassifierConfiguration { Categories = categories };
+            var classifier = new Classifier(trainer.NeuralNetwork, classifierConfiguration, _guiLogger);
 
             var classifierFacade = new ClassifierFacade(_dataProvider, classifier);
             return classifierFacade;

@@ -8,6 +8,7 @@ namespace Wkiro.ImageClassification.Gui
     {
         public App()
         {
+            FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false;
             Startup += OnAppStartup;
         }    
 

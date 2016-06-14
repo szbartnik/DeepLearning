@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
+using Wkiro.ImageClassification.Core.Models.Dto;
 
 namespace Wkiro.ImageClassification.Gui.Helpers
 {
@@ -13,12 +18,12 @@ namespace Wkiro.ImageClassification.Gui.Helpers
 
         private void ListBoxCustom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItemsList = SelectedItems;
+            SelectedItemsList = new ObservableCollection<Category>(SelectedItems.Cast<Category>());
         }
 
-        public IList SelectedItemsList
+        public ObservableCollection<Category> SelectedItemsList
         {
-            get { return (IList)GetValue(SelectedItemsListProperty); }
+            get { return (ObservableCollection<Category>)GetValue(SelectedItemsListProperty); }
             set { SetValue(SelectedItemsListProperty, value); }
         }
 
@@ -35,9 +40,51 @@ namespace Wkiro.ImageClassification.Gui.Helpers
                 SelectAll();
         }
 
-        public static readonly DependencyProperty SelectedItemsListProperty = DependencyProperty
-            .Register("SelectedItemsList", typeof(IList), typeof(BindableListBox), new PropertyMetadata(null));
-        public static readonly DependencyProperty SelectAllOnSourceChangeProperty = DependencyProperty
-            .Register("SelectAllOnSourceChange", typeof(bool), typeof(BindableListBox), new PropertyMetadata(defaultValue: false));
+        public static readonly DependencyProperty SelectedItemsListProperty = RegisterProperty(x => x.SelectedItemsList, null, x => x.OnSelectedItemsListChanged());
+
+        private void OnSelectedItemsListChanged()
+        {
+            SetSelectedItems(SelectedItemsList);
+        }
+
+        public static readonly DependencyProperty SelectAllOnSourceChangeProperty = RegisterProperty(x => x.SelectAllOnSourceChange, false);
+
+        #region Dependency Property initialization area
+
+        private static string GetPropertyName<TObject1, T>(Expression<Func<TObject1, T>> exp)
+        {
+            var body = exp.Body;
+            var convertExpression = body as UnaryExpression;
+            if (convertExpression == null)
+                return ((MemberExpression) body).Member.Name;
+
+            if (convertExpression.NodeType != ExpressionType.Convert)
+            {
+                throw new ArgumentException("Invalid property expression.", nameof(exp));
+            }
+            body = convertExpression.Operand;
+            return ((MemberExpression)body).Member.Name;
+        }
+
+        private static DependencyProperty RegisterProperty<T>(
+            Expression<Func<BindableListBox, T>> associatedProperty,
+            T defaultValue,
+            Action<BindableListBox> valueChangedAction = null)
+        {
+            return DependencyProperty.Register(
+                GetPropertyName(associatedProperty),
+                typeof(T),
+                typeof(BindableListBox),
+                new PropertyMetadata(defaultValue, (s, e) =>
+                {
+                    var sender = s as BindableListBox;
+                    if (sender != null)
+                    {
+                        valueChangedAction?.Invoke(sender);
+                    }
+                }));
+        }
+
+        #endregion
     }
 }

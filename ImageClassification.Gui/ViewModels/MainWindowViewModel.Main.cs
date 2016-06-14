@@ -86,7 +86,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             {
                 _classifierFacade = new ClassifierFacade(
                     savedModelPath:          fileName, 
-                    logger:                    this);
+                    guiLogger:                    this);
                 var loadedModel = _classifierFacade.GetCurrentModel();
                 DataProviderConfiguration = loadedModel.DataProviderConfiguration;
                 AvailableCategories = new ObservableCollection<Category>(loadedModel.ClassifierConfiguration.Categories);

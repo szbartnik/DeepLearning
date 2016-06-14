@@ -20,13 +20,14 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
         public RelayCommand SaveNetworkCommand { get; set; }
         public RelayCommand ReconfigureCommand { get; set; }
         public RelayCommand CancelComputingCommand { get; set; }
+        public RelayCommand CategoriesSelectAllCommand { get; set; }
+        public RelayCommand CategoriesUnselectAllCommand { get; set; }
 
         private void InitializeCommands()
         {
             BrowseForTrainFilesPathCommand = new RelayCommand(BrowseForTrainFilesPath);
             ConfigureNewTrainingCommand = new RelayCommand(ConfigureNewTraining);
             LoadSavedNetworkCommand = new RelayCommand(LoadSavedNetwork);
-            SelectedCategoriesChangedCommand = new RelayCommand<object>(SelectedCategoriesChanged);
 
             StartTrainingCommand = new RelayCommand(StartTraining);
             ClassifyImageCommand = new RelayCommand(ClassifyImage);
@@ -34,6 +35,24 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
 
             SaveNetworkCommand = new RelayCommand(SaveNetwork);
             ReconfigureCommand = new RelayCommand(Reconfigure);
+
+            CategoriesSelectAllCommand = new RelayCommand(() => CategoriesSelect(Select.All));
+            CategoriesUnselectAllCommand = new RelayCommand(() => CategoriesSelect(Select.None));
+        }
+
+        private void CategoriesSelect(Select selectEnum)
+        {
+            switch (selectEnum)
+            {
+                case Select.All:
+                    SelectedCategories = new ObservableCollection<Category>(AvailableCategories);
+                    break;
+                case Select.None:
+                    SelectedCategories = new ObservableCollection<Category>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(selectEnum), selectEnum, null);
+            }
         }
 
         private void Reconfigure()
@@ -46,9 +65,7 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             var directory = _dataProviderConfiguration.TrainFilesLocationPath;
             var dialog = new FolderBrowserDialog
             {
-                RootFolder = Environment.SpecialFolder.MyComputer,
-                Description = "Select directory containing training folders",
-                ShowNewFolderButton = false
+                RootFolder = Environment.SpecialFolder.MyComputer, Description = "Select directory containing training folders", ShowNewFolderButton = false
             };
 
             if (Directory.Exists(directory))
@@ -57,11 +74,11 @@ namespace Wkiro.ImageClassification.Gui.ViewModels
             if (dialog.ShowDialog() == DialogResult.OK)
                 _dataProviderConfiguration.TrainFilesLocationPath = dialog.SelectedPath;
         }
+    }
 
-        private void SelectedCategoriesChanged(object categories)
-        {
-            var casted = ((IList) categories).Cast<Category>();
-            SelectedCategories = new ObservableCollection<Category>(casted);
-        }
+    internal enum Select
+    {
+        All,
+        None,
     }
 }

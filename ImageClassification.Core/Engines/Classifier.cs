@@ -9,7 +9,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 {
     internal class Classifier
     {
-        private readonly IGuiLogger _logger;
+        private readonly IGuiLogger _guiLogger;
         private readonly DeepBeliefNetwork _network;
         private readonly ClassifierConfiguration _configuration;
 
@@ -18,7 +18,7 @@ namespace Wkiro.ImageClassification.Core.Engines
 
         private Classifier(IGuiLogger logger, ClassifierConfiguration configuration)
         {
-            _logger = logger;
+            _guiLogger = logger;
             _configuration = configuration;
         }
 
@@ -37,7 +37,7 @@ namespace Wkiro.ImageClassification.Core.Engines
             var categoryIndex = GetIndexOfResult(output);
             var predictedCategory = categories.Single(x => x.Index == categoryIndex);
 
-            _logger.LogWriteLine($"Prediction: {predictedCategory}");
+            _guiLogger.LogWriteLine($"Prediction: {predictedCategory}");
 
             var result = new CategoryClassification(
                 predictedCategory,

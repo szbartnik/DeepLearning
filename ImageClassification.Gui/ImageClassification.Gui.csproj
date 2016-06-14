@@ -93,7 +93,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Configuration\HardcodedConfigurationManager.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.Commands.cs" />
