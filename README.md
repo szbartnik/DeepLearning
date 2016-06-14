@@ -10,6 +10,7 @@ The ImageClassification program gets classified images as input and using Deep B
 ![image](https://cloud.githubusercontent.com/assets/5238147/16058986/59c38e90-3281-11e6-819f-dcc9d5f538a5.png)
 
 ## End-user features
+
 - Fully implemented Deep Belief Network learning using Accord.NET framework
 - Two main stages of learning - unsupervised and supervised phases
 - Fully configurable amount of neurons in each hidden layer of unsupervised phase and number of the hidden layers
@@ -28,6 +29,7 @@ The ImageClassification program gets classified images as input and using Deep B
 - User input validation
 
 ## Developer features
+
 - C#6 and .NET 4.6.1
 - GUI in WPF and using MVVM design pattern
 - NLog as logging solution (configuration saved in App.xml file as custom config file section)
@@ -37,6 +39,7 @@ The ImageClassification program gets classified images as input and using Deep B
 - Image preprocessors set is prepared to be extended in an easy way
 
 ## Example data to classify
+
 - MNIST http://yann.lecun.com/exdb/mnist/
 - 101 Categories - http://www.vision.caltech.edu/Image_Datasets/Caltech101/
 - Cats & Dogs (available after registration) - https://www.kaggle.com/c/dogs-vs-cats/data
@@ -45,6 +48,7 @@ The ImageClassification program gets classified images as input and using Deep B
 The learning quality REALLY! depends on quality of input data. If you have very inconsistent data (varying on image dimensions, contrast, brightness, aspect ratio) then you need to perform an extra work before you run ImageClassification program on it.
 
 To preprocess your input training data you can perform one of following steps:
+
 1. Use built-in image preprocessors listed above
 2. Extend image preprocessors set to have ones which will meet your needs
 3. Preprocess data outside ImageClassification program. For example here is source code of program we used in some cases (when we had to subtract images of similiar aspect ratio from bigger set) - http://pastebin.com/5hftuKrD
